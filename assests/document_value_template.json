@@ -5,6 +5,6 @@
     },
     "project_description": {
         "identifier":"The Space frame represents a semicircular double layer structure",
-        "replace_entire_paragraph": "True"
+        "replace_entire_paragraph": "true"
     }
 }

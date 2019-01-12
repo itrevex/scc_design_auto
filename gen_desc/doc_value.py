@@ -53,7 +53,7 @@ class DocValue:
         paragraph = self.getIdenfierParagraph(identifier_text)
         new_text = self.new_input_values[key]
 
-        if (replace_entire_paragraph == "True"):
+        if (replace_entire_paragraph == Constants.TRUE):
             paragraph_text  = new_text
         else:
             paragraph_text  = paragraph.text.replace(identifier_text, new_text)
