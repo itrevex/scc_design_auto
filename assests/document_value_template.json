@@ -1,0 +1,10 @@
+{
+    "project_name":{ 
+        "identifier":"Al-Jouf University, General Administration Building SF Shade, Job Id 16 109 1E",
+        "replace_entire_paragraph": ""
+    },
+    "project_description": {
+        "identifier":"The Space frame represents a semicircular double layer structure",
+        "replace_entire_paragraph": "True"
+    }
+}

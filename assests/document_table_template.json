@@ -1,0 +1,55 @@
+{
+    "roof_dead_load":{
+        "identifier": "Rl = 0.10 kN/m2",
+        "value_parts": {
+            "R": {
+                "input_value": "",
+                "bold": "true",
+                "italic": "",
+                "subscript": "",
+                "superscript": "",
+                "end_of_line": ""
+            },
+            "l":{
+                "input_value": "",
+                "bold": "true",
+                "italic": "true",
+                "subscript": "true",
+                "superscript": "",
+                "end_of_line": ""
+            },
+            " = ":{
+                "input_value": "",
+                "bold": "true",
+                "italic": "true",
+                "subscript": "true",
+                "superscript": "",
+                "end_of_line": ""
+            },
+            "roof_dead_load":{
+                "input_value": "true",
+                "bold": "",
+                "italic": "",
+                "subscript": "",
+                "superscript": "",
+                "end_of_line": ""
+            },
+            " kN/m":{
+                "input_value": "",
+                "bold": "",
+                "italic": "",
+                "subscript": "",
+                "superscript": "",
+                "end_of_line": ""
+            },
+            "2":{
+                "input_value": "",
+                "bold": "",
+                "italic": "",
+                "subscript": "",
+                "superscript": "true",
+                "end_of_line": ""
+            }
+        }
+    }
+}

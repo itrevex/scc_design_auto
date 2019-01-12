@@ -1,0 +1,12 @@
+{
+    "project_name": "Farabi Yanbu Petrochemicals, Gatehouse 1, Job Id 18 068 1A",
+    "project_description": "The Space frame represents a rectangular double layer structure, supported by four short steel columns. The Geometric line sketch illustrates the over-all geometry of the structure. Covering is to consist of sandwich panels supported over purlins connected to purlin stools at each top chord joint.",
+    "project_location": "Yanbu",
+    "roof_dead_load":"0.15",
+    "roof_live_load":"1.00",
+    "services_load":"0.05",
+    "wind_speed": "152",
+    "height_above_ground_level_in_m": "8.9",
+    "roof_angle": "0",
+    "temprature_load": "30"
+}
