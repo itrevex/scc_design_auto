@@ -111,5 +111,167 @@
             },
             "m/s":{}
         }
+    },
+    "height_above_ground_level_in_m":{
+        "identifier": "Height above ground ",
+        "value_parts": {
+            "Height above ground ":{},
+            "height_above_ground_level_in_m":{
+                "input_from": "input"
+            },
+            "m":{}
+        }
+    },
+    "kz_value":{
+        "identifier": "Kz = 0.877",
+        "value_parts": {
+            "Velocity Pressure Coefficient, ":{
+                "end_of_line": "true"
+            },
+            "Kz":{
+                "bold": "true",
+                "italic": "true"
+            },
+            "  = ":{},
+            "kz_value":{
+                "input_from": "calculation"
+            }
+        }
+    },
+    "load_equation_kz":{
+        "identifier": "0.613 x 0.877 x 1.00 x 0.85",
+        "value_parts": {
+            "     = 0.613 x ":{},
+            "kz_value":{
+                "input_from": "calculation"
+            },
+            " x 1.00 x 0.85 x (":{},
+            "wind_speed_ms":{
+                "input_from": "calculation"
+            },
+            ")":{},
+            "2":{
+                "superscript": "true"
+            }
+        }
+    },
+    "wind_unit_load":{
+        "identifier": "= 1094.41 N/m2",
+        "value_parts": {
+            "     = ":{},
+            "wind_unit_load":{
+                "input_from": "calculation"
+            },
+            " N/m":{},
+            "2":{
+                "superscript": "true"
+            }
+        }
+    },
+    "wind_unit_load_kn_m":{
+        "identifier": "qh=1.0944kN/m2",
+        "value_parts": {
+            "q":{
+                "bold": "true",
+                "italic": "true"
+            },
+            "h":{
+                "bold": "true",
+                "italic": "true",
+                "subscript": "true"
+            },
+            "=":{},
+            "wind_unit_load_kn_m":{
+                "input_from": "calculation"
+            },
+            " kN/m":{},
+            "2":{
+                "superscript": "true"
+            }
+        }
+    },
+    "roof_height_and_angle":{
+        "identifier": "h = 7.10m;",
+        "value_parts": {
+            "Open Building; h = ":{},
+            "height_above_ground_level_in_m":{
+                "input_from": "input"
+            },
+            " m; θ = ":{},
+            "roof_angle":{
+                "input_from": "input"
+            },
+            "˚":{}
+        }
+    },
+    "temperature_load_locality":{
+        "identifier": "For Al Jauf",
+        "value_parts": {
+            "The temperature loading is obtained as the difference between the highest and lowest one-day mean. For ":{},
+            "project_location":{
+                "input_from": "input"
+            },
+            ", as per client specs":{}
+        }
+    },
+    "temprature_load":{
+        "identifier": "ΔT = ± 24ºC",
+        "value_parts": {
+            "ΔT = ± ":{},
+            "temprature_load":{
+                "input_from": "input"
+            },
+            "ºC":{}
+        }
+    },
+    "table_services_load":{
+        "identifier": "Services = 0.05 kN/m2",
+        "value_parts": {
+            "Services = ":{},
+            "services_load":{
+                "input_from": "input"
+            },
+            " kN/m":{},
+            "2":{
+                "superscript": "true"
+            }
+        }
+    },
+    "table_live_load":{
+        "identifier": "Roof Live Load = 0.60 kN/m2",
+        "value_parts": {
+            "Roof Live Load = ":{},
+            "roof_live_load":{
+                "input_from": "input"
+            },
+            " kN/m":{},
+            "2":{
+                "superscript": "true"
+            }
+        }
+    },
+    "table_dead_load":{
+        "identifier": "Roof Dead Loads = 0.10 kN/m2",
+        "value_parts": {
+            "Roof Dead Loads = ":{},
+            "roof_dead_load":{
+                "input_from": "input"
+            },
+            " kN/m":{},
+            "2":{
+                "superscript": "true"
+            }
+        }
+    },
+    "table_temperature_load":{
+        "identifier": "Temperature Loading ±24 ˚C",
+        "value_parts": {
+            "Temperature Loading ±":{},
+            "temprature_load":{
+                "input_from": "input"
+            },
+            " ˚C":{}
+        }
     }
+
 }

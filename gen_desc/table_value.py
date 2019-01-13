@@ -8,9 +8,11 @@ from common import Common
 
 class TableValue:
     def __init__(self, app_data, document, new_input_values):
+        self.app_data = app_data
         self.document = document
         self.new_input_values = new_input_values
         self.template_table_values = app_data.getTemplateTableValues()
+        self.calculateParameters()
         pass
 
     def getIdenfierParagraph(self, identifier_text):
@@ -59,13 +61,40 @@ class TableValue:
     def calculatedValue(self, value):
 
         if(value == Constants.WIND_SPEED_MS):
-            #calcualted wind speed in m/s and return value
-            #first get wind_speed value from input
-            wind_speed = self.new_input_values[Constants.WIND_SPEED]
-            speed, speed_text = Constants.windSpeedMPerSecond(wind_speed)
-            return speed_text
-
+            return self.speed_text
+        if (value == Constants.KZ_VALUE):
+            return self.kz_text
+        if (value == Constants.WIND_UNIT_LOAD):
+            return self.wind_unit_load_text
+        if (value == Constants.WIND_UNIT_LOAD_KN):
+            return self.wind_unit_load_kn_text
+        
         return ""
+
+    def calcKzValue(self):
+        height_above_ground = self.new_input_values[Constants.HEIGHT_ABOVE_GROUND]
+        self.kz = Constants(self.app_data).kzValue(float(height_above_ground))
+        self.kz_text = Constants.kzValueText(self.kz)
+
+    def calcSpeedMs(self):
+        #calcualted wind speed in m/s and return value
+        #first get wind_speed value from input
+        wind_speed = self.new_input_values[Constants.WIND_SPEED]
+        self.speed_ms, self.speed_text = Constants.windSpeedMPerSecond(wind_speed)
+
+    def calcWindUnitLoad(self):
+        self.wind_unit_load = Constants.calcWindUnitLoad(self.speed_ms, self.kz)
+        self.wind_unit_load_text = Constants.windUnitLoadText(self.wind_unit_load)
+
+    def calcWindUnitLoadKn(self):
+        self.wind_unit_load_kn =  self.wind_unit_load/1000.
+        self.wind_unit_load_kn_text = Constants.textFourPlaces(self.wind_unit_load_kn)
+
+    def calculateParameters(self):
+        self.calcSpeedMs()
+        self.calcKzValue()
+        self.calcWindUnitLoad()
+        self.calcWindUnitLoadKn()
 
 
     def getParameter(part, key):
