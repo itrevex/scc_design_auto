@@ -10,7 +10,7 @@ class DocValue:
     def __init__(self, app_data, document, new_input_values):
         self.document = document
         self.new_input_values = new_input_values
-        self.template_doc_values = app_data.getTemplateTableValues()
+        self.template_doc_values = app_data.getTemplateDocumentValues()
         pass
 
 
@@ -42,8 +42,6 @@ class DocValue:
     def updateDocumentValues(self):
         
         for key, value in self.template_doc_values.items():
-            identifier_text = value[Constants.TEMPLATE_IDENTIFIER]
-            replace_entire_paragraph = value[Constants.REPLACE_ENTIRE_PARAGRAPH]
             self.updateDocValue(key, value)
             
     def updateDocValue(self, key, value):

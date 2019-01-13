@@ -14,7 +14,7 @@ app_data = LoadData()
 if __name__ == "__main__":
     gen_desc = GenDesc(app_data)
     gen_desc.saveNewDocument()
-    # document.save(output)
+    # gen_desc.trialMethod()
     pass
 
 

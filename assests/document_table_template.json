@@ -3,53 +3,113 @@
         "identifier": "Rl = 0.10 kN/m2",
         "value_parts": {
             "R": {
-                "input_value": "",
                 "bold": "true",
-                "italic": "",
-                "subscript": "",
-                "superscript": "",
-                "end_of_line": ""
+                "italic": "true"
             },
             "l":{
-                "input_value": "",
                 "bold": "true",
                 "italic": "true",
-                "subscript": "true",
-                "superscript": "",
-                "end_of_line": ""
+                "subscript": "true"
             },
-            " = ":{
-                "input_value": "",
-                "bold": "true",
-                "italic": "true",
-                "subscript": "true",
-                "superscript": "",
-                "end_of_line": ""
-            },
+            " = ":{},
             "roof_dead_load":{
-                "input_value": "true",
-                "bold": "",
-                "italic": "",
-                "subscript": "",
-                "superscript": "",
-                "end_of_line": ""
+                "input_from": "input"
             },
-            " kN/m":{
-                "input_value": "",
-                "bold": "",
-                "italic": "",
-                "subscript": "",
-                "superscript": "",
-                "end_of_line": ""
-            },
+            " kN/m":{},
             "2":{
-                "input_value": "",
-                "bold": "",
-                "italic": "",
-                "subscript": "",
                 "superscript": "true",
-                "end_of_line": ""
+                "end_of_line": "true"
             }
+        }
+    },
+    "services_load":{
+        "identifier": "Ds = 0.05 kN/m2",
+        "value_parts": {
+            "D": {
+                "bold": "true",
+                "italic": "true"
+            },
+            "s":{
+                "bold": "true",
+                "italic": "true",
+                "subscript": "true"
+            },
+            " = ":{},
+            "services_load":{
+                "input_from": "input"
+            },
+            " kN/m":{},
+            "2":{
+                "superscript": "true",
+                "end_of_line": "true"
+            }
+        }
+    },
+    "roof_live_load":{
+        "identifier": "Lo = 0.6 kN/m2",
+        "value_parts": {
+            "L": {
+                "bold": "true",
+                "italic": "true"
+            },
+            "o":{
+                "bold": "true",
+                "italic": "true",
+                "subscript": "true"
+            },
+            " = ":{},
+            "roof_live_load":{
+                "input_from": "input"
+            },
+            " kN/m":{},
+            "2":{
+                "superscript": "true",
+                "end_of_line": "true"
+            }
+        }
+    },
+    "project_location":{
+        "identifier": "V = 165 km/hr (For",
+        "value_parts": {
+            "Wind speed ": {
+            },
+            "V":{
+                "bold": "true",
+                "italic": "true"
+            },
+            " = ":{},
+            "wind_speed":{
+                "input_from": "input"
+            },
+            " km/hr (For ": {},
+            "project_location":{
+                "input_from": "input"
+            },
+            " as per client specs)":{}
+        }
+    },
+    "wind_speed":{
+        "identifier": "V = 165 km/hr",
+        "value_parts": {
+            "V":{
+                "bold": "true",
+                "italic": "true"
+            },
+            " = ":{},
+            "wind_speed":{
+                "input_from": "input"
+            },
+            " km/hr": {}
+        }
+    },
+    "wind_speed_ms":{
+        "identifier": "= 45.83m/s ",
+        "value_parts": {
+            "= ":{},
+            "wind_speed_ms":{
+                "input_from": "calculation"
+            },
+            "m/s":{}
         }
     }
 }
