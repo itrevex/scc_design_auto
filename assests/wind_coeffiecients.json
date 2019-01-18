@@ -1,0 +1,20 @@
+{
+    "along_x":{
+        "windward_0.5": {
+            "case_a": 1.2,
+            "case_b": -1.1
+        }, 
+        "windward_0.5_L": {
+            "case_a": 0.3,
+            "case_b": -0.1
+        },
+        "leeward_0.5": {
+            "case_a": 1.2,
+            "case_b": -1.1
+        }, 
+        "leeward_0.5_L": {
+            "case_a": 0.3,
+            "case_b": -0.1
+        }
+    }
+}

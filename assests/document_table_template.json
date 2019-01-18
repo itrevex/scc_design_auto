@@ -272,6 +272,14 @@
             },
             " ˚C":{}
         }
+    },
+    "wind_design_x":{
+        "identifier": "Enter x wind zones here",
+        "value_parts": {
+            "wind_design_x":{
+                "input_from": "calculation"
+            }
+        }
     }
 
 }

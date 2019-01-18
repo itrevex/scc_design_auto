@@ -4,7 +4,10 @@ from docx.enum.text import WD_BREAK
 sys.path.append("./libs/")
 
 from constants import Constants
+from general_methods import GeneralMethods
 from common import Common
+from run_properties import RunProperties
+from wind_design import WindDesignPartsX
 
 class TableValue:
     def __init__(self, app_data, document, new_input_values):
@@ -44,22 +47,22 @@ class TableValue:
     
     def updateValueParts(self, paragraph, parts):
         for part_name, part in parts.items():
-            text = self.getInputText(part, part_name)
-            TableValue.add_paragraph_run(paragraph, text, part)
+            text = self.getInputText(part, part_name, paragraph)
+            run_props = RunProperties(text, part)
+            TableValue.add_paragraph_run(paragraph, run_props)
 
-    def getInputText(self, part, value):
+    def getInputText(self, part, value, paragraph):
 
         input_from = TableValue.getParameter(part, Constants.INPUT_FROM)
 
         if (input_from == Constants.INPUT_FROM_INPUT):
             return self.new_input_values[value]
         elif(input_from == Constants.INPUT_FROM_CALCULATION):
-            return self.calculatedValue(value)
+            return self.calculatedValue(value, paragraph)
 
         return value
 
-    def calculatedValue(self, value):
-
+    def calculatedValue(self, value, paragraph):
         if(value == Constants.WIND_SPEED_MS):
             return self.speed_text
         if (value == Constants.KZ_VALUE):
@@ -68,27 +71,32 @@ class TableValue:
             return self.wind_unit_load_text
         if (value == Constants.WIND_UNIT_LOAD_KN):
             return self.wind_unit_load_kn_text
-        
+        if (value == Constants.WIND_DESIGN_X):
+            runs = WindDesignPartsX(self.app_data).runs
+            for run in runs:
+                pass
+                TableValue.add_paragraph_run(paragraph, run)
+            pass
         return ""
 
     def calcKzValue(self):
         height_above_ground = self.new_input_values[Constants.HEIGHT_ABOVE_GROUND]
-        self.kz = Constants(self.app_data).kzValue(float(height_above_ground))
-        self.kz_text = Constants.kzValueText(self.kz)
+        self.kz = GeneralMethods(self.app_data).kzValue(float(height_above_ground))
+        self.kz_text = GeneralMethods.kzValueText(self.kz)
 
     def calcSpeedMs(self):
         #calcualted wind speed in m/s and return value
         #first get wind_speed value from input
         wind_speed = self.new_input_values[Constants.WIND_SPEED]
-        self.speed_ms, self.speed_text = Constants.windSpeedMPerSecond(wind_speed)
+        self.speed_ms, self.speed_text = GeneralMethods.windSpeedMPerSecond(wind_speed)
 
     def calcWindUnitLoad(self):
-        self.wind_unit_load = Constants.calcWindUnitLoad(self.speed_ms, self.kz)
-        self.wind_unit_load_text = Constants.windUnitLoadText(self.wind_unit_load)
+        self.wind_unit_load = GeneralMethods.calcWindUnitLoad(self.speed_ms, self.kz)
+        self.wind_unit_load_text = GeneralMethods.windUnitLoadText(self.wind_unit_load)
 
     def calcWindUnitLoadKn(self):
         self.wind_unit_load_kn =  self.wind_unit_load/1000.
-        self.wind_unit_load_kn_text = Constants.textFourPlaces(self.wind_unit_load_kn)
+        self.wind_unit_load_kn_text = GeneralMethods.textFourPlaces(self.wind_unit_load_kn)
 
     def calculateParameters(self):
         self.calcSpeedMs()
@@ -103,26 +111,6 @@ class TableValue:
         except KeyError:
             return ""
         
-    def add_paragraph_run(paragraph, text, part):
-        
-        run = paragraph.add_run(text)
-        
-        bold = TableValue.getParameter(part, Constants.BOLD)
-        italic = TableValue.getParameter(part, Constants.ITALIC)
-        underline = TableValue.getParameter(part, Constants.UNDERLINE)
-        subscript = TableValue.getParameter(part, Constants.SUBSCRIPT)
-        superscript = TableValue.getParameter(part, Constants.SUPERSCRIPT)
-        end_of_line = TableValue.getParameter(part, Constants.END_OF_LINE)
-        
-        if (bold == Constants.TRUE):
-            run.bold = True
-        if (italic == Constants.TRUE):
-            run.italic = True
-        if (underline == Constants.TRUE):
-            run.underline = True
-        if (subscript == Constants.TRUE):
-            run.font.subscript = True
-        if (superscript == Constants.TRUE):
-            run.font.superscript = True
-        if (end_of_line == Constants.TRUE):
-            run.add_break(WD_BREAK.LINE)
+    def add_paragraph_run(paragraph, run_props):
+        run = paragraph.add_run(run_props.text)
+        run = run_props.applyRunProps(run)

@@ -42,3 +42,7 @@ class LoadData:
     def getTable27_3_1(self):
         return json.load(open(self.getFile("assests/asce/table_27_3_1.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
+
+    def getWindDesignDefaults(self):
+        return json.load(open(self.getFile("assests/wind_design_defaults.json"), encoding='utf8'), 
+            object_pairs_hook=OrderedDict)
