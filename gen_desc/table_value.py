@@ -7,7 +7,7 @@ from constants import Constants
 from general_methods import GeneralMethods
 from common import Common
 from run_properties import RunProperties
-from wind_design import WindDesignPartsX
+from wind_design import WindDesign
 
 class TableValue:
     def __init__(self, app_data, document, new_input_values):
@@ -72,7 +72,7 @@ class TableValue:
         if (value == Constants.WIND_UNIT_LOAD_KN):
             return self.wind_unit_load_kn_text
         if (value == Constants.WIND_DESIGN_X):
-            runs = WindDesignPartsX(self.app_data).runs
+            runs = WindDesign(self.app_data).wind_x.runs
             for run in runs:
                 pass
                 TableValue.add_paragraph_run(paragraph, run)

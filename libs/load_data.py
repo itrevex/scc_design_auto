@@ -46,3 +46,7 @@ class LoadData:
     def getWindDesignDefaults(self):
         return json.load(open(self.getFile("assests/wind_design_defaults.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
+
+    def getWindCoeffiecients(self):
+        return json.load(open(self.getFile("assests/wind_coeffiecients.json"), encoding='utf8'), 
+            object_pairs_hook=OrderedDict)
