@@ -16,10 +16,14 @@ class WindDesign:
     BRACKET = "bracket"
     NW = "nw"
     NL = "nl"
+    P = "p"
+    ZONE_CALC = "zone_calc"
+    CASE_A_CALC = "case_a_calc"
+    CASE_B_CALC = "case_b_calc"
     EQUALS = "equals"
     # 
 
-    #wind design x constants
+    #wind design y constants
     ALONG_Y = "along_y"
     WINDWARD_H = "windward_h"
     WINDWARD_H_2H = "windward_h_2h"
@@ -28,17 +32,35 @@ class WindDesign:
     LEEWARD_H_2H = "leeward_h_2h"
     LEEWARD_2H = "leeward_2h"
     N = "n"
+    WIND_FACTOR = 0.85
 
-    def __init__(self,app_data):
+    def __init__(self,app_data, wind_load=1.0):
         self.app_data = app_data.getWindDesignDefaults()
+        self.wind_load = wind_load
         data_x = self.app_data[WindDesign.ALONG_X]
         data_y = self.app_data[WindDesign.ALONG_Y]
         wind_factors_x = app_data.getWindCoeffiecients()[WindDesign.ALONG_X]
         wind_factors_y = app_data.getWindCoeffiecients()[WindDesign.ALONG_Y]
         self.zone = 804
         self.wind_x = self.WindDesignPartsX(self, data_x, wind_factors_x)
+
         self.wind_y =  self.WindDesignPartsY(self, data_y, wind_factors_y)
+
+        self.wind_calc_x = self.WindCalculationsX(self, data_x, wind_factors_x)
+
+        self.wind_calc_y = self.WindCalculationsY(self, data_y, wind_factors_y)
+        
+        
         pass
+
+    def resetZone(self):
+        self.zone = 804
+
+    def windLoad(self, wind_factor):
+        load = float(wind_factor) * self.wind_load \
+        * WindDesign.WIND_FACTOR
+
+        return "{:.4f}".format(load)
 
     class WindDesignPartsX:
         def __init__(self, wind_design, template_data, wind_factors):
@@ -51,7 +73,7 @@ class WindDesign:
             self.runsWindWard()
             self.runsLeeWard()
             pass
-
+            
         def getRunParts(self):
             run_parts = {}
             for part_name, parts in self.template_data.items():
@@ -199,7 +221,52 @@ class WindDesign:
             self._2h_case_a = factors_2h[WindDesign.CASE_A]
             self._2h_case_b = factors_2h[WindDesign.CASE_B]
 
+    class WindCalculationsX(WindDesignPartsX): 
+        def __init__(self,  wind_design, template_data, wind_factors):
+            wind_design.resetZone()
+            super().__init__(wind_design, template_data, wind_factors)
+            pass
+
+        def windCases(self, cnw = 1, cnl = 1):
+            self.runs.append(self.run_parts[WindDesign.CASE_A_CALC])
+            self.runs.append(self.run_parts[WindDesign.P])
+            self.runs.append(self.run_parts[WindDesign.EQUALS])
+            self.runs.append(RunProperties(self.wind_design.windLoad(cnw), {}))
+            self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
+            self.runs.append(RunProperties(self.wind_design.zone, {}))
+            self.runs.append(self.run_parts[WindDesign.BRACKET])
+            self.runs.append(self.run_parts[WindDesign.CASE_B_CALC])
+            self.runs.append(self.run_parts[WindDesign.P])
+            self.runs.append(self.run_parts[WindDesign.EQUALS])
+            self.runs.append(RunProperties(self.wind_design.windLoad(cnl), {}))
+            self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
+            self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
+            self.runs.append(self.run_parts[WindDesign.BRACKET])
+            self.wind_design.zone += 2
+
+    class WindCalculationsY(WindDesignPartsY): 
+        def __init__(self,  wind_design, template_data, wind_factors):
+            super().__init__(wind_design, template_data, wind_factors)
+            pass
         
+        def windCases(self, case_a = 1, case_b = 1):
+            self.runs.append(self.run_parts[WindDesign.CASE_A])
+            self.runs.append(self.run_parts[WindDesign.P])
+            self.runs.append(self.run_parts[WindDesign.EQUALS])
+            self.runs.append(RunProperties(self.wind_design.windLoad(case_a), {}))
+            self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
+            self.runs.append(RunProperties(self.wind_design.zone, {}))
+            self.runs.append(self.run_parts[WindDesign.BRACKET])
+            self.runs.append(self.run_parts[WindDesign.CASE_B])
+            self.runs.append(self.run_parts[WindDesign.P])
+            self.runs.append(self.run_parts[WindDesign.EQUALS])
+            self.runs.append(RunProperties(self.wind_design.windLoad(case_b), {}))
+            self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
+            self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
+            self.runs.append(self.run_parts[WindDesign.BRACKET])
+            self.wind_design.zone += 2
+
+            
     class WindCase:
         def __init__(self, coeff, zone):
             self.coeff = self.setCoeff(coeff)

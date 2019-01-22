@@ -10,7 +10,7 @@ class GenDesc:
         pass
 
 
-    def saveNewDocument(self):
+    def saveNewDocument(self, name =""):
         #update doc values, these are values not appearing within tables
         doc_value = DocValue(self.app_data, self.document, self.new_input_values)
         doc_value.updateDocumentValues()
@@ -20,7 +20,7 @@ class GenDesc:
         table_value.updateTableValues()
 
         #save updated document in new output file
-        output_file = self.app_data.getOutputFile()
+        output_file = self.app_data.getOutputFile(name)
         self.document.save(output_file)
 
     def trialMethod(self):

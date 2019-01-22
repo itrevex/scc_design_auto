@@ -41,4 +41,6 @@ class Constants:
     #Wind design parameters and constants
     WIND_DESIGN_X = "wind_design_x"
     WIND_DESIGN_Y = "wind_design_y"
+    WIND_DESIGN_CALC_X = "wind_design_calculation_x"
+    WIND_DESIGN_CALC_Y = "wind_design_calculation_y"
     

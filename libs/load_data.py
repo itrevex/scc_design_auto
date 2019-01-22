@@ -21,7 +21,7 @@ class LoadData:
     def getGenDescFile(self):
         return self.getFile("assests/Gen-Desc.docx")
 
-    def getOutputFile(self):
+    def getOutputFile(self, name = ""):
         return self.getFile("generated/Gen-Desc.docx")
     
     def getTemplateDocumentValues(self):

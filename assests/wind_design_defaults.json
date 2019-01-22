@@ -38,6 +38,12 @@
         "case_b":{
             "            Case B:  C":{ }
         },
+        "case_a_calc":{
+            "            Case A: ":{ }
+        },
+        "case_b_calc":{
+            "            Case B: ":{ }
+        },
         "nw": {
             "NW":{
                 "subscript": "true"
@@ -53,6 +59,12 @@
         },
         "zone":{
             " [Zone:":{ }
+        },
+        "zone_calc": {
+            " kN/sq.m [Zone:": {}
+        },
+        "p": {
+            "p":{}
         },
         "bracket":{
             "]":{ 
@@ -124,6 +136,12 @@
             "]":{ 
                 "end_of_line": "true"
             }
+        },
+        "p": {
+            "p":{}
+        },
+        "zone_calc": {
+            " kN/sq.m [Zone:": {}
         }
     },
     "wind_fators_x": {

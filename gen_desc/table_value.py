@@ -65,25 +65,40 @@ class TableValue:
     def calculatedValue(self, value, paragraph):
         if(value == Constants.WIND_SPEED_MS):
             return self.speed_text
+
         if (value == Constants.KZ_VALUE):
             return self.kz_text
+
         if (value == Constants.WIND_UNIT_LOAD):
             return self.wind_unit_load_text
+
         if (value == Constants.WIND_UNIT_LOAD_KN):
             return self.wind_unit_load_kn_text
+
         if (value == Constants.WIND_DESIGN_X):
             runs = WindDesign(self.app_data).wind_x.runs
             for run in runs:
-                pass
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_Y):
             runs = WindDesign(self.app_data).wind_y.runs
             for run in runs:
-                pass
                 TableValue.add_paragraph_run(paragraph, run)
             pass
+
+        if (value == Constants.WIND_DESIGN_CALC_X):
+            runs = WindDesign(self.app_data, self.wind_unit_load_kn).wind_calc_x.runs
+            for run in runs:
+                TableValue.add_paragraph_run(paragraph, run)
+            pass
+
+        if (value == Constants.WIND_DESIGN_CALC_Y):
+            runs = WindDesign(self.app_data, self.wind_unit_load_kn).wind_calc_y.runs
+            for run in runs:
+                TableValue.add_paragraph_run(paragraph, run)
+            pass
+
         return ""
 
     def calcKzValue(self):
