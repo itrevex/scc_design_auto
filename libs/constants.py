@@ -40,17 +40,5 @@ class Constants:
 
     #Wind design parameters and constants
     WIND_DESIGN_X = "wind_design_x"
-    WIND_DESIGN_ALONG_X = "along_x"
-    WIND_DESIGN_TITLE = "title"
-    WIND_DESIGN_TITLE_MINUS = "title_minus"
-    WIND_DESIGN_WINDWARD_O5 = "windward_0.5"
-    WIND_DESIGN_WINDWARD_05_L = "windward_0.5_L"
-    WIND_DESIGN_LEEWARD_05 = "leeward_0.5"
-    WIND_DESIGN_LEEWARD_05_L = "leeward_0.5_L"
-    WIND_DESIGN_CASE_A = "case_a"
-    WIND_DESIGN_CASE_B = "case_b"
-    WIND_DESIGN_ZONE = "zone"
-    WIND_DESIGN_BRACKET = "bracket"
-    WIND_DESIGN_NW = "nw"
-    WIND_DESIGN_NL = "nl"
-    WIND_DESIGN_EQUALS = "equals"
+    WIND_DESIGN_Y = "wind_design_y"
+    

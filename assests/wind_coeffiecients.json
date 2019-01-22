@@ -16,5 +16,31 @@
             "case_a": 0.3,
             "case_b": -0.1
         }
+    },
+    "along_y":{
+        "windward_h": {
+            "case_a": -0.8,
+            "case_b": 0.8
+        }, 
+        "windward_h_2h": {
+            "case_a": -0.6,
+            "case_b": 0.5
+        },
+        "windward_2h": {
+            "case_a": -0.3,
+            "case_b": 0.3
+        },
+        "leeward_h": {
+            "case_a": -0.8,
+            "case_b": 0.8
+        }, 
+        "leeward_h_2h": {
+            "case_a": -0.6,
+            "case_b": 0.5
+        }, 
+        "leeward_2h": {
+            "case_a": -0.3,
+            "case_b": 0.3
+        }
     }
 }

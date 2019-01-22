@@ -60,6 +60,72 @@
             }
         }
     },
+    "along_y":{
+        "title":{
+            "Wind along +Y direction":{
+                "underline": "true",
+                "end_of_line": "true"
+            }
+        },
+        "title_minus":{
+            "Wind along -Y direction":{
+                "underline": "true",
+                "end_of_line": "true"
+            }
+        },
+        "windward_h":{
+            "     Distance from the windward edge (≤h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "windward_h_2h":{
+            "     Distance from the windward edge (>h,< 2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "windward_2h":{
+            "     Distance from the windward edge (> 2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "leeward_h":{
+            "     Distance from the leeward edge (≤h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "leeward_h_2h":{
+            "     Distance from the leeward edge (>h,< 2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "leeward_2h":{
+            "      Distance from the leeward edge (> 2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "case_a":{
+            "            Case A: C":{ }
+        },
+        "case_b":{
+            "            Case B:  C":{ }
+        },
+        "n": {
+            "N":{
+                "subscript": "true"
+            }
+        },
+        "equals": {
+            " = ":{}
+        },
+        "zone":{
+            " [Zone:":{ }
+        },
+        "bracket":{
+            "]":{ 
+                "end_of_line": "true"
+            }
+        }
+    },
     "wind_fators_x": {
         "cnw_0.5": 1.2,
         "cnl_0.5": -1.1,

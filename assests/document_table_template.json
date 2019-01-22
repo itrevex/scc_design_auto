@@ -280,6 +280,14 @@
                 "input_from": "calculation"
             }
         }
+    },
+    "wind_design_y":{
+        "identifier": "Enter y wind zones here",
+        "value_parts": {
+            "wind_design_y":{
+                "input_from": "calculation"
+            }
+        }
     }
 
 }

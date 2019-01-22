@@ -77,6 +77,13 @@ class TableValue:
                 pass
                 TableValue.add_paragraph_run(paragraph, run)
             pass
+
+        if (value == Constants.WIND_DESIGN_Y):
+            runs = WindDesign(self.app_data).wind_y.runs
+            for run in runs:
+                pass
+                TableValue.add_paragraph_run(paragraph, run)
+            pass
         return ""
 
     def calcKzValue(self):
