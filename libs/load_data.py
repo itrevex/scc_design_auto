@@ -22,7 +22,7 @@ class LoadData:
         return self.getFile("assests/Gen-Desc.docx")
 
     def getOutputFile(self, name = ""):
-        return self.getFile("generated/Gen-Desc.docx")
+        return self.getFile("generated/Gen-Desc-%s.docx" % name)
     
     def getTemplateDocumentValues(self):
         return json.load(open(self.getFile("assests/document_value_template.json"), encoding='utf8'), 

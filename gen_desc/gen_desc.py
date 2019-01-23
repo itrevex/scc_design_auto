@@ -2,11 +2,12 @@ from doc_value import DocValue
 from table_value import TableValue
 
 class GenDesc:
+    PROJECT_NAME = "project_name"
     def __init__(self, app_data):
         self.app_data = app_data
         self.document = self.app_data.getDocxDocument()
         self.new_input_values = self.app_data.getInputValues()
-
+        self.project_name = self.new_input_values[GenDesc.PROJECT_NAME]
         pass
 
 
@@ -20,7 +21,8 @@ class GenDesc:
         table_value.updateTableValues()
 
         #save updated document in new output file
-        output_file = self.app_data.getOutputFile(name)
+        print()
+        output_file = self.app_data.getOutputFile(self.project_name)
         self.document.save(output_file)
 
     def trialMethod(self):
