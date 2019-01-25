@@ -1,6 +1,8 @@
 from run_properties import RunProperties
 
 class WindDesign:
+    #General
+    PARAPET_LOAD = "parapet_load"
 
     #wind design x constants
     ALONG_X = "along_x"
@@ -34,9 +36,21 @@ class WindDesign:
     N = "n"
     WIND_FACTOR = 0.85
 
-    def __init__(self,app_data, wind_load=1.0):
+    #Parapets
+    PARAPETS = "parapets"
+    WINDWARD = "windward"
+    LEEWARD = "leeward"
+    PARAPET_TITLE = "parapet_title"
+    WINDWARD_PARAPET = "windward_parapet"
+    LEEWARD_PARAPET = "leeward_parapet"
+    WINDWARD_PARAPET_CALC = "windward_parapet_calc"
+    LEEWARD_PARAPET_CALC = "leeward_parapet_calc"
+    PN = "pn"
+
+    def __init__(self,app_data, wind_load=1.0, parapet_load = "false"):
         self.app_data = app_data.getWindDesignDefaults()
         self.wind_load = wind_load
+        self.parapet_load = parapet_load
         data_x = self.app_data[WindDesign.ALONG_X]
         data_y = self.app_data[WindDesign.ALONG_Y]
         wind_factors_x = app_data.getWindCoeffiecients()[WindDesign.ALONG_X]
@@ -72,7 +86,17 @@ class WindDesign:
             self.loadCoeffiecients()
             self.runsWindWard()
             self.runsLeeWard()
-            pass
+
+            self.addParapetRuns()
+            
+
+
+        def addParapetRuns(self):
+            if (self.wind_design.parapet_load == "true"):
+                # self.runsParapet()
+                runs_parapets = self.wind_design.WindParapets(self.wind_design, self.run_parts, 
+                    self.pn_windward, self.pn_leeward)
+                self.runs.extend(runs_parapets.runs)
             
         def getRunParts(self):
             run_parts = {}
@@ -127,12 +151,16 @@ class WindDesign:
             
             factors_05 = self.wind_factors[WindDesign.WINDWARD_O5]
             factors_05L = self.wind_factors[WindDesign.WINDWARD_05_L]
-
+            factors_parapets = self.wind_factors[WindDesign.PARAPETS]
+            
             self.cnw_05 = factors_05[WindDesign.CASE_A]
             self.cnl_05 = factors_05[WindDesign.CASE_B]
 
             self.cnw_05L = factors_05L[WindDesign.CASE_A]
             self.cnl_05L = factors_05L[WindDesign.CASE_B]
+
+            self.pn_windward = factors_parapets[WindDesign.WINDWARD]
+            self.pn_leeward = factors_parapets[WindDesign.LEEWARD]
 
             # for value in self.wind_factors.values():
                 
@@ -147,6 +175,17 @@ class WindDesign:
             self.runsWindWard()
             self.runsLeeWard()
 
+            self.addParapetRuns()
+            
+
+
+        def addParapetRuns(self):
+            if (self.wind_design.parapet_load == "true"):
+                # self.runsParapet()
+                runs_parapets = self.wind_design.WindParapets(self.wind_design, self.run_parts, 
+                    self.pn_windward, self.pn_leeward)
+                self.runs.extend(runs_parapets.runs)
+                
         def getRunParts(self):
             run_parts = {}
             for part_name, parts in self.template_data.items():
@@ -210,6 +249,7 @@ class WindDesign:
             factors_h = self.wind_factors[WindDesign.WINDWARD_H]
             factors_h_2h = self.wind_factors[WindDesign.WINDWARD_H_2H]
             factors_2h = self.wind_factors[WindDesign.WINDWARD_2H]
+            factors_parapets = self.wind_factors[WindDesign.PARAPETS]
 
             self.h_case_a = factors_h[WindDesign.CASE_A]
             self.h_case_b = factors_h[WindDesign.CASE_B]
@@ -221,11 +261,21 @@ class WindDesign:
             self._2h_case_a = factors_2h[WindDesign.CASE_A]
             self._2h_case_b = factors_2h[WindDesign.CASE_B]
 
+            self.pn_windward = factors_parapets[WindDesign.WINDWARD]
+            self.pn_leeward = factors_parapets[WindDesign.LEEWARD]
+
     class WindCalculationsX(WindDesignPartsX): 
         def __init__(self,  wind_design, template_data, wind_factors):
             wind_design.resetZone()
             super().__init__(wind_design, template_data, wind_factors)
             pass
+        
+        def addParapetRuns(self):
+            if (self.wind_design.parapet_load == "true"):
+                # self.runsParapet()
+                runs_parapets = self.wind_design.WindParapets(self.wind_design, self.run_parts, 
+                    self.pn_windward, self.pn_leeward, True)
+                self.runs.extend(runs_parapets.runs)
 
         def windCases(self, cnw = 1, cnl = 1):
             self.runs.append(self.run_parts[WindDesign.CASE_A_CALC])
@@ -249,15 +299,22 @@ class WindDesign:
             super().__init__(wind_design, template_data, wind_factors)
             pass
         
+        def addParapetRuns(self):
+            if (self.wind_design.parapet_load == "true"):
+                # self.runsParapet()
+                runs_parapets = self.wind_design.WindParapets(self.wind_design, self.run_parts, 
+                    self.pn_windward, self.pn_leeward, True)
+                self.runs.extend(runs_parapets.runs)
+
         def windCases(self, case_a = 1, case_b = 1):
-            self.runs.append(self.run_parts[WindDesign.CASE_A])
+            self.runs.append(self.run_parts[WindDesign.CASE_A_CALC])
             self.runs.append(self.run_parts[WindDesign.P])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
             self.runs.append(RunProperties(self.wind_design.windLoad(case_a), {}))
             self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
             self.runs.append(RunProperties(self.wind_design.zone, {}))
             self.runs.append(self.run_parts[WindDesign.BRACKET])
-            self.runs.append(self.run_parts[WindDesign.CASE_B])
+            self.runs.append(self.run_parts[WindDesign.CASE_B_CALC])
             self.runs.append(self.run_parts[WindDesign.P])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
             self.runs.append(RunProperties(self.wind_design.windLoad(case_b), {}))
@@ -266,6 +323,53 @@ class WindDesign:
             self.runs.append(self.run_parts[WindDesign.BRACKET])
             self.wind_design.zone += 2
 
+    class WindParapets:
+        def __init__(self, wind_design, run_parts, pn_windward, pn_leeward, calcs = False):
+            self.wind_design = wind_design
+            self.run_parts = run_parts
+            self.pn_windward = pn_windward
+            self.pn_leeward = pn_leeward
+            self.calcs = calcs
+            self.runs = [RunProperties("", { "end_of_line": "true"})]
+            self.runsParapet()
+            
+        def parapetCases(self, pn_windward, pn_leeward, calcs = False):
+            if calcs:
+                self.runs.append(self.run_parts[WindDesign.WINDWARD_PARAPET_CALC])
+                self.runs.append(self.run_parts[WindDesign.P])
+            else:
+                self.runs.append(self.run_parts[WindDesign.WINDWARD_PARAPET])
+                self.runs.append(self.run_parts[WindDesign.PN])
+
+            self.runs.append(self.run_parts[WindDesign.EQUALS])
+            self.runs.append(RunProperties(pn_windward, {}))
+            self.runs.append(self.run_parts[WindDesign.ZONE])
+            self.runs.append(RunProperties(self.wind_design.zone, {}))
+            self.runs.append(self.run_parts[WindDesign.BRACKET])
+
+            if calcs:
+                self.runs.append(self.run_parts[WindDesign.LEEWARD_PARAPET_CALC])
+                self.runs.append(self.run_parts[WindDesign.P])
+            else:
+                self.runs.append(self.run_parts[WindDesign.LEEWARD_PARAPET])
+                self.runs.append(self.run_parts[WindDesign.PN])
+            self.runs.append(self.run_parts[WindDesign.EQUALS])
+            self.runs.append(RunProperties(pn_leeward, {}))
+            self.runs.append(self.run_parts[WindDesign.ZONE])
+            self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
+            self.runs.append(self.run_parts[WindDesign.BRACKET])
+
+            self.wind_design.zone += 2
+
+        def runsParapet(self):
+            self.runs.append(self.run_parts[WindDesign.PARAPET_TITLE])
+
+            #wind load_parapet cases
+            if self.calcs:
+                self.parapetCases(self.wind_design.windLoad(self.pn_windward), 
+                    self.wind_design.windLoad(self.pn_leeward), True)
+            else:
+                self.parapetCases(self.pn_windward, self.pn_leeward)
             
     class WindCase:
         def __init__(self, coeff, zone):

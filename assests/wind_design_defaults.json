@@ -70,6 +70,24 @@
             "]":{ 
                 "end_of_line": "true"
             }
+        },
+        "parapet_title": {
+            "     Parapet load": { "end_of_line": "true" }
+        },
+        "windward_parapet": {
+            "            Windward parapet: GC": {}
+        },
+        "leeward_parapet": {
+            "            Leeward parapet: GC": {}
+        },
+        "windward_parapet_calc": {
+            "            Windward parapet: ": {}
+        },
+        "leeward_parapet_calc": {
+            "            Leeward parapet: ": {}
+        },
+        "pn": {
+            "pn": { "subscript": "true" }
         }
     },
     "along_y":{
@@ -121,6 +139,12 @@
         "case_b":{
             "            Case B:  C":{ }
         },
+        "case_a_calc":{
+            "            Case A: ":{ }
+        },
+        "case_b_calc":{
+            "            Case B: ":{ }
+        },
         "n": {
             "N":{
                 "subscript": "true"
@@ -142,6 +166,24 @@
         },
         "zone_calc": {
             " kN/sq.m [Zone:": {}
+        },
+        "parapet_title": {
+            "     Parapet load": { "end_of_line": "true" }
+        },
+        "windward_parapet": {
+            "            Windward parapet: GC": {}
+        },
+        "leeward_parapet": {
+            "            Leeward parapet: GC": {}
+        },
+        "windward_parapet_calc": {
+            "            Windward parapet: ": {}
+        },
+        "leeward_parapet_calc": {
+            "            Leeward parapet: ": {}
+        },
+        "pn": {
+            "pn": { "subscript": "true" }
         }
     },
     "wind_fators_x": {

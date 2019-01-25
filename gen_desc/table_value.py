@@ -16,6 +16,7 @@ class TableValue:
         self.new_input_values = new_input_values
         self.template_table_values = app_data.getTemplateTableValues()
         self.calculateParameters()
+        self.parapet_load = new_input_values[WindDesign.PARAPET_LOAD]
         pass
 
     def getIdenfierParagraph(self, identifier_text):
@@ -76,25 +77,26 @@ class TableValue:
             return self.wind_unit_load_kn_text
 
         if (value == Constants.WIND_DESIGN_X):
-            runs = WindDesign(self.app_data).wind_x.runs
+            parapet_load = self.new_input_values[WindDesign.PARAPET_LOAD]
+            runs = WindDesign(self.app_data,parapet_load=self.parapet_load).wind_x.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_Y):
-            runs = WindDesign(self.app_data).wind_y.runs
+            runs = WindDesign(self.app_data,parapet_load=self.parapet_load).wind_y.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_CALC_X):
-            runs = WindDesign(self.app_data, self.wind_unit_load_kn).wind_calc_x.runs
+            runs = WindDesign(self.app_data, self.wind_unit_load_kn, self.parapet_load).wind_calc_x.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_CALC_Y):
-            runs = WindDesign(self.app_data, self.wind_unit_load_kn).wind_calc_y.runs
+            runs = WindDesign(self.app_data, self.wind_unit_load_kn, self.parapet_load).wind_calc_y.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
