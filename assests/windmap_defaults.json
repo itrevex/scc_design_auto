@@ -1,0 +1,10 @@
+{
+    "titles":{
+        "wind_y_05": "Fig. 27.4-4, ≤ 0.5L",
+        "wind_y_05L": "Fig. 27.4-4, > 0.5L",
+        "wind_x_h": "Fig. 27.4-7, ≤ h",
+        "wind_x_h_2h": "Fig. 27.4-7, > h ≤ 2h",
+        "wind_x_2h": "Fig. 27.4-7, > 2h",
+        "parapet_section": "Sec. 27.4.5"
+    }
+}

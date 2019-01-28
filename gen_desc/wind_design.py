@@ -56,14 +56,10 @@ class WindDesign:
         wind_factors_x = app_data.getWindCoeffiecients()[WindDesign.ALONG_X]
         wind_factors_y = app_data.getWindCoeffiecients()[WindDesign.ALONG_Y]
         self.zone = 804
-        self.wind_x = self.WindDesignPartsX(self, data_x, wind_factors_x)
-
-        self.wind_y =  self.WindDesignPartsY(self, data_y, wind_factors_y)
-
+        self.wind_x =  self.WindDesignPartsX(self, data_x, wind_factors_x)
+        self.wind_y = self.WindDesignPartsY(self, data_y, wind_factors_y)
         self.wind_calc_x = self.WindCalculationsX(self, data_x, wind_factors_x)
-
         self.wind_calc_y = self.WindCalculationsY(self, data_y, wind_factors_y)
-        
         
         pass
 
@@ -76,7 +72,7 @@ class WindDesign:
 
         return "{:.4f}".format(load)
 
-    class WindDesignPartsX:
+    class WindDesignPartsY:
         def __init__(self, wind_design, template_data, wind_factors):
             self.wind_design = wind_design
             self.template_data = template_data
@@ -164,7 +160,7 @@ class WindDesign:
 
             # for value in self.wind_factors.values():
                 
-    class WindDesignPartsY:
+    class WindDesignPartsX:
         def __init__(self, wind_design, template_data, wind_factors):
             self.wind_design = wind_design
             self.template_data = template_data
@@ -264,9 +260,8 @@ class WindDesign:
             self.pn_windward = factors_parapets[WindDesign.WINDWARD]
             self.pn_leeward = factors_parapets[WindDesign.LEEWARD]
 
-    class WindCalculationsX(WindDesignPartsX): 
+    class WindCalculationsY(WindDesignPartsY): 
         def __init__(self,  wind_design, template_data, wind_factors):
-            wind_design.resetZone()
             super().__init__(wind_design, template_data, wind_factors)
             pass
         
@@ -294,8 +289,9 @@ class WindDesign:
             self.runs.append(self.run_parts[WindDesign.BRACKET])
             self.wind_design.zone += 2
 
-    class WindCalculationsY(WindDesignPartsY): 
+    class WindCalculationsX(WindDesignPartsX): 
         def __init__(self,  wind_design, template_data, wind_factors):
+            wind_design.resetZone()
             super().__init__(wind_design, template_data, wind_factors)
             pass
         
@@ -370,7 +366,20 @@ class WindDesign:
                     self.wind_design.windLoad(self.pn_leeward), True)
             else:
                 self.parapetCases(self.pn_windward, self.pn_leeward)
-            
+
+    class WindMapValue:
+        def __init__(self, run_parts, title):
+            self.title = title
+            self.theta_line = None
+            self.case_a_line =None
+            self.p_line = None
+            self.case_a_zone = None
+            self.case_b_line = None
+            self.p_line = None
+            self.case_b_zone = None
+            pass
+
+
     class WindCase:
         def __init__(self, coeff, zone):
             self.coeff = self.setCoeff(coeff)

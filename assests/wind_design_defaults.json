@@ -1,13 +1,13 @@
 {
-    "along_x":{
+    "along_y":{
         "title":{
-            "Wind along +X direction":{
+            "Wind along +Y direction":{
                 "underline": "true",
                 "end_of_line": "true"
             }
         },
         "title_minus":{
-            "Wind along -X direction":{
+            "Wind along -Y direction":{
                 "underline": "true",
                 "end_of_line": "true"
             }
@@ -90,15 +90,15 @@
             "pn": { "subscript": "true" }
         }
     },
-    "along_y":{
+    "along_x":{
         "title":{
-            "Wind along +Y direction":{
+            "Wind along +X direction":{
                 "underline": "true",
                 "end_of_line": "true"
             }
         },
         "title_minus":{
-            "Wind along -Y direction":{
+            "Wind along -X direction":{
                 "underline": "true",
                 "end_of_line": "true"
             }
