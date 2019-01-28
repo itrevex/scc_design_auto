@@ -1,6 +1,7 @@
 from docx import Document
 import json
 import os
+import sys
 from collections import OrderedDict
 
 class LoadData:
@@ -22,7 +23,7 @@ class LoadData:
         return self.getFile("assests/Gen-Desc.docx")
 
     def getOutputFile(self, name = ""):
-        return self.getFile("generated/Gen-Desc-%s.DOC" % name)
+        return self.getFile(self.getOutPutFile(name))
     
     def getTemplateDocumentValues(self):
         return json.load(open(self.getFile("assests/document_value_template.json"), encoding='utf8'), 
@@ -33,7 +34,8 @@ class LoadData:
             object_pairs_hook=OrderedDict)
     
     def getInputValues(self):
-        return json.load(open(self.getFile("assests/input_file.json"), encoding='utf8'), 
+        self.path = self.getInputFilePath()
+        return json.load(open(self.getFile(self.path), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
     def getDocxDocument(self):
@@ -50,3 +52,23 @@ class LoadData:
     def getWindCoeffiecients(self):
         return json.load(open(self.getFile("assests/wind_coeffiecients.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
+
+    def getInputFilePath(self):
+        # if called with no arguments, call app data pick file from there
+        path = None
+        if (len(sys.argv) > 1):
+            path = self.getFile(sys.argv[1])
+            
+        else:
+            path = self.getFile(os.getenv('LOCALAPPDATA') + "\Trevexs SSC\data\sample1.trsc")
+        
+        return path
+
+    def getOutPutFile(self, name):
+        try: 
+            head, tail = os.path.split(self.path)
+            file_name = "Gen-Desc-%s.DOC" %name
+            return os.path.join(head, file_name)
+
+        except AttributeError:
+            Messages.showError("There is no data to use to generate output file")
