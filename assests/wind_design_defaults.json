@@ -32,18 +32,6 @@
                 "end_of_line": "true"
             }
         },
-        "case_a":{
-            "            Case A: C":{ }
-        },
-        "case_b":{
-            "            Case B:  C":{ }
-        },
-        "case_a_calc":{
-            "            Case A: ":{ }
-        },
-        "case_b_calc":{
-            "            Case B: ":{ }
-        },
         "nw": {
             "NW":{
                 "subscript": "true"
@@ -53,41 +41,6 @@
             "NL":{
                 "subscript": "true"
             }
-        },
-        "equals": {
-            " = ":{}
-        },
-        "zone":{
-            " [Zone:":{ }
-        },
-        "zone_calc": {
-            " kN/sq.m [Zone:": {}
-        },
-        "p": {
-            "p":{}
-        },
-        "bracket":{
-            "]":{ 
-                "end_of_line": "true"
-            }
-        },
-        "parapet_title": {
-            "     Parapet load": { "end_of_line": "true" }
-        },
-        "windward_parapet": {
-            "            Windward parapet: GC": {}
-        },
-        "leeward_parapet": {
-            "            Leeward parapet: GC": {}
-        },
-        "windward_parapet_calc": {
-            "            Windward parapet: ": {}
-        },
-        "leeward_parapet_calc": {
-            "            Leeward parapet: ": {}
-        },
-        "pn": {
-            "pn": { "subscript": "true" }
         }
     },
     "along_x":{
@@ -133,6 +86,13 @@
                 "end_of_line": "true"
             }
         },
+        "n": {
+            "N":{
+                "subscript": "true"
+            }
+        }
+    }, 
+    "common": {
         "case_a":{
             "            Case A: C":{ }
         },
@@ -144,11 +104,6 @@
         },
         "case_b_calc":{
             "            Case B: ":{ }
-        },
-        "n": {
-            "N":{
-                "subscript": "true"
-            }
         },
         "equals": {
             " = ":{}
@@ -185,12 +140,5 @@
         "pn": {
             "pn": { "subscript": "true" }
         }
-    },
-    "wind_fators_x": {
-        "cnw_0.5": 1.2,
-        "cnl_0.5": -1.1,
-        "cnw_0.5_L": 0.3,
-        "cnl_0.5_L": -0.1
-    },
-    "start_wind_zone": 804
+    }
 }

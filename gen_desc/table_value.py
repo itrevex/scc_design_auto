@@ -17,6 +17,8 @@ class TableValue:
         self.template_table_values = app_data.getTemplateTableValues()
         self.calculateParameters()
         self.parapet_load = new_input_values[WindDesign.PARAPET_LOAD]
+        self.wind_design = WindDesign(app_data, 
+            self.wind_unit_load_kn, self.parapet_load)
         pass
 
     def getIdenfierParagraph(self, identifier_text):
@@ -78,25 +80,25 @@ class TableValue:
 
         if (value == Constants.WIND_DESIGN_X):
             parapet_load = self.new_input_values[WindDesign.PARAPET_LOAD]
-            runs = WindDesign(self.app_data,parapet_load=self.parapet_load).wind_x.runs
+            runs = self.wind_design.wind_x.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_Y):
-            runs = WindDesign(self.app_data,parapet_load=self.parapet_load).wind_y.runs
+            runs = self.wind_design.wind_y.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_CALC_X):
-            runs = WindDesign(self.app_data, self.wind_unit_load_kn, self.parapet_load).wind_calc_x.runs
+            runs = self.wind_design.wind_calc_x.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
         if (value == Constants.WIND_DESIGN_CALC_Y):
-            runs = WindDesign(self.app_data, self.wind_unit_load_kn, self.parapet_load).wind_calc_y.runs
+            runs = self.wind_design.wind_calc_y.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
@@ -128,7 +130,6 @@ class TableValue:
         self.calcWindUnitLoad()
         self.calcWindUnitLoadKn()
 
-
     def getParameter(part, key):
         try:
             return part[key]
@@ -138,3 +139,6 @@ class TableValue:
     def add_paragraph_run(paragraph, run_props):
         run = paragraph.add_run(run_props.text)
         run = run_props.applyRunProps(run)
+
+    def trials(self):
+        self.wind_design.trials()

@@ -1,0 +1,15 @@
+{
+    "project_name": "King Abdul Aziz Airbase at Dhahran, Gatehouse SF Sunshade, Job Id 19 009 1A",
+    "project_description": "The Space frame represents a rectangular double layer structure, supported by four steel columns. The Geometric line sketch illustrates the over-all geometry of the structure. Covering is to consist of sandwich panels supported over purlins connected to purlin stools at each top chord joint.",
+    "project_location": "Dhahran",
+    "roof_dead_load":"0.15",
+    "roof_live_load":"1.00",
+    "services_load":"0.05",
+    "wind_speed": "152",
+    "height_above_ground_level_in_m": "7.6",
+    "roof_angle": "0",
+    "temprature_load": "37.5",
+    "parapet_load": "false",
+    "roof_x_length": "",
+    "roof_y_length": ""
+}

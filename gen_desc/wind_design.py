@@ -1,8 +1,23 @@
 from run_properties import RunProperties
 
 class WindDesign:
+    '''
+    Runs are paragragh runs, see run properties for details about runs
+    '''
+
     #General
     PARAPET_LOAD = "parapet_load"
+    #Common data
+    COMMON = "common"
+    CASE_A = "case_a"   
+    CASE_B = "case_b"
+    ZONE = "zone"
+    BRACKET = "bracket"
+    P = "p"
+    ZONE_CALC = "zone_calc"
+    CASE_A_CALC = "case_a_calc"
+    CASE_B_CALC = "case_b_calc"
+    EQUALS = "equals"
 
     #wind design x constants
     ALONG_X = "along_x"
@@ -12,19 +27,9 @@ class WindDesign:
     WINDWARD_05_L = "windward_0.5_L"
     LEEWARD_05 = "leeward_0.5"
     LEEWARD_05_L = "leeward_0.5_L"
-    CASE_A = "case_a"
-    CASE_B = "case_b"
-    ZONE = "zone"
-    BRACKET = "bracket"
     NW = "nw"
     NL = "nl"
-    P = "p"
-    ZONE_CALC = "zone_calc"
-    CASE_A_CALC = "case_a_calc"
-    CASE_B_CALC = "case_b_calc"
-    EQUALS = "equals"
-    # 
-
+    
     #wind design y constants
     ALONG_Y = "along_y"
     WINDWARD_H = "windward_h"
@@ -47,22 +52,27 @@ class WindDesign:
     LEEWARD_PARAPET_CALC = "leeward_parapet_calc"
     PN = "pn"
 
+    #Input values
+    ROOF_ANGLE = "roof_angle"
+
     def __init__(self,app_data, wind_load=1.0, parapet_load = "false"):
         self.app_data = app_data.getWindDesignDefaults()
         self.wind_load = wind_load
         self.parapet_load = parapet_load
-        data_x = self.app_data[WindDesign.ALONG_X]
-        data_y = self.app_data[WindDesign.ALONG_Y]
-        wind_factors_x = app_data.getWindCoeffiecients()[WindDesign.ALONG_X]
-        wind_factors_y = app_data.getWindCoeffiecients()[WindDesign.ALONG_Y]
+        self.data_common = self.app_data[WindDesign.COMMON]
+        self.data_x = self.app_data[WindDesign.ALONG_X]
+        self.data_y = self.app_data[WindDesign.ALONG_Y]
+        self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesign.ALONG_X]
+        self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesign.ALONG_Y]
+        
         self.zone = 804
-        self.wind_x =  self.WindDesignPartsX(self, data_x, wind_factors_x)
-        self.wind_y = self.WindDesignPartsY(self, data_y, wind_factors_y)
-        self.wind_calc_x = self.WindCalculationsX(self, data_x, wind_factors_x)
-        self.wind_calc_y = self.WindCalculationsY(self, data_y, wind_factors_y)
+        self.wind_x =  self.WindDesignPartsX(self)
+        self.wind_y = self.WindDesignPartsY(self)
+        self.wind_calc_x = self.WindCalculationsX(self)
+        self.wind_calc_y = self.WindCalculationsY(self)
         
         pass
-
+    
     def resetZone(self):
         self.zone = 804
 
@@ -71,22 +81,23 @@ class WindDesign:
         * WindDesign.WIND_FACTOR
 
         return "{:.4f}".format(load)
+    
+    def trials(self):
+        print("Trials method called . . .")
 
     class WindDesignPartsY:
-        def __init__(self, wind_design, template_data, wind_factors):
+        def __init__(self, wind_design):
             self.wind_design = wind_design
-            self.template_data = template_data
-            self.wind_factors = wind_factors
+            self.template_data = wind_design.data_y
+            self.wind_factors = wind_design.wind_factors_y
             self.runs = []
             self.run_parts = self.getRunParts()
             self.loadCoeffiecients()
-            self.runsWindWard()
-            self.runsLeeWard()
 
+            #Make the paragraph runs
+            self.directionalRuns()
             self.addParapetRuns()
             
-
-
         def addParapetRuns(self):
             if (self.wind_design.parapet_load == "true"):
                 # self.runsParapet()
@@ -97,6 +108,12 @@ class WindDesign:
         def getRunParts(self):
             run_parts = {}
             for part_name, parts in self.template_data.items():
+                for text, props in parts.items():
+                    run_parts[part_name] = RunProperties(text, props)
+                    pass
+            
+            #add parts from common
+            for part_name, parts in self.wind_design.data_common.items():
                 for text, props in parts.items():
                     run_parts[part_name] = RunProperties(text, props)
                     pass
@@ -120,24 +137,25 @@ class WindDesign:
             self.runs.append(self.run_parts[WindDesign.BRACKET])
             self.wind_design.zone += 2
 
-        def runsWindWard(self):
+        def directionalRuns(self):
+            #Runs in positive direction
             self.runs.append(self.run_parts[WindDesign.TITLE])
-            #wind load windward_05
-            self.runs.append(self.run_parts[WindDesign.WINDWARD_O5])
-            self.windCases(self.cnw_05, self.cnl_05)
+            self.runsInDirection()
 
-
-            #wind load windward_05L
-            self.runs.append(self.run_parts[WindDesign.WINDWARD_05_L])
-            self.windCases(self.cnw_05L, self.cnl_05L)
-
-        def runsLeeWard(self):
+            #Runs in negative direction
             self.runs.append(self.run_parts[WindDesign.TITLE_MINUS])
+            self.runsInDirection()
+
+        def runsInDirection(self):
+            '''
+            Runs in particular direction are similar.
+            Thse are similar for both negative and positive direction
+
+            '''
 
             #wind load windward_05
             self.runs.append(self.run_parts[WindDesign.WINDWARD_O5])
             self.windCases(self.cnw_05, self.cnl_05)
-
 
             #wind load windward_05L
             self.runs.append(self.run_parts[WindDesign.WINDWARD_O5])
@@ -161,20 +179,18 @@ class WindDesign:
             # for value in self.wind_factors.values():
                 
     class WindDesignPartsX:
-        def __init__(self, wind_design, template_data, wind_factors):
+        def __init__(self, wind_design):
             self.wind_design = wind_design
-            self.template_data = template_data
-            self.wind_factors = wind_factors
+            self.template_data = wind_design.data_x
+            self.wind_factors = wind_design.wind_factors_x
             self.runs = []
             self.run_parts = self.getRunParts()
             self.loadCoeffiecients()
-            self.runsWindWard()
-            self.runsLeeWard()
 
+            #create doc runs
+            self.directionalRuns()
             self.addParapetRuns()
             
-
-
         def addParapetRuns(self):
             if (self.wind_design.parapet_load == "true"):
                 # self.runsParapet()
@@ -188,7 +204,11 @@ class WindDesign:
                 for text, props in parts.items():
                     run_parts[part_name] = RunProperties(text, props)
                     pass
-
+            #add parts from common
+            for part_name, parts in self.wind_design.data_common.items():
+                for text, props in parts.items():
+                    run_parts[part_name] = RunProperties(text, props)
+                    pass
             return run_parts
 
         def windCases(self, case_a = 1, case_b = 1):
@@ -208,25 +228,21 @@ class WindDesign:
             self.runs.append(self.run_parts[WindDesign.BRACKET])
             self.wind_design.zone += 2
 
-        def runsWindWard(self):
+        def directionalRuns(self):
+            #Runs in positive direction
             self.runs.append(self.run_parts[WindDesign.TITLE])
+            self.runsInDirection()
 
-            #wind load windward_h
-            self.runs.append(self.run_parts[WindDesign.WINDWARD_H])
-            self.windCases(self.h_case_a, self.h_case_b)
-
-
-            #wind load windward_h_2h
-            self.runs.append(self.run_parts[WindDesign.WINDWARD_H_2H])
-            self.windCases(self.h_2h_case_a, self.h_2h_case_b)
-
-            #wind load windward_2h
-            self.runs.append(self.run_parts[WindDesign.WINDWARD_2H])
-            self.windCases(self._2h_case_a, self._2h_case_b)
-
-        def runsLeeWard(self):
+            #Runs in negative direction
             self.runs.append(self.run_parts[WindDesign.TITLE_MINUS])
+            self.runsInDirection()
+            
+        def runsInDirection(self):
+            '''
+            Runs in particular direction are similar.
+            Thse are similar for both negative and positive direction
 
+            '''
             #wind load leeward_h
             self.runs.append(self.run_parts[WindDesign.WINDWARD_H])
             self.windCases(self.h_case_a, self.h_case_b)
@@ -261,8 +277,8 @@ class WindDesign:
             self.pn_leeward = factors_parapets[WindDesign.LEEWARD]
 
     class WindCalculationsY(WindDesignPartsY): 
-        def __init__(self,  wind_design, template_data, wind_factors):
-            super().__init__(wind_design, template_data, wind_factors)
+        def __init__(self,  wind_design):
+            super().__init__(wind_design)
             pass
         
         def addParapetRuns(self):
@@ -290,9 +306,9 @@ class WindDesign:
             self.wind_design.zone += 2
 
     class WindCalculationsX(WindDesignPartsX): 
-        def __init__(self,  wind_design, template_data, wind_factors):
+        def __init__(self, wind_design):
             wind_design.resetZone()
-            super().__init__(wind_design, template_data, wind_factors)
+            super().__init__(wind_design)
             pass
         
         def addParapetRuns(self):
@@ -302,18 +318,23 @@ class WindDesign:
                     self.pn_windward, self.pn_leeward, True)
                 self.runs.extend(runs_parapets.runs)
 
-        def windCases(self, case_a = 1, case_b = 1):
+        def windCases(self, c_case_a = 1, c_case_b = 1):
+            p_case_a = self.wind_design.windLoad(c_case_a)
+            p_case_b = self.wind_design.windLoad(c_case_b)
+            zone_case_a = self.wind_design.zone
+    
+
             self.runs.append(self.run_parts[WindDesign.CASE_A_CALC])
             self.runs.append(self.run_parts[WindDesign.P])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
-            self.runs.append(RunProperties(self.wind_design.windLoad(case_a), {}))
+            self.runs.append(RunProperties(p_case_a, {}))
             self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
-            self.runs.append(RunProperties(self.wind_design.zone, {}))
+            self.runs.append(RunProperties(zone_case_a, {}))
             self.runs.append(self.run_parts[WindDesign.BRACKET])
             self.runs.append(self.run_parts[WindDesign.CASE_B_CALC])
             self.runs.append(self.run_parts[WindDesign.P])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
-            self.runs.append(RunProperties(self.wind_design.windLoad(case_b), {}))
+            self.runs.append(RunProperties(p_case_b, {}))
             self.runs.append(self.run_parts[WindDesign.ZONE_CALC])
             self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
             self.runs.append(self.run_parts[WindDesign.BRACKET])
@@ -367,18 +388,86 @@ class WindDesign:
             else:
                 self.parapetCases(self.pn_windward, self.pn_leeward)
 
-    class WindMapValue:
-        def __init__(self, run_parts, title):
+    class WindValues:
+        def __init__(self):
+            
+            self.title = ""
+            self.roof_angle = None
+
+            self.c_case_a = None
+            self.c_case_b = None
+            self.p_case_a = None
+            self.p_case_b = None
+            self.zone_case_a = 0
+            self.zone_case_b = self.zone_case_a + 1
+
+        def setTitle(self, title):
             self.title = title
-            self.theta_line = None
-            self.case_a_line =None
+
+        def setRoofAngle(self, angle):
+            self.roof_angle = angle
+
+        def setCCaseA(self, c):
+            self.c_case_a = c
+
+        def setCCaseB(self, c):
+            self.c_case_b = c
+
+        def setPCaseA(self, p):
+            self.p_case_a = p
+        
+        def setPCaseB(self, p):
+            self.p_case_b = p
+
+        def setZoneCaseA(self, zone):
+            self.zone_case_a = zone
+
+        def setZoneCaseB(self, zone):
+            self.zone_case_b = zone
+
+        def toString(self):
+            text = " "
+            "\n title: " + self.title + \
+            "\n title: " + str(self.roof_angle) + \
+            "\n title: " + str(self.c_case_a) + \
+            "\n title: " + str(self.c_case_b) + \
+            "\n title: " + str(self.p_case_a) + \
+            "\n title: " + str(self.p_case_b) + \
+            "\n title: " + str(self.zone_case_a) + \
+            "\n title: " + str(self.zone_case_b) 
+
+    class WindMapValue:
+        '''
+        c_case_a is coffiecient for case A wind
+        c_case_b is coefficient for case B wind
+
+        Typical
+        --------------
+        Fig. 27.4-4, ≤ 0.5L
+        θ = 0O
+        CASE A: CNW = 1.2
+        P = 0.9007 kN/sq.m
+        Zone: 816
+
+        CASE B: CNW = -1.1
+        P = -0.8257 kN/sq.m
+        Zone: 817
+
+        '''
+        def __init__(self, wind_values, run_parts=[]):
+            self.title = wind_values.title
+            self.theta_line = run_parts[WindDesign.THETA] \
+                + run_parts[WindDesign.EQUALS] + wind_values.roof_angle
+            self.case_a_line = run_parts[WindDesign.CASE_A] + run_parts[WindDesign.EQUALS] + c_case_a
             self.p_line = None
             self.case_a_zone = None
             self.case_b_line = None
             self.p_line = None
             self.case_b_zone = None
             pass
-
+        
+        def printParts(self):
+            pass
 
     class WindCase:
         def __init__(self, coeff, zone):

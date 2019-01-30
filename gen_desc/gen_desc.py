@@ -27,5 +27,5 @@ class GenDesc:
 
     def trialMethod(self):
         table_value = TableValue(self.app_data, self.document, self.new_input_values)
-        table_value.updateTableValues()
+        table_value.trials()
         pass

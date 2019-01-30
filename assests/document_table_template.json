@@ -204,6 +204,20 @@
             "˚":{}
         }
     },
+    "roof_height_and_angle_2":{
+        "identifier": "h = 7.10m;",
+        "value_parts": {
+            "Open Building; h = ":{},
+            "height_above_ground_level_in_m":{
+                "input_from": "input"
+            },
+            " m; θ = ":{},
+            "roof_angle":{
+                "input_from": "input"
+            },
+            "˚":{}
+        }
+    },
     "temperature_load_locality":{
         "identifier": "For Al Jauf",
         "value_parts": {

@@ -6,7 +6,7 @@ import sys
 sys.path.append("./gen_desc/")
 sys.path.append("./libs/")
 
-from gen_desc import GenDesc
+from gen_desc.gen_desc import GenDesc
 from load_data import LoadData
 
 app_data = LoadData()
