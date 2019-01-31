@@ -1,4 +1,4 @@
-from run_properties import RunProperties
+from .run_properties import RunProperties
 
 class WindDesign:
     '''
@@ -489,6 +489,8 @@ class WindDesign:
             "\n title: " + str(self.zone_case_a) + \
             "\n title: " + str(self.zone_case_b) 
 
+            print(text)
+
     class WindMapRuns:
         '''
         c_case_a is coffiecient for case A wind
@@ -511,7 +513,7 @@ class WindDesign:
             self.title = wind_values.title
             self.theta_line = run_parts[WindDesign.THETA] \
                 + run_parts[WindDesign.EQUALS] + wind_values.roof_angle
-            self.case_a_line = run_parts[WindDesign.CASE_A] + run_parts[WindDesign.EQUALS] + c_case_a
+            self.case_a_line = run_parts[WindDesign.CASE_A] + run_parts[WindDesign.EQUALS] #+ c_case_a
             self.p_line = None
             self.case_a_zone = None
             self.case_b_line = None
@@ -522,13 +524,3 @@ class WindDesign:
         def printParts(self):
             pass
 
-    class WindCase:
-        def __init__(self, coeff, zone):
-            self.coeff = self.setCoeff(coeff)
-            self.zone = self.setZone(coeff)
-        
-        def setCoeff(self, coeff):
-            self.coeff = RunProperties(coeff, {})
-        
-        def setZone(self, zone):
-            self.zone = RunProperties(zone, {})

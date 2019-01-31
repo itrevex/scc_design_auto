@@ -1,13 +1,12 @@
 import sys
 from docx.shared import Pt
 from docx.enum.text import WD_BREAK
-sys.path.append("./libs/")
 
-from constants import Constants
-from general_methods import GeneralMethods
-from common import Common
-from run_properties import RunProperties
-from wind_design import WindDesign
+from libs.constants import Constants
+from libs.general_methods import GeneralMethods
+from .common import Common
+from .run_properties import RunProperties
+from .wind_design import WindDesign
 
 class TableValue:
     def __init__(self, app_data, document, new_input_values):
@@ -131,12 +130,14 @@ class TableValue:
         self.calcWindUnitLoad()
         self.calcWindUnitLoadKn()
 
+    @staticmethod
     def getParameter(part, key):
         try:
             return part[key]
         except KeyError:
             return ""
-        
+            
+    @staticmethod    
     def add_paragraph_run(paragraph, run_props):
         run = paragraph.add_run(run_props.text)
         run = run_props.applyRunProps(run)

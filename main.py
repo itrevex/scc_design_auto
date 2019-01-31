@@ -1,13 +1,9 @@
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_BREAK
 from docx.shared import Pt
-import sys
-
-sys.path.append("./gen_desc/")
-sys.path.append("./libs/")
 
 from gen_desc.gen_desc import GenDesc
-from load_data import LoadData
+from libs.load_data import LoadData
 
 app_data = LoadData()
 

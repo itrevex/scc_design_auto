@@ -1,5 +1,5 @@
-from doc_value import DocValue
-from table_value import TableValue
+from .doc_value import DocValue
+from .table_value import TableValue
 
 class GenDesc:
     PROJECT_NAME = "project_name"

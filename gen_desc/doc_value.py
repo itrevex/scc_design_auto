@@ -1,10 +1,8 @@
 import sys
 from docx.shared import Pt
 
-sys.path.append("./libs/")
-
-from constants import Constants
-from common import Common
+from libs.constants import Constants
+from .common import Common
 
 class DocValue:
     def __init__(self, app_data, document, new_input_values):
