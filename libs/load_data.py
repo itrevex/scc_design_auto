@@ -53,6 +53,10 @@ class LoadData:
         return json.load(open(self.getFile("assests/wind_coeffiecients.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
+    def getWindMapDefaults(self):
+        return json.load(open(self.getFile("assests/windmap_defaults.json"), encoding='utf8'), 
+            object_pairs_hook=OrderedDict)
+
     def getInputFilePath(self):
         # if called with no arguments, call app data pick file from there
         path = None

@@ -7,6 +7,8 @@ class WindDesign:
 
     #General
     PARAPET_LOAD = "parapet_load"
+    ASCE_7_10 = "asce_7_10"
+
     #Common data
     COMMON = "common"
     CASE_A = "case_a"   
@@ -55,24 +57,39 @@ class WindDesign:
     #Input values
     ROOF_ANGLE = "roof_angle"
 
-    def __init__(self,app_data, wind_load=1.0, parapet_load = "false"):
+    #WIND_MAP_DEFAULTS
+    WIND_Y_05 = "wind_y_05"
+    WIND_Y_05L = "wind_y_05L"
+    WIND_X_H = "wind_x_h"
+    WIND_X_H_2H = "wind_x_h_2h"
+    WIND_X_2H = "wind_x_2h"
+    PARAPET_SECTION = "parapet_section"
+    THETA = "theta"
+
+    def __init__(self,app_data, wind_load=1.0, parapet_load = "false", angle=0):
         self.app_data = app_data.getWindDesignDefaults()
         self.wind_load = wind_load
+        self.roof_angle = angle
         self.parapet_load = parapet_load
         self.data_common = self.app_data[WindDesign.COMMON]
         self.data_x = self.app_data[WindDesign.ALONG_X]
         self.data_y = self.app_data[WindDesign.ALONG_Y]
         self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesign.ALONG_X]
         self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesign.ALONG_Y]
+        self.windmap_defaults = app_data.getWindMapDefaults()[WindDesign.ASCE_7_10]
         
         self.zone = 804
+        self.getWindDesignValues()
+        
+        pass
+    
+    def getWindDesignValues(self):
         self.wind_x =  self.WindDesignPartsX(self)
         self.wind_y = self.WindDesignPartsY(self)
         self.wind_calc_x = self.WindCalculationsX(self)
         self.wind_calc_y = self.WindCalculationsY(self)
-        
-        pass
-    
+
+
     def resetZone(self):
         self.zone = 804
 
@@ -84,6 +101,8 @@ class WindDesign:
     
     def trials(self):
         print("Trials method called . . .")
+        for value in self.wind_calc_y.windmap_values:
+            print(value.p_case_a, value.p_case_b)
 
     class WindDesignPartsY:
         def __init__(self, wind_design):
@@ -93,6 +112,7 @@ class WindDesign:
             self.runs = []
             self.run_parts = self.getRunParts()
             self.loadCoeffiecients()
+            self.windmap_values = []
 
             #Make the paragraph runs
             self.directionalRuns()
@@ -120,7 +140,11 @@ class WindDesign:
 
             return run_parts
 
-        def windCases(self, cnw = 1, cnl = 1):
+        def windCases(self, cnw = 1, cnl = 1, title=None):
+            '''
+            Method to calculate wind cases
+            Title is used when the wind cases are calculated. See child class
+            '''
             self.runs.append(self.run_parts[WindDesign.CASE_A])
             self.runs.append(self.run_parts[WindDesign.NW])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
@@ -154,12 +178,14 @@ class WindDesign:
             '''
 
             #wind load windward_05
+            title = self.wind_design.windmap_defaults[WindDesign.WIND_Y_05]
             self.runs.append(self.run_parts[WindDesign.WINDWARD_O5])
-            self.windCases(self.cnw_05, self.cnl_05)
+            self.windCases(self.cnw_05, self.cnl_05, title)
 
             #wind load windward_05L
+            title = self.wind_design.windmap_defaults[WindDesign.WIND_Y_05L]
             self.runs.append(self.run_parts[WindDesign.WINDWARD_O5])
-            self.windCases(self.cnw_05L, self.cnl_05L)
+            self.windCases(self.cnw_05L, self.cnl_05L, title)
 
         def loadCoeffiecients(self):
             
@@ -185,6 +211,7 @@ class WindDesign:
             self.wind_factors = wind_design.wind_factors_x
             self.runs = []
             self.run_parts = self.getRunParts()
+            self.windmap_values = []
             self.loadCoeffiecients()
 
             #create doc runs
@@ -211,7 +238,7 @@ class WindDesign:
                     pass
             return run_parts
 
-        def windCases(self, case_a = 1, case_b = 1):
+        def windCases(self, case_a = 1, case_b = 1, title=None):
             self.runs.append(self.run_parts[WindDesign.CASE_A])
             self.runs.append(self.run_parts[WindDesign.N])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
@@ -244,17 +271,19 @@ class WindDesign:
 
             '''
             #wind load leeward_h
+            title = self.wind_design.windmap_defaults[WindDesign.WIND_X_H]
             self.runs.append(self.run_parts[WindDesign.WINDWARD_H])
-            self.windCases(self.h_case_a, self.h_case_b)
-
+            self.windCases(self.h_case_a, self.h_case_b, title)
 
             #wind load leeward_h_2h
+            title = self.wind_design.windmap_defaults[WindDesign.WIND_X_H_2H]
             self.runs.append(self.run_parts[WindDesign.WINDWARD_H_2H])
-            self.windCases(self.h_2h_case_a, self.h_2h_case_b)
+            self.windCases(self.h_2h_case_a, self.h_2h_case_b, title)
 
             #wind load leeward_2h
+            title = self.wind_design.windmap_defaults[WindDesign.WIND_X_2H]
             self.runs.append(self.run_parts[WindDesign.WINDWARD_2H])
-            self.windCases(self._2h_case_a, self._2h_case_b)
+            self.windCases(self._2h_case_a, self._2h_case_b, title)
 
         def loadCoeffiecients(self):
             
@@ -288,7 +317,16 @@ class WindDesign:
                     self.pn_windward, self.pn_leeward, True)
                 self.runs.extend(runs_parapets.runs)
 
-        def windCases(self, cnw = 1, cnl = 1):
+        def windCases(self, cnw = 1, cnl = 1, title=None):
+
+            p_case_a = self.wind_design.windLoad(cnw)
+            p_case_b = self.wind_design.windLoad(cnl)
+            zone_case_a = self.wind_design.zone
+
+            windmap_value = self.wind_design.WindMapValue(title, cnw, cnl, p_case_a, 
+            p_case_b, zone_case_a)
+            self.windmap_values.append(windmap_value)
+
             self.runs.append(self.run_parts[WindDesign.CASE_A_CALC])
             self.runs.append(self.run_parts[WindDesign.P])
             self.runs.append(self.run_parts[WindDesign.EQUALS])
@@ -318,11 +356,15 @@ class WindDesign:
                     self.pn_windward, self.pn_leeward, True)
                 self.runs.extend(runs_parapets.runs)
 
-        def windCases(self, c_case_a = 1, c_case_b = 1):
+        def windCases(self, c_case_a = 1, c_case_b = 1, title=None):
             p_case_a = self.wind_design.windLoad(c_case_a)
             p_case_b = self.wind_design.windLoad(c_case_b)
             zone_case_a = self.wind_design.zone
-    
+
+            windmap_value = self.wind_design.WindMapValue(title, c_case_a, c_case_b, p_case_a, 
+            p_case_b, zone_case_a)
+
+            self.windmap_values.append(windmap_value)
 
             self.runs.append(self.run_parts[WindDesign.CASE_A_CALC])
             self.runs.append(self.run_parts[WindDesign.P])
@@ -388,18 +430,29 @@ class WindDesign:
             else:
                 self.parapetCases(self.pn_windward, self.pn_leeward)
 
-    class WindValues:
-        def __init__(self):
+    class WindMapValue:
+        def __init__(self, title, c_case_a, c_case_b, p_case_a, 
+                p_case_b, zone_case_a):
             
-            self.title = ""
+            self.title = title
             self.roof_angle = None
 
-            self.c_case_a = None
-            self.c_case_b = None
-            self.p_case_a = None
-            self.p_case_b = None
-            self.zone_case_a = 0
+            self.c_case_a = c_case_a
+            self.c_case_b = c_case_b
+            self.p_case_a = p_case_a
+            self.p_case_b = p_case_b
+            self.zone_case_a = zone_case_a
             self.zone_case_b = self.zone_case_a + 1
+
+        def setCaseValues(self, c_case_a, c_case_b, p_case_a, 
+            p_case_b, zone_case_a ):
+            self.c_case_a = c_case_a
+            self.c_case_b = c_case_b
+            self.p_case_a = p_case_a
+            self.p_case_b = p_case_b
+            self.zone_case_a = zone_case_a
+            self.zone_case_b = self.zone_case_a + 1
+
 
         def setTitle(self, title):
             self.title = title
@@ -436,7 +489,7 @@ class WindDesign:
             "\n title: " + str(self.zone_case_a) + \
             "\n title: " + str(self.zone_case_b) 
 
-    class WindMapValue:
+    class WindMapRuns:
         '''
         c_case_a is coffiecient for case A wind
         c_case_b is coefficient for case B wind

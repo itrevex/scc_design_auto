@@ -17,8 +17,9 @@ class TableValue:
         self.template_table_values = app_data.getTemplateTableValues()
         self.calculateParameters()
         self.parapet_load = new_input_values[WindDesign.PARAPET_LOAD]
+        self.roof_angle = new_input_values[WindDesign.ROOF_ANGLE]
         self.wind_design = WindDesign(app_data, 
-            self.wind_unit_load_kn, self.parapet_load)
+            self.wind_unit_load_kn, self.parapet_load, self.roof_angle)
         pass
 
     def getIdenfierParagraph(self, identifier_text):
