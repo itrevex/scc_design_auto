@@ -43,4 +43,8 @@ class Constants:
     WIND_DESIGN_Y = "wind_design_y"
     WIND_DESIGN_CALC_X = "wind_design_calculation_x"
     WIND_DESIGN_CALC_Y = "wind_design_calculation_y"
+
+    #Design Codes
+    ASCE_710_ASD = "710_asd"
+    ASCE_710_LRFD = "710_lrfd"
     

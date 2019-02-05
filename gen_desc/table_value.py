@@ -79,7 +79,6 @@ class TableValue:
             return self.wind_unit_load_kn_text
 
         if (value == Constants.WIND_DESIGN_X):
-            parapet_load = self.new_input_values[WindDesign.PARAPET_LOAD]
             runs = self.wind_design.wind_x.runs
             for run in runs:
                 TableValue.add_paragraph_run(paragraph, run)

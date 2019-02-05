@@ -4,6 +4,8 @@ import os
 import sys
 from collections import OrderedDict
 
+from constants import Constants
+
 class LoadData:
     '''
     class to load all data for program
@@ -38,8 +40,11 @@ class LoadData:
         return json.load(open(self.getFile(self.path), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
-    def getDocxDocument(self):
-        return Document(self.getFile("assests/Gen-Desc.docx"))
+    def getDocxDocument(self, design_code):
+        if design_code == Constants.ASCE_710_LRFD:
+            return Document(self.getFile("assests/Gen-Desc.docx"))
+        elif design_code == Constants.ASCE_710_ASD:
+            return Document(self.getFile("assests/Gen-Desc_710_asd.docx"))
 
     def getTable27_3_1(self):
         return json.load(open(self.getFile("assests/asce/table_27_3_1.json"), encoding='utf8'), 
@@ -70,9 +75,10 @@ class LoadData:
 
     def getOutPutFile(self, name):
         try: 
-            head, tail = os.path.split(self.path)
+            head = os.path.split(self.path)[0]
             file_name = "Gen-Desc-%s.DOC" %name
             return os.path.join(head, file_name)
 
         except AttributeError:
-            Messages.showError("There is no data to use to generate output file")
+            # Messages.showError("There is no data to use to generate output file")
+            print("An error occured in getOutPutFile method")
