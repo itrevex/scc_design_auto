@@ -1,4 +1,6 @@
 __pycache__/
 assests/~$n-Desc.docx
 generated/~$n-Desc.docx
+/plot
+test.png
 *.DOC
