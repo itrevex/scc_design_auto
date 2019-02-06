@@ -1,4 +1,3 @@
-import sys
 from docx.shared import Pt
 
 from libs.constants import Constants

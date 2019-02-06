@@ -1,4 +1,3 @@
-import sys
 from docx.shared import Pt
 from docx.enum.text import WD_BREAK
 

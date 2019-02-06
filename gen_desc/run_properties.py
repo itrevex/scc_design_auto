@@ -1,8 +1,5 @@
-import sys
-sys.path.append("./libs/")
-
 from docx.enum.text import WD_BREAK
-from constants import Constants
+from libs.constants import Constants
 
 class RunProperties:
     '''

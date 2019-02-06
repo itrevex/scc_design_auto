@@ -3,6 +3,7 @@ class GeneralMethods:
     def __init__(self, app_data):
         self.app_data = app_data
 
+    @staticmethod
     def windSpeedMPerSecond(speed_km_per_s):
         '''
         1000 value of 1km in m
@@ -12,10 +13,12 @@ class GeneralMethods:
         wind_speed = (float(speed_km_per_s) * 1000) / 3600
 
         return wind_speed, "{:.2f}".format(wind_speed)
-
+    
+    @staticmethod
     def windSpeedMPerSecondText(wind_speed):
         return "{:.2f}".format(wind_speed)
 
+    @staticmethod
     def kzValueText(kz_value):
         return "{:.2f}".format(kz_value)
 
@@ -79,12 +82,15 @@ class GeneralMethods:
                     max_value = key
         
         return max_value
-
+   
+    @staticmethod
     def calcWindUnitLoad(wind_speed, kz):
         return 0.613* kz* 1.00* 0.85* wind_speed* wind_speed
-
+    
+    @staticmethod
     def windUnitLoadText(wind_unit_load):
         return "{:.2f}".format(wind_unit_load)
-
+   
+    @staticmethod
     def textFourPlaces(float_value):
         return "{:.4f}".format(float_value)
