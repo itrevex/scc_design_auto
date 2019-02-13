@@ -1,4 +1,5 @@
 from gen_desc.run_properties import RunProperties
+from gen_desc.plot.plot_windmap import PlotWindMap
 from .windmap_value import WindMapValue
 from .wind_parapets import WindParapets
 from .constants import WindDesignConsts
@@ -23,7 +24,7 @@ class WindDesign:
         
         self.zone = 804
         self.getWindDesignValues()
-        
+        # self.plotWindMap()
         pass
     
     def getWindDesignValues(self):
@@ -41,25 +42,19 @@ class WindDesign:
 
         return "{:.4f}".format(load)
     
+    def plotWindMap(self):
+        wind_texts = []
+        wind_texts.extend(self.getPlotLines(self.wind_calc_x.windmap_values))
+        wind_texts.extend(self.getPlotLines(self.wind_calc_y.windmap_values))
+
+        windmap_plot = PlotWindMap(wind_texts)
+        windmap_plot.plotMap()
+     
+    def getPlotLines(self, windmap_values):
+        wind_texts = []
+        for windmap_value in windmap_values:
+            wind_texts.append(windmap_value.plot_lines)
+        return wind_texts
+
     def trials(self):
-        print("Trials method called . . .")
-        print(self.windmap_defaults)
-        for value in self.wind_calc_y.windmap_values:
-            print(value.toString())
-    
-    def setWindMapDefaults(self, windmap_value):
-        windmap_value.setRoofAngle(self.roof_angle)
-
-        plot_lines = []
-        plot_lines.append(windmap_value.title)
-        plot_lines.append("$θ = %s˚$"%windmap_value.roof_angle)
-        plot_lines.append("$CASE A: C_N = %.1f$"%windmap_value.c_case_a)
-        plot_lines.append("$P = %skN/sq.m$"%windmap_value.p_case_a)
-        plot_lines.append("$Zone: %d$"%windmap_value.zone_case_a)
-        plot_lines.append("")
-        plot_lines.append("$CASE B: C_N = %.1f$"%windmap_value.c_case_b)
-        plot_lines.append("$Zone: %d$"%windmap_value.zone_case_a)
-
-        windmap_value.setPlotLines(plot_lines)
-        pass
-             
+        self.plotWindMap()

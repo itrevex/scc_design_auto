@@ -1,9 +1,9 @@
 class WindMapValue:
     def __init__(self, title, c_case_a, c_case_b, p_case_a, 
-            p_case_b, zone_case_a):
+            p_case_b, zone_case_a, roof_angle):
         
         self.title = title
-        self.roof_angle = None
+        self.roof_angle = roof_angle
 
         self.c_case_a = c_case_a
         self.c_case_b = c_case_b
@@ -12,6 +12,7 @@ class WindMapValue:
         self.zone_case_a = zone_case_a
         self.zone_case_b = self.zone_case_a + 1
         self.plot_lines = []
+        self.setPlotLines() 
 
     def setTitle(self, title):
         self.title = title
@@ -37,8 +38,21 @@ class WindMapValue:
     def setZoneCaseB(self, zone):
         self.zone_case_b = zone
 
-    def setPlotLines(self, plot_lines):
-        self.plot_lines = plot_lines
+    def setPlotLines(self):
+        '''
+        Sets plot lines for the windmap_value
+        '''
+    
+        self.plot_lines.append(self.title)
+        self.plot_lines.append("$θ = %s˚$"%self.roof_angle)
+        self.plot_lines.append("$CASE A: C_N = %.1f$"%self.c_case_a)
+        self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_a)
+        self.plot_lines.append("$Zone: %d$"%self.zone_case_a)
+        self.plot_lines.append("")
+        self.plot_lines.append("$CASE B: C_N = %.1f$"%self.c_case_b)
+        self.plot_lines.append("$Zone: %d$"%self.zone_case_b)
+        pass
+             
 
     def toString(self):
         text = " "
