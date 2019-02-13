@@ -5,8 +5,8 @@ import matplotlib.patches as patches
 import numpy as np
 
 #created classes
-from paper_space import PaperSpace
-from choord_change import ChoordChange
+from .paper_space import PaperSpace
+from .choord_change import ChoordChange
 
 class PlotWindMap(ChoordChange):
     '''
@@ -136,9 +136,6 @@ class PlotWindMap(ChoordChange):
     def addText(self, text, start_point):
         plt.text(start_point[0], start_point[1], text)
 
-
-plot_map = PlotWindMap()
-plot_map.plotMap()
 
 
 
