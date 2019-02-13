@@ -5,7 +5,8 @@ from libs.constants import Constants
 from libs.general_methods import GeneralMethods
 from .common import Common
 from .run_properties import RunProperties
-from .wind_design import WindDesign
+from gen_desc.wind_design.wind_design import WindDesign
+from gen_desc.wind_design.constants import WindDesignConsts
 
 class TableValue:
     def __init__(self, app_data, document, new_input_values):
@@ -14,8 +15,8 @@ class TableValue:
         self.new_input_values = new_input_values
         self.template_table_values = app_data.getTemplateTableValues()
         self.calculateParameters()
-        self.parapet_load = new_input_values[WindDesign.PARAPET_LOAD]
-        self.roof_angle = new_input_values[WindDesign.ROOF_ANGLE]
+        self.parapet_load = new_input_values[WindDesignConsts.PARAPET_LOAD]
+        self.roof_angle = new_input_values[WindDesignConsts.ROOF_ANGLE]
         self.wind_design = WindDesign(app_data, 
             self.wind_unit_load_kn, self.parapet_load, self.roof_angle)
         pass

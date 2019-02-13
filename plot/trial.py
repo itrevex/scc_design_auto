@@ -6,8 +6,9 @@ import numpy as np
 
 #created classes
 from paper_space import PaperSpace
+from choord_change import ChoordChange
 
-class PlotWindMap:
+class PlotWindMap(ChoordChange):
     '''
     assumed text height = 82 units  for 22000
     150 units for 3500
@@ -17,12 +18,13 @@ class PlotWindMap:
     '''
     MF = 1.8 #MULTIPLICATION FACTOR
     def __init__(self):
+        super().__init__()
         plt.axis('off')
         plt.figure(figsize=(16,16), dpi=100)
         self.paper_space = PaperSpace()
         self.start_point = (80 * PlotWindMap.MF, 80 * PlotWindMap.MF)
         self.container = {
-            "length": 690 * PlotWindMap.MF,
+            "length": 900 * PlotWindMap.MF,
             "height": 1020 * PlotWindMap.MF
         }
         self.setFont()
@@ -43,6 +45,7 @@ class PlotWindMap:
         axes.set_xlim(self.paper_space.x_limit)
         axes.set_ylim(self.paper_space.x_limit)
         self.drawContainers()
+        # self.drawLines()
         #save test image
         plt.axis('off')
         plt.savefig("test.png", bbox_inches='tight')
@@ -62,16 +65,57 @@ class PlotWindMap:
                 #for third value, reset x and y and change x
                 start_point[1] = self.start_point[1]
                 start_point[0]+= length + 100 * PlotWindMap.MF
-            
-            
+
+    def drawLines(self): 
+        '''
+        not being used at the time
+        '''
+        start_point = list(self.start_point)
+        length = self.container["length"]
+        height = self.container["height"] 
+        for i in range(8):
+            self.drawRectPoints(start_point, length, height)
+            self.addTexts(start_point)
+            start_point[1] += height/4
+            if i%4 == 3:
+                #for third value, reset x and y and change x
+                start_point[1] = self.start_point[1]
+                start_point[0]+= length + 100 * PlotWindMap.MF
+
+    def drawRectPoints(self, start_point, length, height):
+        '''
+           2 ___________ 3
+            |           |
+            |           |
+            |           |
+            |           |
+            |___________|
+           1             4
+
+           not being used at the time
+        '''
+        pt1 = start_point
+        pt2 = self.changeY(pt1, height)
+        pt3 = self.changeX(pt2, length)
+        pt4 = self.changeX(pt1, length)
+        # for each line you two lists
+        # line1
+        line1x, line1y = [pt1[0], pt2[0]], [pt1[1], pt2[1]]
+        line2x, line2y = [pt2[0], pt3[0]], [pt2[1], pt3[1]]
+        line3x, line3y = [pt3[0], pt4[0]], [pt3[1], pt4[1]]
+        line4x, line4y = [pt4[0], pt1[0]], [pt4[1], pt1[1]]
+
+        plt.plot(line1x, line1y, line2x, line2y, line3x, line3y, line4x, line4y)
+
+
     def plotRectData(self, start_point, length, height):
         rect = self.getRect(start_point, length, height)
         plt.gca().add_patch(rect)
 
     def addTexts(self, start_point):
-        texts = ["Fig. 27.4-4, ≤ 0.5L", "θ = 0˚", 
-            "CASE A: CN = -0.8", "P = -0.6005 kN/sq.m", "Zone: 804",
-            "", "CASE B: CN = 0.8", "Zone: 805"]
+        texts = ["$Fig. 27.4-4, ≤ 0.5L$", "$θ = 0˚$", 
+            "$CASE A: C_N = -0.8$", "$P = -0.6005 kN/sq.m$", "$Zone: 804$",
+            "", "$CASE B: C_N = 0.8$", "$Zone: 805$"]
         step = 120 * PlotWindMap.MF
         pt = start_point
         # pt = [i + (40 * PlotWindMap.MF) for i in start_point]
