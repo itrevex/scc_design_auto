@@ -5,6 +5,8 @@ from .wind_y import WindDesignPartsY
 from gen_desc.wind_design.windmap_value import WindMapValue
 
 class WindCalculationsY(WindDesignPartsY): 
+    NL = "{NL}"
+    NW = "{NW}"
     def __init__(self,  wind_design):
         super().__init__(wind_design)
         pass
@@ -22,8 +24,14 @@ class WindCalculationsY(WindDesignPartsY):
         p_case_b = self.wind_design.windLoad(cnl)
         zone_case_a = self.wind_design.zone
 
+        prefix = WindCalculationsY.NL
+
+        if self.direction == 'pos':
+            prefix = WindCalculationsY.NW
+
         windmap_value = WindMapValue(title, cnw, cnl, p_case_a, 
-        p_case_b, zone_case_a, self.wind_design.roof_angle)
+        p_case_b, zone_case_a, self.wind_design.roof_angle, prefix)
+        
 
         self.windmap_values.append(windmap_value)
 

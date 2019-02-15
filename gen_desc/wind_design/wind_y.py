@@ -61,10 +61,12 @@ class WindDesignPartsY:
 
     def directionalRuns(self):
         #Runs in positive direction
+        self.direction = 'pos' #communicates direction being updated
         self.runs.append(self.run_parts[WindDesignConsts.TITLE])
         self.runsInDirection()
 
         #Runs in negative direction
+        self.direction = 'neg'
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         self.runsInDirection()
 

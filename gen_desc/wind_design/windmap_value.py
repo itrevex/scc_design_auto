@@ -1,6 +1,6 @@
 class WindMapValue:
     def __init__(self, title, c_case_a, c_case_b, p_case_a, 
-            p_case_b, zone_case_a, roof_angle):
+            p_case_b, zone_case_a, roof_angle, coeff_prefix="N"):
         
         self.title = title
         self.roof_angle = roof_angle
@@ -11,6 +11,7 @@ class WindMapValue:
         self.p_case_b = p_case_b
         self.zone_case_a = zone_case_a
         self.zone_case_b = self.zone_case_a + 1
+        self.coeff_prefix = coeff_prefix
         self.plot_lines = []
         self.setPlotLines() 
 
@@ -38,6 +39,9 @@ class WindMapValue:
     def setZoneCaseB(self, zone):
         self.zone_case_b = zone
 
+    def setCoeffPrefix(self, prefix):
+        self.coeff_prefix = prefix
+        
     def setPlotLines(self):
         '''
         Sets plot lines for the windmap_value
@@ -45,11 +49,11 @@ class WindMapValue:
     
         self.plot_lines.append(self.title)
         self.plot_lines.append("$θ = %s˚$"%self.roof_angle)
-        self.plot_lines.append("$CASE A: C_N = %.1f$"%self.c_case_a)
+        self.plot_lines.append("$CASE A: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_a))
         self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_a)
         self.plot_lines.append("$Zone: %d$"%self.zone_case_a)
         self.plot_lines.append("")
-        self.plot_lines.append("$CASE B: C_N = %.1f$"%self.c_case_b)
+        self.plot_lines.append("$CASE B: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_b))
         self.plot_lines.append("$Zone: %d$"%self.zone_case_b)
         pass
              
