@@ -2,7 +2,7 @@ from gen_desc.run_properties import RunProperties
 from .constants import WindDesignConsts
 from .wind_parapets import WindParapets
 from .wind_y import WindDesignPartsY
-from gen_desc.wind_design.windmap_value import WindMapValue
+from .windmap_value import WindMapValue
 
 class WindCalculationsY(WindDesignPartsY): 
     NL = "{NL}"
