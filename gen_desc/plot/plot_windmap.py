@@ -19,9 +19,10 @@ class PlotWindMap(ChoordChange):
     IMAGE_PATH = "WINDMAP.JPG"
 
     MF = 1.8 #MULTIPLICATION FACTOR
-    def __init__(self, wind_values):
+    def __init__(self, wind_values, app_data):
         super().__init__()
         plt.axis('off')
+        self.app_data = app_data
         plt.figure(figsize=(16,16), dpi=100)
         self.paper_space = PaperSpace()
         self.start_point = (80 * PlotWindMap.MF, 80 * PlotWindMap.MF)
@@ -52,7 +53,7 @@ class PlotWindMap(ChoordChange):
         # self.drawLines()
         #save test image
         plt.axis('off')
-        plt.savefig(PlotWindMap.IMAGE_PATH, bbox_inches='tight')
+        plt.savefig(self.app_data.getWindMapImagePath(), bbox_inches='tight')
         # plt.show()
         pass
 
@@ -67,7 +68,7 @@ class PlotWindMap(ChoordChange):
             plt.gca().add_patch(rect)
             self.addTexts(start_point, text)
             start_point[1] += height/4
-            if i%4 == 3:
+            if i%5 == 4:
                 #for third value, reset x and y and change x
                 start_point[1] = self.start_point[1]
                 start_point[0]+= length + 100 * PlotWindMap.MF

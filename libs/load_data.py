@@ -69,7 +69,7 @@ class LoadData:
             path = self.getFile(sys.argv[1])
             
         else:
-            path = self.getFile(os.getenv('LOCALAPPDATA') + "\Trevexs SSC\data\sample1.trsc")
+            path = self.getFile(os.getenv('LOCALAPPDATA') + "\\Trevexs SSC\\data\\sample1.trsc")
         
         return path
 
@@ -77,6 +77,16 @@ class LoadData:
         try: 
             head = os.path.split(self.path)[0]
             file_name = "Gen-Desc-%s.DOC" %name
+            return os.path.join(head, file_name)
+
+        except AttributeError:
+            # Messages.showError("There is no data to use to generate output file")
+            print("An error occured in getOutPutFile method")
+
+    def getWindMapImagePath(self):
+        try: 
+            head = os.path.split(self.path)[0]
+            file_name = "WINDMAP.JPG"
             return os.path.join(head, file_name)
 
         except AttributeError:

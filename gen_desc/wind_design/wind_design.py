@@ -7,7 +7,7 @@ from .wind_calc_y import WindCalculationsY
 
 class WindDesign:
  
-    def __init__(self,app_data, wind_load=1.0, parapet_load = "false", angle=0):
+    def __init__(self, app_data, wind_load=1.0, parapet_load = "false", angle=0):
         self.app_data = app_data.getWindDesignDefaults()
         self.wind_load = wind_load
         self.roof_angle = angle
@@ -21,7 +21,7 @@ class WindDesign:
         
         self.zone = 804
         self.getWindDesignValues()
-        self.plotWindMap()
+        self.plotWindMap(app_data)
         pass
     
     def getWindDesignValues(self):
@@ -39,12 +39,12 @@ class WindDesign:
 
         return "{:.4f}".format(load)
     
-    def plotWindMap(self):
+    def plotWindMap(self, app_data):
         wind_texts = []
         wind_texts.extend(self.getPlotLines(self.wind_calc_x.windmap_values))
         wind_texts.extend(self.getPlotLines(self.wind_calc_y.windmap_values))
 
-        windmap_plot = PlotWindMap(wind_texts)
+        windmap_plot = PlotWindMap(wind_texts, app_data)
         windmap_plot.plotMap()
      
     def getPlotLines(self, windmap_values):
@@ -56,4 +56,5 @@ class WindDesign:
     def trials(self):
         # for value in self.wind_calc_x.windmap_values:
         #     print(value.toString())
-        self.plotWindMap()
+        # self.plotWindMap()
+        pass
