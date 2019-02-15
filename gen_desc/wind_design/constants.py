@@ -66,5 +66,5 @@ class WindDesignConsts:
 
     #WIMDMAP PARAPET CONSTANTS
     WINDWARD_PARAPET_TITLE = "Windward parapet"
-    LEEWARD_PARAPET_TITLE = "Windward parapet"
+    LEEWARD_PARAPET_TITLE = "Leeward parapet"
     PARAPET_SECTION_TITLE = "Sec. 27.4.5"

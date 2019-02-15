@@ -12,8 +12,10 @@ class WindParapets:
         self.pn_leeward = pn_leeward
         self.calcs = calcs
         self.windmap_values = windmap_values
-        self.runs = [RunProperties("", { "end_of_line": "true"})]
+        self.runs = [] 
         self.runsParapet()
+        #add space at the end of the parapet load
+        self.runs.append(RunProperties("", { "end_of_line": "true"}))
         self.windvalues = []
         
     def parapetCases(self, pn_windward, pn_leeward, calcs = False):

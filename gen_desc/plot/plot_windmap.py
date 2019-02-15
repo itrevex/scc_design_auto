@@ -27,7 +27,7 @@ class PlotWindMap(ChoordChange):
         self.start_point = (80 * PlotWindMap.MF, 80 * PlotWindMap.MF)
         self.container = {
             "length": 900 * PlotWindMap.MF,
-            "height": 1020 * PlotWindMap.MF
+            "height": 127.5 * PlotWindMap.MF
         }
         self.setFont()
         self.wind_values = wind_values
@@ -59,8 +59,10 @@ class PlotWindMap(ChoordChange):
     def drawContainers(self):
         start_point = list(self.start_point)
         length = self.container["length"]
-        height = self.container["height"]
+        
         for i, text in enumerate(self.wind_values):
+            height = self.container["height"] * len(text)
+            # print(len(text), height, start_point)
             rect = self.getRect(start_point, length, height)
             plt.gca().add_patch(rect)
             self.addTexts(start_point, text)

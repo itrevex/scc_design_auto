@@ -14,7 +14,6 @@ class WindDesignPartsY:
 
         #Make the paragraph runs
         self.directionalRuns()
-        self.addParapetRuns()
         
     def addParapetRuns(self):
         if (self.wind_design.parapet_load == "true"):
@@ -86,7 +85,8 @@ class WindDesignPartsY:
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_Y_05L]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_O5])
         self.windCases(self.cnw_05L, self.cnl_05L, title)
-
+        self.addParapetRuns()
+        
     def loadCoeffiecients(self):
         
         factors_05 = self.wind_factors[WindDesignConsts.WINDWARD_O5]

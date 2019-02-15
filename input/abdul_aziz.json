@@ -9,7 +9,7 @@
     "height_above_ground_level_in_m": "7.6",
     "roof_angle": "0",
     "temprature_load": "37.5",
-    "parapet_load": "true",
+    "parapet_load": "false",
     "roof_x_length": "",
     "roof_y_length": ""
 }

@@ -21,7 +21,7 @@ class WindDesign:
         
         self.zone = 804
         self.getWindDesignValues()
-        # self.plotWindMap()
+        self.plotWindMap()
         pass
     
     def getWindDesignValues(self):

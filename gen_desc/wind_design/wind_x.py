@@ -14,7 +14,7 @@ class WindDesignPartsX:
 
         #create doc runs
         self.directionalRuns()
-        self.addParapetRuns()
+        
         
     def addParapetRuns(self):
         if (self.wind_design.parapet_load == "true"):
@@ -57,7 +57,7 @@ class WindDesignPartsX:
         #Runs in positive direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE])
         self.runsInDirection()
-
+        
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         self.runsInDirection()
@@ -82,7 +82,8 @@ class WindDesignPartsX:
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_2H]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
         self.windCases(self._2h_case_a, self._2h_case_b, title)
-
+        self.addParapetRuns()
+        
     def loadCoeffiecients(self):
         
         factors_h = self.wind_factors[WindDesignConsts.WINDWARD_H]
