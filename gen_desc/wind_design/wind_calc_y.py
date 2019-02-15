@@ -15,8 +15,8 @@ class WindCalculationsY(WindDesignPartsY):
         if (self.wind_design.parapet_load == "true"):
             # self.runsParapet()
             runs_parapets = WindParapets(self.wind_design, self.run_parts, 
-                self.pn_windward, self.pn_leeward, True)
-            self.runs.extend(runs_parapets.runs)
+                self.pn_windward, self.pn_leeward, True, self.windmap_values)
+            self.runs.extend(runs_parapets.runs) 
 
     def windCases(self, cnw = 1, cnl = 1, title=None):
 

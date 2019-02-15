@@ -63,3 +63,8 @@ class WindDesignConsts:
     WIND_X_2H = "wind_x_2h"
     PARAPET_SECTION = "parapet_section"
     THETA = "theta"
+
+    #WIMDMAP PARAPET CONSTANTS
+    WINDWARD_PARAPET_TITLE = "Windward parapet"
+    LEEWARD_PARAPET_TITLE = "Windward parapet"
+    PARAPET_SECTION_TITLE = "Sec. 27.4.5"

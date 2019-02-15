@@ -47,7 +47,7 @@ class WindMapValue:
         Sets plot lines for the windmap_value
         '''
     
-        self.plot_lines.append(self.title)
+        self.plot_lines.append("$%s$"%self.title)
         self.plot_lines.append("$θ = %s˚$"%self.roof_angle)
         self.plot_lines.append("$CASE A: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_a))
         self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_a)

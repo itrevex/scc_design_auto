@@ -1,7 +1,4 @@
-from gen_desc.run_properties import RunProperties
 from gen_desc.plot.plot_windmap import PlotWindMap
-from .windmap_value import WindMapValue
-from .wind_parapets import WindParapets
 from .constants import WindDesignConsts
 from .wind_x import WindDesignPartsX
 from .wind_y import WindDesignPartsY
@@ -57,4 +54,6 @@ class WindDesign:
         return wind_texts
 
     def trials(self):
+        # for value in self.wind_calc_x.windmap_values:
+        #     print(value.toString())
         self.plotWindMap()

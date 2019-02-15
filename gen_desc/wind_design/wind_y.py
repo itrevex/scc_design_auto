@@ -20,7 +20,7 @@ class WindDesignPartsY:
         if (self.wind_design.parapet_load == "true"):
             # self.runsParapet()
             runs_parapets = WindParapets(self.wind_design, self.run_parts, 
-                self.pn_windward, self.pn_leeward)
+                self.pn_windward, self.pn_leeward) 
             self.runs.extend(runs_parapets.runs)
         
     def getRunParts(self):

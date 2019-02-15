@@ -17,8 +17,8 @@ class WindParapetValue:
         Sets plot lines for the windmap_value
         '''
     
-        self.plot_lines.append(self.title)
-        self.plot_lines.append(self.subtitle)
+        self.plot_lines.append("$%s$"%self.title)
+        self.plot_lines.append("$%s$"%self.subtitle)
         self.plot_lines.append("$GC_pn = +%.1f$"%self.coeff)
         self.plot_lines.append("$P = %skN/sq.m$"%self.p)
         self.plot_lines.append("$Zone: %d$"%self.zone)
