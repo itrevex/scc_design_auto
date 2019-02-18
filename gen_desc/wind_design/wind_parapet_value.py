@@ -7,7 +7,18 @@ class WindParapetValue:
         self.p = p
         self.zone = zone
         self.plot_lines = []
+        self.zone_ps = {} # put for clarity
         self.setPlotLines() 
+        self.setZonePValues()
+        
+    def setZonePValues(self):
+        '''
+        Store zone: p value dictionary.
+        This will be used to create list of zones used when making 
+        loadings dxf
+        '''
+
+        self.zone_ps[self.zone] = self.p
 
     def setTitle(self, title):
         self.title = title

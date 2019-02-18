@@ -21,7 +21,7 @@ class WindDesign:
         
         self.zone = 804
         self.getWindDesignValues()
-        self.plotWindMap(app_data)
+        # self.plotWindMap(app_data)
         pass
     
     def getWindDesignValues(self):
@@ -54,7 +54,22 @@ class WindDesign:
         return wind_texts
 
     def trials(self):
-        # for value in self.wind_calc_x.windmap_values:
-        #     print(value.toString())
-        # self.plotWindMap()
         pass
+        
+    def printWindMaps(self):
+        values_x = self.getZonePValues(self.wind_calc_x)
+        values_y = self.getZonePValues(self.wind_calc_y)
+        zone_p_values = { **values_x, **values_y }
+        p_values = set(zone_p_values.values())
+        # print(zone_p_values)
+        for value in p_values:
+            value_zones = [zone for zone in zone_p_values.keys() if value in zone_p_values[zone]]
+            print (value, value_zones)
+        pass
+
+    def getZonePValues(self, wind_calc):
+        zone_p_values = {} 
+        for value in wind_calc.windmap_values:
+            zone_p_values.update(value.zone_ps)
+
+        return zone_p_values

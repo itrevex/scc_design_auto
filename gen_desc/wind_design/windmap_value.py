@@ -13,7 +13,18 @@ class WindMapValue:
         self.zone_case_b = self.zone_case_a + 1
         self.coeff_prefix = coeff_prefix
         self.plot_lines = []
+        self.zone_ps = {}
         self.setPlotLines() 
+        self.setZonePValues()
+
+    def setZonePValues(self):
+        '''
+        Store zone: p value dictionary.
+        This will be used to create list of zones used when making 
+        loadings dxf
+        '''
+        self.zone_ps[self.zone_case_a] = self.p_case_a
+        self.zone_ps[self.zone_case_b] = self.p_case_b
 
     def setTitle(self, title):
         self.title = title
@@ -46,7 +57,7 @@ class WindMapValue:
         '''
         Sets plot lines for the windmap_value
         '''
-    
+     
         self.plot_lines.append("$%s$"%self.title)
         self.plot_lines.append("$θ = %s˚$"%self.roof_angle)
         self.plot_lines.append("$CASE A: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_a))
