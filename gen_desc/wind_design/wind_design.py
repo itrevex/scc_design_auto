@@ -22,6 +22,7 @@ class WindDesign:
         
         self.zone = 804
         self.getWindDesignValues()
+        self.printWindMaps()
         self.plotWindMap(app_data)
         pass
     
@@ -59,6 +60,7 @@ class WindDesign:
         pass
         
     def printWindMaps(self):
+        print("Writing loads to a file . . .")
         values_x = self.getZonePValues(self.wind_calc_x)
         values_y = self.getZonePValues(self.wind_calc_y)
         zone_p_values = { **values_x, **values_y }
