@@ -8,13 +8,14 @@ from .wind_calc_y import WindCalculationsY
 class WindDesign:
  
     def __init__(self, app_data, wind_load=1.0, parapet_load = "false", angle=0):
-        self.app_data = app_data.getWindDesignDefaults()
+        self.wind_defaults = app_data.getWindDesignDefaults()
+        self.app_data = app_data
         self.wind_load = wind_load
         self.roof_angle = angle
         self.parapet_load = parapet_load
-        self.data_common = self.app_data[WindDesignConsts.COMMON]
-        self.data_x = self.app_data[WindDesignConsts.ALONG_X]
-        self.data_y = self.app_data[WindDesignConsts.ALONG_Y]
+        self.data_common = self.wind_defaults[WindDesignConsts.COMMON]
+        self.data_x = self.wind_defaults[WindDesignConsts.ALONG_X]
+        self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y]
         self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_X]
         self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_Y]
         self.windmap_defaults = app_data.getWindMapDefaults()[WindDesignConsts.ASCE_7_10]
@@ -54,17 +55,26 @@ class WindDesign:
         return wind_texts
 
     def trials(self):
+        self.printWindMaps()
         pass
         
     def printWindMaps(self):
         values_x = self.getZonePValues(self.wind_calc_x)
         values_y = self.getZonePValues(self.wind_calc_y)
         zone_p_values = { **values_x, **values_y }
-        p_values = set(zone_p_values.values())
+        p_values = sorted(set(zone_p_values.values()), key=float)
         # print(zone_p_values)
+        loads_file = self.app_data.getLoadsFile()
+
         for value in p_values:
             value_zones = [zone for zone in zone_p_values.keys() if value in zone_p_values[zone]]
+            loads_file.write(value)
+            loads_file.write("\n"+",".join(str(x) for x in value_zones))
+            loads_file.write("\n\n")
             print (value, value_zones)
+
+        #close file after using it
+        loads_file.close()
         pass
 
     def getZonePValues(self, wind_calc):

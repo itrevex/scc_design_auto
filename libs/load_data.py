@@ -82,7 +82,20 @@ class LoadData:
         except AttributeError:
             # Messages.showError("There is no data to use to generate output file")
             print("An error occured in getOutPutFile method")
-
+    def getLoadsFile(self):
+        '''
+        opens file, remmember to close file after file has
+        opened
+        '''
+        try:
+            head = os.path.split(self.path)[0]
+            file_name = "loads.txt"
+            path = os.path.join(head, file_name)
+            return open(path, 'w+')
+        except AttributeError:
+            # Messages.showError("There is no data to use to generate output file")
+            print("An error occured while creating loads file")
+        
     def getWindMapImagePath(self):
         try: 
             head = os.path.split(self.path)[0]
