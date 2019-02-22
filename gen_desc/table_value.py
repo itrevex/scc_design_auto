@@ -17,9 +17,17 @@ class TableValue:
         self.calculateParameters()
         self.parapet_load = new_input_values[WindDesignConsts.PARAPET_LOAD]
         self.roof_angle = new_input_values[WindDesignConsts.ROOF_ANGLE]
-        self.wind_design = WindDesign(app_data, 
-            self.wind_unit_load_kn, self.parapet_load, self.roof_angle)
+        self.wind_design = WindDesign(app_data, self.getWindDesignProps())
+        
         pass
+
+    def getWindDesignProps(self):
+        wind_design_props = {}
+        wind_design_props["parapet_load"] = self.parapet_load
+        wind_design_props["roof_angle"] = self.roof_angle
+        wind_design_props["wind_load"] = self.wind_unit_load_kn
+
+        return wind_design_props
 
     def getIdenfierParagraph(self, identifier_text):
         '''

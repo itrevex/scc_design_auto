@@ -74,11 +74,13 @@ class WindDesignPartsX:
         self.windCases(self.h_case_a, self.h_case_b, title)
 
         #wind load leeward_h_2h
+        #show if 2*h => x_length
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_H_2H]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
         self.windCases(self.h_2h_case_a, self.h_2h_case_b, title)
 
         #wind load leeward_2h
+        #show if 2*h > x_length
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_2H]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
         self.windCases(self._2h_case_a, self._2h_case_b, title)

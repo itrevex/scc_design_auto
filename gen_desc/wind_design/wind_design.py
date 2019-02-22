@@ -7,12 +7,12 @@ from .wind_calc_y import WindCalculationsY
 
 class WindDesign:
  
-    def __init__(self, app_data, wind_load=1.0, parapet_load = "false", angle=0):
+    def __init__(self, app_data, props):
         self.wind_defaults = app_data.getWindDesignDefaults()
         self.app_data = app_data
-        self.wind_load = wind_load
-        self.roof_angle = angle
-        self.parapet_load = parapet_load
+        self.wind_load = props["wind_load"]
+        self.roof_angle = props["roof_angle"]
+        self.parapet_load = props["parapet_load"]
         self.data_common = self.wind_defaults[WindDesignConsts.COMMON]
         self.data_x = self.wind_defaults[WindDesignConsts.ALONG_X]
         self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y]
@@ -73,7 +73,6 @@ class WindDesign:
             loads_file.write(value)
             loads_file.write("\n"+",".join(str(x) for x in value_zones))
             loads_file.write("\n\n")
-            print (value, value_zones)
 
         #close file after using it
         loads_file.close()
