@@ -65,7 +65,6 @@ class RunProperties:
             run.font.superscript = True
         if (self.end_of_line):
             run.add_break(WD_BREAK.LINE)
-        return run;
-
+        return run
 
     
