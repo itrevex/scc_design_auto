@@ -6,4 +6,8 @@ REM py -3.7-64 -m PyInstaller main.spec
 REM git remote add backup "C:\Users\treve\Dropbox\projects\gen_desc"
 REM git config --local --bool core.bare false
 REM py -3.7-64 plot/trial.py 
-py -3.7-64 main.py "project/project.json"
+REM py -3.7-64 main.py "project/project.json"
+REM iscc "setup/design_auto.iss"
+"setup/setups/ssc_design_setup-1.0.2"
+REM "dist/main/trsc"
+REM py -3.7-64 -m pip freeze rem show all packages installed 
