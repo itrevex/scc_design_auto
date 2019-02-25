@@ -68,7 +68,7 @@ class PlotWindMap(ChoordChange):
             plt.gca().add_patch(rect)
             self.addTexts(start_point, text)
             start_point[1] += height/4
-            if i%5 == 4:
+            if i%4 == 3:
                 #for third value, reset x and y and change x
                 start_point[1] = self.start_point[1]
                 start_point[0]+= length + 100 * PlotWindMap.MF

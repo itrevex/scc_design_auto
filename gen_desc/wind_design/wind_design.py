@@ -68,12 +68,11 @@ class WindDesign:
         # print(zone_p_values)
         loads_file = self.app_data.getLoadsFile()
 
-        for value in p_values:
-            value_zones = [zone for zone in zone_p_values.keys() if value in zone_p_values[zone]]
-            loads_file.write(value)
+        for value in reversed(p_values):
+            value_zones = [zone for zone in zone_p_values.keys() if value == zone_p_values[zone]]
+            loads_file.write(str(value))
             loads_file.write("\n"+",".join(str(x) for x in value_zones))
             loads_file.write("\n\n")
-
         #close file after using it
         loads_file.close()
         pass

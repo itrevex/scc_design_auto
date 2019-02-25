@@ -18,7 +18,7 @@ class WindParapetValue:
         loadings dxf
         '''
 
-        self.zone_ps[self.zone] = self.p
+        self.zone_ps[self.zone] = float(self.p)
 
     def setTitle(self, title):
         self.title = title

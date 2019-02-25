@@ -23,8 +23,8 @@ class WindMapValue:
         This will be used to create list of zones used when making 
         loadings dxf
         '''
-        self.zone_ps[self.zone_case_a] = self.p_case_a
-        self.zone_ps[self.zone_case_b] = self.p_case_b
+        self.zone_ps[self.zone_case_a] = float(self.p_case_a)
+        self.zone_ps[self.zone_case_b] = float(self.p_case_b)
 
     def setTitle(self, title):
         self.title = title
@@ -65,6 +65,7 @@ class WindMapValue:
         self.plot_lines.append("$Zone: %d$"%self.zone_case_a)
         self.plot_lines.append("")
         self.plot_lines.append("$CASE B: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_b))
+        self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_b)
         self.plot_lines.append("$Zone: %d$"%self.zone_case_b)
         pass
              
