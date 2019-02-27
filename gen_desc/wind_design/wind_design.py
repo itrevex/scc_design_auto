@@ -7,19 +7,19 @@ from .wind_calc_y import WindCalculationsY
 
 class WindDesign:
  
-    def __init__(self, app_data, props):
+    def __init__(self, app_data, props, wind_load):
         self.wind_defaults = app_data.getWindDesignDefaults()
         self.app_data = app_data
-        self.wind_load = props["wind_load"]
-        self.roof_angle = props["roof_angle"]
-        self.parapet_load = props["parapet_load"]
+        self.wind_load = wind_load
+        self.roof_angle = props[WindDesignConsts.ROOF_ANGLE]
+        self.parapet_load = props[WindDesignConsts.PARAPET_LOAD]
+        self.props = props
         self.data_common = self.wind_defaults[WindDesignConsts.COMMON]
         self.data_x = self.wind_defaults[WindDesignConsts.ALONG_X]
         self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y]
         self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_X]
         self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_Y]
         self.windmap_defaults = app_data.getWindMapDefaults()[WindDesignConsts.ASCE_7_10]
-        
         self.zone = 804
         self.getWindDesignValues()
         self.printWindMaps()

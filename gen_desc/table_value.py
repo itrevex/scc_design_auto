@@ -9,24 +9,25 @@ from gen_desc.wind_design.wind_design import WindDesign
 from gen_desc.wind_design.constants import WindDesignConsts
 
 class TableValue:
+    WIND_LOAD = "wind_load"
+    PARAPET_LOAD = "parapet_load"
+    ROOF_ANGLE = "roof_angle"
+    LENGTH_X = "length_x"
+    LENGTH_Y = "length_y"
+    HEIGHT = "height"
+
     def __init__(self, app_data, document, new_input_values):
         self.app_data = app_data
         self.document = document
         self.new_input_values = new_input_values
         self.template_table_values = app_data.getTemplateTableValues()
         self.calculateParameters()
-        self.parapet_load = new_input_values[WindDesignConsts.PARAPET_LOAD]
-        self.roof_angle = new_input_values[WindDesignConsts.ROOF_ANGLE]
-        self.wind_design = WindDesign(app_data, self.getWindDesignProps())
+        self.wind_design = WindDesign(app_data, new_input_values, self.wind_unit_load_kn)
         
         pass
 
     def getWindDesignProps(self):
         wind_design_props = {}
-        wind_design_props["parapet_load"] = self.parapet_load
-        wind_design_props["roof_angle"] = self.roof_angle
-        wind_design_props["wind_load"] = self.wind_unit_load_kn
-
         return wind_design_props
 
     def getIdenfierParagraph(self, identifier_text):

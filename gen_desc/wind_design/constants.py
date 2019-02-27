@@ -4,9 +4,11 @@ class WindDesignConsts:
     '''
 
     #General
-    PARAPET_LOAD = "parapet_load"
     ASCE_7_10 = "asce_7_10"
 
+    #Multiplication factors
+    ONE_M_IN_MM = 1000.
+    
     #Common data
     COMMON = "common"
     CASE_A = "case_a"   
@@ -54,6 +56,11 @@ class WindDesignConsts:
 
     #Input values
     ROOF_ANGLE = "roof_angle"
+    PARAPET_LOAD = "parapet_load"
+    LENGTH_X = "roof_x_length"
+    LENGTH_Y = "roof_y_length"
+    HEIGHT = "height_above_ground_level_in_m"
+
 
     #WIND_MAP_DEFAULTS
     WIND_Y_05 = "wind_y_05"

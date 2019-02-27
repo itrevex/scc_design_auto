@@ -11,6 +11,9 @@ class WindDesignPartsX:
         self.run_parts = self.getRunParts()
         self.windmap_values = []
         self.loadCoeffiecients()
+        self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
+            * WindDesignConsts.ONE_M_IN_MM
+        self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
 
         #create doc runs
         self.directionalRuns()
@@ -75,15 +78,18 @@ class WindDesignPartsX:
 
         #wind load leeward_h_2h
         #show if 2*h => x_length
-        title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_H_2H]
-        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
-        self.windCases(self.h_2h_case_a, self.h_2h_case_b, title)
+        if self.length_x > self.height:
+            title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_H_2H]
+            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
+            self.windCases(self.h_2h_case_a, self.h_2h_case_b, title)
 
         #wind load leeward_2h
         #show if 2*h > x_length
-        title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_2H]
-        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
-        self.windCases(self._2h_case_a, self._2h_case_b, title)
+        if self.length_x > 2 * self.height:
+            title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_2H]
+            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+            self.windCases(self._2h_case_a, self._2h_case_b, title)
+
         self.addParapetRuns()
         
     def loadCoeffiecients(self):

@@ -11,7 +11,7 @@ app_data = LoadData()
 if __name__ == "__main__":
     gen_desc = GenDesc(app_data)
     gen_desc.saveNewDocument()
-    Messages.continuePrompt("Press any key to continue . . .")
+    # Messages.continuePrompt("Press any key to continue . . .")
     # gen_desc.trialMethod()
     pass
 
