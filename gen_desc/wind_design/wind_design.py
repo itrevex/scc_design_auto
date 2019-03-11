@@ -23,7 +23,7 @@ class WindDesign:
         self.zone = 804
         self.getWindDesignValues()
         self.printWindMaps()
-        # self.plotWindMap(app_data)
+        self.plotWindMap(app_data)
         pass
     
     def getWindDesignValues(self):
