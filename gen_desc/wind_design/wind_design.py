@@ -45,8 +45,6 @@ class WindDesign:
         wind_texts = []
         wind_texts.extend(self.getPlotLines(self.wind_calc_x.windmap_values))
         wind_texts.extend(self.getPlotLines(self.wind_calc_y.windmap_values))
-        for value in self.wind_calc_x.windmap_values:
-            print(value.toString())
 
         windmap_plot = PlotWindMap(wind_texts, app_data)
         windmap_plot.plotMap()
