@@ -5,8 +5,8 @@ class PaperSpace:
     y_limit is similar to x limit but in y
     '''
     def __init__(self):
-        self.x_limit = (0, 10000)
-        self.y_limit = (0, 10000)
+        self.x_limit = (0, 5)
+        self.y_limit = (0, 5)
         pass
 
 

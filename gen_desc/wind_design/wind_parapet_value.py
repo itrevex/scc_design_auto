@@ -27,8 +27,8 @@ class WindParapetValue:
         '''
         Sets plot lines for the windmap_value
         '''
-    
-        self.plot_lines.append("$%s$"%self.title)
+        titles = self.title.split(" ")
+        self.plot_lines.append("$%s \u2003 %s$"%(titles[0], titles[1]))
         self.plot_lines.append("$%s$"%self.subtitle)
         self.plot_lines.append("$GC_pn = +%.1f$"%self.coeff)
         self.plot_lines.append("$P = %skN/sq.m$"%self.p)

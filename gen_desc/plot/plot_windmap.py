@@ -23,12 +23,13 @@ class PlotWindMap(ChoordChange):
         super().__init__()
         plt.axis('off')
         self.app_data = app_data
-        plt.figure(figsize=(16,16), dpi=100)
+        # plt.figure(figsize=(16,16), dpi=100)
         self.paper_space = PaperSpace()
-        self.start_point = (80 * PlotWindMap.MF, 80 * PlotWindMap.MF)
+        self.start_point = (self.paper_space.x_limit[1]/70, 
+            self.paper_space.y_limit[1]/70)
         self.container = {
-            "length": 900 * PlotWindMap.MF,
-            "height": 127.5 * PlotWindMap.MF
+            "length": self.paper_space.x_limit[1]/30,
+            "height": self.paper_space.y_limit[1]/90
         }
         self.setFont()
         self.wind_values = wind_values
@@ -48,11 +49,12 @@ class PlotWindMap(ChoordChange):
         print("Creating wind map image . . .")
         axes = plt.gca()
         axes.set_xlim(self.paper_space.x_limit)
-        axes.set_ylim(self.paper_space.x_limit)
+        axes.set_ylim(self.paper_space.y_limit)
         self.drawContainers()
         # self.drawLines()
         #save test image
         plt.axis('off')
+        plt.gcf().set_size_inches(21, 18)
         plt.savefig(self.app_data.getWindMapImagePath(), bbox_inches='tight')
         # plt.show()
         pass
@@ -60,19 +62,20 @@ class PlotWindMap(ChoordChange):
     def drawContainers(self):
         start_point = list(self.start_point)
         length = self.container["length"]
-        
+        length = 0.7
+        print("length", length)
         for i, text in enumerate(self.wind_values):
-            height = self.container["height"] * len(text)
+            height = self.container["height"] * len(text)*2.0
             # print(len(text), height, start_point)
             rect = self.getRect(start_point, length, height)
             plt.gca().add_patch(rect)
             self.addTexts(start_point, text)
-            start_point[1] += height/4
+            start_point[1] += height/3
             if i%4 == 3:
                 #for third value, reset x and y and change x
                 start_point[1] = self.start_point[1]
-                start_point[0]+= length + 100 * PlotWindMap.MF
-
+                start_point[0]+= length + self.paper_space.x_limit[1]/56
+            # break
     def drawLines(self): 
         '''
         not being used at the time
@@ -87,7 +90,7 @@ class PlotWindMap(ChoordChange):
             if i%4 == 3:
                 #for third value, reset x and y and change x
                 start_point[1] = self.start_point[1]
-                start_point[0]+= length + 100 * PlotWindMap.MF
+                start_point[0]+= length + self.paper_space.x_limit[1]/56
 
     def drawRectPoints(self, start_point, length, height):
         '''
@@ -119,11 +122,11 @@ class PlotWindMap(ChoordChange):
         plt.gca().add_patch(rect)
 
     def addTexts(self, start_point, texts):
-        step = 120 * PlotWindMap.MF
+        step = self.paper_space.x_limit[1]/50
         pt = start_point
         # pt = [i + (40 * PlotWindMap.MF) for i in start_point]
-        pt[0] = start_point[0] + (40 * PlotWindMap.MF)
-        pt[1] = start_point[1] + (80 * PlotWindMap.MF)
+        pt[0] = start_point[0] + (self.paper_space.x_limit[1]/139)
+        pt[1] = start_point[1] + (self.paper_space.y_limit[1]/70)
         y = pt[1]
         for i, text in enumerate(reversed(texts)):
             pt[1] = y + step * i
@@ -136,7 +139,9 @@ class PlotWindMap(ChoordChange):
             linewidth=linewidth, edgecolor=edgecolor, facecolor=facecolor)
 
     def addText(self, text, start_point):
-        plt.text(start_point[0], start_point[1], text)
+        pt = tuple(start_point)
+        plt.annotate(text, xy=pt, xytext=pt,
+            fontsize=13)
 
 
 
