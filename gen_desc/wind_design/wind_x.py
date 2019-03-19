@@ -86,14 +86,14 @@ class WindDesignPartsX:
     def directionalRuns(self):
         #Runs in positive direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE])
-        if self.windCasesClosed:
+        if self.wind_design.enclosed:
             self.runInDirectionClosed()
         else:
             self.runsInDirection()
         
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
-        if self.windCasesClosed:
+        if self.wind_design.enclosed:
             self.runInDirectionClosed()
         else:
             self.runsInDirection()
