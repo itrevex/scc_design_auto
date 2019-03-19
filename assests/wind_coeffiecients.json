@@ -30,5 +30,15 @@
             "windward": 1.5,
             "leeward": -1.0
         }
+    },
+    "along_x_closed":{
+        "windward_1": -0.9,
+        "windward_2": -0.9,
+        "windward_3": -0.5,
+        "windward_4": -0.3,
+        "parapets": {
+            "windward": 1.5,
+            "leeward": -1.0
+        }
     }
 }

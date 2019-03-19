@@ -23,6 +23,7 @@ class WindDesignConsts:
 
     #wind design x constants
     ALONG_X = "along_x"
+    ALONG_X_CLOSED = "along_x_closed"
     TITLE = "title"
     TITLE_MINUS = "title_minus"
     WINDWARD_O5 = "windward_0.5"
@@ -31,6 +32,12 @@ class WindDesignConsts:
     LEEWARD_05_L = "leeward_0.5_L"
     NW = "nw"
     NL = "nl"
+
+    #CLOSED VALUES
+    WINDWARD_CLOSED_1 = "windward_1"
+    WINDWARD_CLOSED_2 = "windward_2"
+    WINDWARD_CLOSED_3 = "windward_3"
+    WINDWARD_CLOSED_4 = "windward_4"
     
     #wind design y constants
     ALONG_Y = "along_y"
@@ -42,6 +49,7 @@ class WindDesignConsts:
     LEEWARD_H_2H = "leeward_h_2h"
     LEEWARD_2H = "leeward_2h"
     N = "n"
+    P_SUB = "p_sub"
     WIND_FACTOR = 0.85
 
     #Parapets
@@ -71,6 +79,12 @@ class WindDesignConsts:
     WIND_X_2H = "wind_x_2h"
     PARAPET_SECTION = "parapet_section"
     THETA = "theta"
+
+    # WINDMAP DEFAULTS CLOSED
+    TITLE_CLOSED_1 = "wind_x_h2_closed"
+    TITLE_CLOSED_2 = "wind_x_h2_h_closed"
+    TITLE_CLOSED_3 = "wind_x_h_2h_closed"
+    TITLE_CLOSED_4 = "wind_x_2h_closed"
 
     #WIMDMAP PARAPET CONSTANTS
     WINDWARD_PARAPET_TITLE = "Windward parapet"

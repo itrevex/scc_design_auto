@@ -7,7 +7,10 @@ from .internal_pressure import InternalPressure
 
 class WindCalculationsX(WindDesignPartsX): 
     def __init__(self, wind_design, y_values=False):
-        wind_design.resetZone()
+
+        if y_values == False:
+            wind_design.resetZone()
+            
         super().__init__(wind_design, y_values)
         pass
     
@@ -48,4 +51,25 @@ class WindCalculationsX(WindDesignPartsX):
         self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
         self.wind_design.zone += 2
+
+    def windCasesClosed(self, cp = 1, title=None):
+
+        p_case_a = self.wind_design.windLoad(cp)
+        zone_case_a = self.wind_design.zone
+
+        windmap_value = WindMapValue(title, cp, "0", p_case_a, 
+        "0", zone_case_a, self.wind_design.roof_angle, closed=True)
+
+        self.windmap_values.append(windmap_value)
+
+        self.runs.append(self.run_parts[WindDesignConsts.CASE_A_CALC])
+        self.runs.append(self.run_parts[WindDesignConsts.P])
+        self.runs.append(self.run_parts[WindDesignConsts.EQUALS])
+        self.runs.append(RunProperties(p_case_a, {}))
+        self.runs.append(self.run_parts[WindDesignConsts.ZONE_CALC])
+        self.runs.append(RunProperties(zone_case_a, {}))
+        self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
+
+
+        self.wind_design.zone += 1
 

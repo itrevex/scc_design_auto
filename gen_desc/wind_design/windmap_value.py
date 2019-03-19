@@ -1,7 +1,8 @@
 class WindMapValue:
     def __init__(self, title, c_case_a, c_case_b, p_case_a, 
-            p_case_b, zone_case_a, roof_angle, coeff_prefix="N"):
+            p_case_b, zone_case_a, roof_angle, coeff_prefix="N", closed=False):
         
+        self.closed = closed
         self.title = title
         self.roof_angle = roof_angle
 
@@ -23,6 +24,7 @@ class WindMapValue:
         This will be used to create list of zones used when making 
         loadings dxf
         '''
+
         self.zone_ps[self.zone_case_a] = float(self.p_case_a)
         self.zone_ps[self.zone_case_b] = float(self.p_case_b)
 
@@ -64,9 +66,11 @@ class WindMapValue:
         self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_a)
         self.plot_lines.append("$Zone: %d$"%self.zone_case_a)
         self.plot_lines.append("")
-        self.plot_lines.append("$CASE B: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_b))
-        self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_b)
-        self.plot_lines.append("$Zone: %d$"%self.zone_case_b)
+
+        if (self.closed == False):
+            self.plot_lines.append("$CASE B: C_%s = %.1f$"%(self.coeff_prefix,self.c_case_b))
+            self.plot_lines.append("$P = %skN/sq.m$"%self.p_case_b)
+            self.plot_lines.append("$Zone: %d$"%self.zone_case_b)
         pass
              
 

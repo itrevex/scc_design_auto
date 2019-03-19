@@ -21,7 +21,9 @@ class WindDesign:
         self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y]
         if self.enclosed:
             self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y_CLOSED]
-        self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_X]
+            self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_X_CLOSED]
+        else:
+            self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_X]
         self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_Y]
         self.windmap_defaults = app_data.getWindMapDefaults()[WindDesignConsts.ASCE_7_10]
         self.zone = 804

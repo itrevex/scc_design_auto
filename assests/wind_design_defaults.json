@@ -90,6 +90,11 @@
             "N":{
                 "subscript": "true"
             }
+        },
+        "p_sub": {
+            "p":{
+                "subscript": "true"
+            }
         }
     },
     "along_y_closed":{
@@ -137,6 +142,11 @@
         },
         "n": {
             "N":{
+                "subscript": "true"
+            }
+        },
+        "p_sub": {
+            "p":{
                 "subscript": "true"
             }
         }

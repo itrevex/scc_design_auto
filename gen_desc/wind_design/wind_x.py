@@ -16,7 +16,12 @@ class WindDesignPartsX:
         self.runs = []
         self.run_parts = self.getRunParts()
         self.windmap_values = []
-        self.loadCoeffiecients()
+
+        if self.wind_design.enclosed:
+            self.loadCoeffiecientsClosed()
+        else:
+            self.loadCoeffiecients()
+
         self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
             * WindDesignConsts.ONE_M_IN_MM
         self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
@@ -67,16 +72,64 @@ class WindDesignPartsX:
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
         self.wind_design.zone += 2
 
+    def windCasesClosed(self, cp = 1, title=None):
+        self.runs.append(self.run_parts[WindDesignConsts.CASE_A])
+        self.runs.append(self.run_parts[WindDesignConsts.P_SUB])
+        self.runs.append(self.run_parts[WindDesignConsts.EQUALS])
+        self.runs.append(RunProperties(cp, {}))
+        self.runs.append(self.run_parts[WindDesignConsts.ZONE])
+        self.runs.append(RunProperties(self.wind_design.zone, {}))
+        self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
+        
+        self.wind_design.zone += 1
+
     def directionalRuns(self):
         #Runs in positive direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE])
-        self.runsInDirection()
+        if self.windCasesClosed:
+            self.runInDirectionClosed()
+        else:
+            self.runsInDirection()
         
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
-        self.runsInDirection()
+        if self.windCasesClosed:
+            self.runInDirectionClosed()
+        else:
+            self.runsInDirection()
         self.addInternalPressures()
         
+    def runInDirectionClosed(self):
+        '''
+        Runs in particular direction are similar.
+        Thse are similar for both negative and positive direction
+
+        '''
+        #wind load leeward_<=h/2
+        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_1]
+        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H])
+        self.windCasesClosed(self.cp_1, title)
+
+        #wind load leeward_h/2_h
+        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_2]
+        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
+        self.windCasesClosed(self.cp_2, title)
+            
+
+        #wind load leeward_h_2h
+        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_3]
+        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+        self.windCasesClosed(self.cp_3, title)
+
+        #wind load leeward_>_2h
+        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_4]
+        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+        self.windCasesClosed(self.cp_4, title)
+            
+
+        self.addParapetRuns()
+        pass
+
     def runsInDirection(self):
         '''
         Runs in particular direction are similar.
@@ -120,6 +173,18 @@ class WindDesignPartsX:
 
         self._2h_case_a = factors_2h[WindDesignConsts.CASE_A]
         self._2h_case_b = factors_2h[WindDesignConsts.CASE_B]
+
+        self.pn_windward = factors_parapets[WindDesignConsts.WINDWARD]
+        self.pn_leeward = factors_parapets[WindDesignConsts.LEEWARD]
+
+    def loadCoeffiecientsClosed(self):
+        
+        factors_parapets = self.wind_factors[WindDesignConsts.PARAPETS]
+
+        self.cp_1 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_1]
+        self.cp_2 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_2]
+        self.cp_3 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_3]
+        self.cp_4 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_4]
 
         self.pn_windward = factors_parapets[WindDesignConsts.WINDWARD]
         self.pn_leeward = factors_parapets[WindDesignConsts.LEEWARD]
