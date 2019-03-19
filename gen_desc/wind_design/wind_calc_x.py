@@ -58,7 +58,7 @@ class WindCalculationsX(WindDesignPartsX):
         zone_case_a = self.wind_design.zone
 
         windmap_value = WindMapValue(title, cp, "0", p_case_a, 
-        "0", zone_case_a, self.wind_design.roof_angle, closed=True)
+        "0", zone_case_a, self.wind_design.roof_angle, coeff_prefix="p", closed=True)
 
         self.windmap_values.append(windmap_value)
 

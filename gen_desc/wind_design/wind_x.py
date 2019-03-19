@@ -9,8 +9,11 @@ class WindDesignPartsX:
         self.template_data = wind_design.data_x
         self.wind_factors = wind_design.wind_factors_x
 
+        self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
+
         if self.wind_design.enclosed and y_values:
             self.template_data = wind_design.data_y
+            self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_Y])
             # self.wind_factors = wind_design.wind_factors_y
 
         self.runs = []
@@ -24,8 +27,8 @@ class WindDesignPartsX:
 
         self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
             * WindDesignConsts.ONE_M_IN_MM
-        self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
-
+        
+        
         #create doc runs
         self.directionalRuns()
         
@@ -105,26 +108,29 @@ class WindDesignPartsX:
         Thse are similar for both negative and positive direction
 
         '''
-        #wind load leeward_<=h/2
+        #wind load leeward <h/2
         title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_1]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H])
         self.windCasesClosed(self.cp_1, title)
-
-        #wind load leeward_h/2_h
-        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_2]
-        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
-        self.windCasesClosed(self.cp_2, title)
+        length = self.length_x
+        #wind load leeward h/2 to h
+        if length > self.height/2:
+            title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_2]
+            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
+            self.windCasesClosed(self.cp_2, title)
             
 
-        #wind load leeward_h_2h
-        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_3]
-        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
-        self.windCasesClosed(self.cp_3, title)
+        #wind load leeward h to 2h
+        if length > self.height:
+            title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_3]
+            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+            self.windCasesClosed(self.cp_3, title)
 
-        #wind load leeward_>_2h
-        title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_4]
-        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
-        self.windCasesClosed(self.cp_4, title)
+        #wind load leeward >2h
+        if length > 2 * self.height:
+            title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_4]
+            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+            self.windCasesClosed(self.cp_4, title)
             
 
         self.addParapetRuns()
