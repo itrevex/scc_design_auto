@@ -3,6 +3,7 @@ from .constants import WindDesignConsts
 from .wind_parapets import WindParapets
 from .wind_y import WindDesignPartsY
 from .windmap_value import WindMapValue
+from .internal_pressure import InternalPressure
 
 class WindCalculationsY(WindDesignPartsY): 
     NL = "{NL}"
@@ -17,6 +18,11 @@ class WindCalculationsY(WindDesignPartsY):
             runs_parapets = WindParapets(self.wind_design, self.run_parts, 
                 self.pn_windward, self.pn_leeward, True, self.windmap_values)
             self.runs.extend(runs_parapets.runs) 
+
+    def addInternalPressures(self):
+        if (self.wind_design.enclosed == 'closed'):
+            runs_parapets = InternalPressure(self.wind_design, 0.1813, True)
+            self.runs.extend(runs_parapets.runs)
 
     def windCases(self, cnw = 1, cnl = 1, title=None):
 

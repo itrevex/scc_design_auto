@@ -2,7 +2,7 @@ from gen_desc.run_properties import RunProperties
 from .wind_parapet_value import WindParapetValue
 from .constants import WindDesignConsts
 
-class WindParapets:
+class WindParapets: 
 
     def __init__(self, wind_design, run_parts, 
         pn_windward, pn_leeward, calcs = False, windmap_values=[]):

@@ -1,5 +1,6 @@
 from gen_desc.plot.plot_windmap import PlotWindMap
 from .constants import WindDesignConsts
+from libs.constants import Constants
 from .wind_x import WindDesignPartsX
 from .wind_y import WindDesignPartsY
 from .wind_calc_x import WindCalculationsX
@@ -13,6 +14,7 @@ class WindDesign:
         self.wind_load = wind_load
         self.roof_angle = props[WindDesignConsts.ROOF_ANGLE]
         self.parapet_load = props[WindDesignConsts.PARAPET_LOAD]
+        self.enclosed = props[Constants.ROOF_ENCLOSURE]
         self.props = props
         self.data_common = self.wind_defaults[WindDesignConsts.COMMON]
         self.data_x = self.wind_defaults[WindDesignConsts.ALONG_X]

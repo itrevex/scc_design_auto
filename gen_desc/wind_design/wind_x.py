@@ -1,6 +1,7 @@
 from gen_desc.run_properties import RunProperties
 from .wind_parapets import WindParapets
 from .constants import WindDesignConsts
+from .internal_pressure import InternalPressure
 
 class WindDesignPartsX:
     def __init__(self, wind_design):
@@ -25,7 +26,12 @@ class WindDesignPartsX:
             runs_parapets = WindParapets(self.wind_design, self.run_parts, 
                 self.pn_windward, self.pn_leeward)
             self.runs.extend(runs_parapets.runs)
-            
+
+    def addInternalPressures(self):
+        if (self.wind_design.enclosed == 'closed'):
+            runs_parapets = InternalPressure(self.wind_design, 0.18)
+            self.runs.extend(runs_parapets.runs)   
+
     def getRunParts(self):
         run_parts = {}
         for part_name, parts in self.template_data.items():
@@ -64,6 +70,7 @@ class WindDesignPartsX:
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         self.runsInDirection()
+        self.addInternalPressures()
         
     def runsInDirection(self):
         '''
