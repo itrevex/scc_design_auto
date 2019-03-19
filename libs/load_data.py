@@ -40,10 +40,12 @@ class LoadData:
         return json.load(open(self.getFile(self.path), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
-    def getDocxDocument(self, design_code):
+    def getDocxDocument(self, design_code, enclosure='open'):
         if design_code == Constants.ASCE_710_LRFD:
             return Document(self.getFile("assests/Gen-Desc.docx"))
         elif design_code == Constants.ASCE_710_ASD:
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return Document(self.getFile("assests/Gen-Desc_710_asd_closed.docx"))
             return Document(self.getFile("assests/Gen-Desc_710_asd.docx"))
 
     def getTable27_3_1(self):
