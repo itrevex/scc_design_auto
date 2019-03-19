@@ -14,15 +14,18 @@ class WindDesign:
         self.wind_load = wind_load
         self.roof_angle = props[WindDesignConsts.ROOF_ANGLE]
         self.parapet_load = props[WindDesignConsts.PARAPET_LOAD]
-        self.enclosed = props[Constants.ROOF_ENCLOSURE]
+        self.enclosed = props[Constants.ROOF_ENCLOSURE] == 'closed'
         self.props = props
         self.data_common = self.wind_defaults[WindDesignConsts.COMMON]
         self.data_x = self.wind_defaults[WindDesignConsts.ALONG_X]
         self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y]
+        if self.enclosed:
+            self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y_CLOSED]
         self.wind_factors_x = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_X]
         self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_Y]
         self.windmap_defaults = app_data.getWindMapDefaults()[WindDesignConsts.ASCE_7_10]
         self.zone = 804
+        
         self.getWindDesignValues()
         self.printWindMaps()
         self.plotWindMap(app_data)
@@ -30,9 +33,17 @@ class WindDesign:
     
     def getWindDesignValues(self):
         self.wind_x =  WindDesignPartsX(self)
-        self.wind_y = WindDesignPartsY(self)
+        if self.enclosed:
+            self.wind_y =  WindDesignPartsX(self, True)
+        else:
+            self.wind_y = WindDesignPartsY(self)
+
         self.wind_calc_x = WindCalculationsX(self)
-        self.wind_calc_y = WindCalculationsY(self)
+
+        if self.enclosed:
+            self.wind_calc_y = WindCalculationsX(self, True)
+        else:
+            self.wind_calc_y = WindCalculationsY(self)
 
     def resetZone(self):
         self.zone = 804

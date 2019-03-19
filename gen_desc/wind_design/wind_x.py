@@ -4,10 +4,15 @@ from .constants import WindDesignConsts
 from .internal_pressure import InternalPressure
 
 class WindDesignPartsX:
-    def __init__(self, wind_design):
+    def __init__(self, wind_design, y_values = False):
         self.wind_design = wind_design
         self.template_data = wind_design.data_x
         self.wind_factors = wind_design.wind_factors_x
+
+        if self.wind_design.enclosed and y_values:
+            self.template_data = wind_design.data_y
+            # self.wind_factors = wind_design.wind_factors_y
+
         self.runs = []
         self.run_parts = self.getRunParts()
         self.windmap_values = []
@@ -28,7 +33,7 @@ class WindDesignPartsX:
             self.runs.extend(runs_parapets.runs)
 
     def addInternalPressures(self):
-        if (self.wind_design.enclosed == 'closed'):
+        if (self.wind_design.enclosed == True):
             runs_parapets = InternalPressure(self.wind_design, 0.18)
             self.runs.extend(runs_parapets.runs)   
 

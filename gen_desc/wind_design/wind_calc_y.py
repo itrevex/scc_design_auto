@@ -20,7 +20,7 @@ class WindCalculationsY(WindDesignPartsY):
             self.runs.extend(runs_parapets.runs) 
 
     def addInternalPressures(self):
-        if (self.wind_design.enclosed == 'closed'):
+        if (self.wind_design.enclosed == True):
             runs_parapets = InternalPressure(self.wind_design, 0.1813, True)
             self.runs.extend(runs_parapets.runs)
 

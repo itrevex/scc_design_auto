@@ -34,6 +34,7 @@ class WindDesignConsts:
     
     #wind design y constants
     ALONG_Y = "along_y"
+    ALONG_Y_CLOSED = "along_y_closed"
     WINDWARD_H = "windward_h"
     WINDWARD_H_2H = "windward_h_2h"
     WINDWARD_2H = "windward_2h"

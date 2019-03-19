@@ -6,9 +6,9 @@ from .windmap_value import WindMapValue
 from .internal_pressure import InternalPressure
 
 class WindCalculationsX(WindDesignPartsX): 
-    def __init__(self, wind_design):
+    def __init__(self, wind_design, y_values=False):
         wind_design.resetZone()
-        super().__init__(wind_design)
+        super().__init__(wind_design, y_values)
         pass
     
     def addParapetRuns(self):
@@ -19,7 +19,7 @@ class WindCalculationsX(WindDesignPartsX):
             self.runs.extend(runs_parapets.runs)
 
     def addInternalPressures(self):
-        if (self.wind_design.enclosed == 'closed'):
+        if (self.wind_design.enclosed == True):
             runs_parapets = InternalPressure(self.wind_design, 0.1813, True)
             self.runs.extend(runs_parapets.runs)
 
