@@ -68,6 +68,36 @@
             }
         }
     },
+    "enclosure_specification":{
+        "identifier": "Enclosure Specification is Open",
+        "value_parts": {
+            "enclosure_specification": {
+                "input_from": "calculation"
+            }
+        }
+    },
+    "internal_pressure_coefficient":{
+        "identifier": "(GCpi) = ±0.00",
+        "value_parts": {
+            "(GC":{
+                "bold": "true",
+                "italic": "true"
+            },
+            "pi":{
+                "bold": "true",
+                "italic": "true",
+                "subscript": "true"
+            },
+            ")":{
+                "bold": "true",
+                "italic": "true"
+            },
+            " = ±":{},
+            "internal_pressure_value": {
+                "input_from": "calculation"
+            }
+        }
+    },
     "project_location":{
         "identifier": "V = 165 km/hr (For",
         "value_parts": {

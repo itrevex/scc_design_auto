@@ -70,11 +70,11 @@ class TableValue:
         if (input_from == Constants.INPUT_FROM_INPUT):
             return self.new_input_values[value]
         elif(input_from == Constants.INPUT_FROM_CALCULATION):
-            return self.calculatedValue(value, paragraph)
+            return self.calculatedValue(value, paragraph, part)
 
         return value
 
-    def calculatedValue(self, value, paragraph):
+    def calculatedValue(self, value, paragraph, part={}):
         if(value == Constants.WIND_SPEED_MS):
             return self.speed_text
 
@@ -111,6 +111,20 @@ class TableValue:
                 TableValue.add_paragraph_run(paragraph, run)
             pass
 
+        if (value == Constants.ROOF_ENCLOSURE):
+            enclosure_type = self.new_input_values[Constants.ROOF_ENCLOSURE]
+            if (enclosure_type == Constants.OPEN_ROOF):
+                return "Enclosure Specification is Open"
+            else:
+                return "Enclosure Specification is Enclosed"
+
+        if (value == Constants.INTERNAL_PRESSURE_VALUE):
+            enclosure_type = self.new_input_values[Constants.ROOF_ENCLOSURE]
+            if (enclosure_type == Constants.OPEN_ROOF):
+                return '0.00'
+            else:
+                return '0.18'
+            pass  
         return ""
 
     def calcKzValue(self):

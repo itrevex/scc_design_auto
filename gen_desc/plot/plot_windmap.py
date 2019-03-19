@@ -63,7 +63,7 @@ class PlotWindMap(ChoordChange):
         start_point = list(self.start_point)
         length = self.container["length"]
         length = 0.7
-        print("length", length)
+        # print("length", length)
         for i, text in enumerate(self.wind_values):
             height = self.container["height"] * len(text)*2.0
             # print(len(text), height, start_point)

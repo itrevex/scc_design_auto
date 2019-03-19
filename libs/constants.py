@@ -37,12 +37,18 @@ class Constants:
     KZ_VALUE = "kz_value"
     WIND_UNIT_LOAD = "wind_unit_load"
     WIND_UNIT_LOAD_KN = "wind_unit_load_kn_m"
+    ROOF_ENCLOSURE = "enclosure_specification"
+    INTERNAL_PRESSURE_VALUE = "internal_pressure_value"
 
     #Wind design parameters and constants
     WIND_DESIGN_X = "wind_design_x"
     WIND_DESIGN_Y = "wind_design_y"
     WIND_DESIGN_CALC_X = "wind_design_calculation_x"
     WIND_DESIGN_CALC_Y = "wind_design_calculation_y"
+
+    #ROOF TYPE
+    OPEN_ROOF = "open"
+    ENCLOSED_ROOF = "closed"
 
     #Design Codes
     ASCE_710_ASD = "710_asd"
