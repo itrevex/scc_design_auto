@@ -95,6 +95,26 @@
             "p":{
                 "subscript": "true"
             }
+        },
+        "wind_title_1":{
+            "     Distance from the windward edge (< h/2)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_2":{
+            "     Distance from the windward edge (>h/2,< h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_3":{
+            "     Distance from the windward edge (>h,< 2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_4":{
+            "     Distance from the windward edge (>2h)":{ 
+                "end_of_line": "true"
+            }
         }
     },
     "along_y_closed":{
@@ -148,6 +168,26 @@
         "p_sub": {
             "p":{
                 "subscript": "true"
+            }
+        },
+        "wind_title_1":{
+            "     Distance from the windward edge (< h/2)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_2":{
+            "     Distance from the windward edge (>h/2,< h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_3":{
+            "     Distance from the windward edge (>h,< 2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_4":{
+            "     Distance from the windward edge (>2h)":{ 
+                "end_of_line": "true"
             }
         }
     },  

@@ -110,26 +110,26 @@ class WindDesignPartsX:
         '''
         #wind load leeward <h/2
         title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_1]
-        self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H])
+        self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_1])
         self.windCasesClosed(self.cp_1, title)
         length = self.length_x
         #wind load leeward h/2 to h
         if length > self.height/2:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_2]
-            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
+            self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_2])
             self.windCasesClosed(self.cp_2, title)
             
 
         #wind load leeward h to 2h
         if length > self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_3]
-            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+            self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_3])
             self.windCasesClosed(self.cp_3, title)
 
         #wind load leeward >2h
         if length > 2 * self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_4]
-            self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
+            self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_4])
             self.windCasesClosed(self.cp_4, title)
             
 

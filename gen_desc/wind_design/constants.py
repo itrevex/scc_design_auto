@@ -86,6 +86,11 @@ class WindDesignConsts:
     TITLE_CLOSED_3 = "wind_x_h_2h_closed"
     TITLE_CLOSED_4 = "wind_x_2h_closed"
 
+    WINDMAP_CLOSED_1 = "wind_title_1"
+    WINDMAP_CLOSED_2 = "wind_title_2"
+    WINDMAP_CLOSED_3 = "wind_title_3"
+    WINDMAP_CLOSED_4 = "wind_title_4"
+
     #WIMDMAP PARAPET CONSTANTS
     WINDWARD_PARAPET_TITLE = "Windward parapet"
     LEEWARD_PARAPET_TITLE = "Leeward parapet"
