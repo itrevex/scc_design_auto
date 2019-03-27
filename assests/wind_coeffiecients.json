@@ -36,6 +36,8 @@
         "windward_2": -0.9,
         "windward_3": -0.5,
         "windward_4": -0.3,
+        "windward_5": -1.3,
+        "windward_6": -0.7,
         "parapets": {
             "windward": 1.5,
             "leeward": -1.0

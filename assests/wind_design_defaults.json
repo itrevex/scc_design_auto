@@ -97,7 +97,7 @@
             }
         },
         "wind_title_1":{
-            "     Distance from the windward edge (< h/2)":{ 
+            "     Distance from the windward edge (≤h/2)":{ 
                 "end_of_line": "true"
             }
         },
@@ -113,6 +113,11 @@
         },
         "wind_title_4":{
             "     Distance from the windward edge (>2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_5":{
+            "     Distance from the windward edge (>h/2)":{ 
                 "end_of_line": "true"
             }
         }
@@ -171,7 +176,7 @@
             }
         },
         "wind_title_1":{
-            "     Distance from the windward edge (< h/2)":{ 
+            "     Distance from the windward edge (≤h/2)":{ 
                 "end_of_line": "true"
             }
         },
@@ -187,6 +192,11 @@
         },
         "wind_title_4":{
             "     Distance from the windward edge (>2h)":{ 
+                "end_of_line": "true"
+            }
+        },
+        "wind_title_5":{
+            "     Distance from the windward edge (>h/2)":{ 
                 "end_of_line": "true"
             }
         }

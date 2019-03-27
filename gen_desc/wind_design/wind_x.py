@@ -8,12 +8,17 @@ class WindDesignPartsX:
         self.wind_design = wind_design
         self.template_data = wind_design.data_x
         self.wind_factors = wind_design.wind_factors_x
+        self.y_values = y_values
 
+        self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
+            * WindDesignConsts.ONE_M_IN_MM
         self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
+        self.length_y = float(wind_design.props[WindDesignConsts.LENGTH_Y])
+        self.length = self.length_x
 
         if self.wind_design.enclosed and y_values:
             self.template_data = wind_design.data_y
-            self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_Y])
+            self.length = self.length_y
             # self.wind_factors = wind_design.wind_factors_y
 
         self.runs = []
@@ -25,8 +30,7 @@ class WindDesignPartsX:
         else:
             self.loadCoeffiecients()
 
-        self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
-            * WindDesignConsts.ONE_M_IN_MM
+        
         
         
         #create doc runs
@@ -100,7 +104,8 @@ class WindDesignPartsX:
             self.runInDirectionClosed()
         else:
             self.runsInDirection()
-        self.addInternalPressures()
+        if self.y_values:
+            self.addInternalPressures()
         
     def runInDirectionClosed(self):
         '''
@@ -112,11 +117,17 @@ class WindDesignPartsX:
         title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_1]
         self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_1])
         self.windCasesClosed(self.cp_1, title)
-        length = self.length_x
+        length = self.length
+        
         #wind load leeward h/2 to h
         if length > self.height/2:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_2]
-            self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_2])
+            run_title = self.run_parts[WindDesignConsts.WINDMAP_CLOSED_2]
+            if (self.h_l > 1.0):
+                title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_5]
+                run_title = self.run_parts[WindDesignConsts.WINDMAP_CLOSED_5]
+                
+            self.runs.append(run_title)
             self.windCasesClosed(self.cp_2, title)
             
 
@@ -149,14 +160,14 @@ class WindDesignPartsX:
 
         #wind load leeward_h_2h
         #show if 2*h => x_length
-        if self.length_x > self.height:
+        if self.length > self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_H_2H]
             self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
             self.windCases(self.h_2h_case_a, self.h_2h_case_b, title)
 
         #wind load leeward_2h
         #show if 2*h > x_length
-        if self.length_x > 2 * self.height:
+        if self.length > 2 * self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_2H]
             self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
             self.windCases(self._2h_case_a, self._2h_case_b, title)
@@ -189,6 +200,22 @@ class WindDesignPartsX:
 
         self.cp_1 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_1]
         self.cp_2 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_2]
+
+        #check h/L and modify cp_1 and cp_2
+        self.h_l = self.height / self.length
+        area = (self.length_x * self.length_y) / 1e6
+        
+        if (self.h_l >= 1.0):
+            self.cp_1 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_5]
+            if (area <= 9.3):
+                self.cp_1 = self.cp_1 * 1.0
+            elif(area > 9.3 and area < 92.9):
+                self.cp_1 = self.cp_1 * 0.9
+            elif(area >= 92.9):
+                self.cp_1 = self.cp_1 * .8
+
+            self.cp_2 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_6]
+
         self.cp_3 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_3]
         self.cp_4 = self.wind_factors[WindDesignConsts.WINDWARD_CLOSED_4]
 
