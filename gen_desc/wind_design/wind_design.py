@@ -1,4 +1,4 @@
-from windmap_jpg.plot_windmap import PlotWindMap
+from windmap.plot_windmap import PlotWindMap
 from .constants import WindDesignConsts
 from libs.constants import Constants
 from .wind_x import WindDesignPartsX
@@ -30,7 +30,7 @@ class WindDesign:
         
         self.getWindDesignValues()
         self.printWindMaps()
-        self.plotWindMap(app_data)
+        # self.plotWindMap(app_data)
         pass
     
     def getWindDesignValues(self):

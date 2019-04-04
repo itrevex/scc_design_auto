@@ -13,10 +13,7 @@ class GenDesc:
         enclosure = self.new_input_values[GenDesc.ENCLOSURE_SPEC]
         self.document = self.app_data.getDocxDocument(design_code,enclosure)
         self.project_name = self.new_input_values[GenDesc.PROJECT_NAME]
-        pass
 
-
-    def saveNewDocument(self, name =""):
         #update doc values, these are values not appearing within tables
         doc_value = DocValue(self.app_data, self.document, self.new_input_values)
         doc_value.updateDocumentValues()
@@ -25,6 +22,13 @@ class GenDesc:
         table_value = TableValue(self.app_data, self.document, self.new_input_values)
         table_value.updateTableValues()
 
+        self.wind_design = table_value.wind_design
+
+        pass
+
+
+    def saveNewDocument(self, name =""):
+        
         #save updated document in new output file
         print()
         output_file = self.app_data.getOutputFile(self.project_name)
