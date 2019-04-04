@@ -7,11 +7,11 @@ REM git config --local --bool core.bare false
 REM py -3.7-64 plot/trial.py 
 
 REM compile code
-py -3.7-64 -m PyInstaller main.spec
-iscc "setup/design_auto.iss"
-"setup/setups/ssc_design_setup-1.0.5"
+REM py -3.7-64 -m PyInstaller main.spec
+REM iscc "setup/design_auto.iss"
+REM "setup/setups/ssc_design_setup-1.0.5"
 
 REM "dist/main/trsc"
 REM py -3.7-64 -m pip freeze rem show all packages installed
 REM git rm --cached *.exe 
-REM py -3.7-64 main.py "project/project.json"
+py -3.7-64 main.py "project/project.json"

@@ -1,4 +1,4 @@
-from gen_desc.plot.plot_windmap import PlotWindMap
+from windmap_jpg.plot_windmap import PlotWindMap
 from .constants import WindDesignConsts
 from libs.constants import Constants
 from .wind_x import WindDesignPartsX
