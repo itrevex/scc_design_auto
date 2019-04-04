@@ -32,6 +32,7 @@ class WindDesign:
         pass
     
     def getWindDesignValues(self):
+        #The order in which these methods are called is important
         self.wind_x =  WindDesignPartsX(self)
         if self.enclosed:
             self.wind_y =  WindDesignPartsX(self, True)

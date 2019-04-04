@@ -26,7 +26,8 @@ class WindMapValue:
         '''
 
         self.zone_ps[self.zone_case_a] = float(self.p_case_a)
-        self.zone_ps[self.zone_case_b] = float(self.p_case_b)
+        if self.closed == False:
+            self.zone_ps[self.zone_case_b] = float(self.p_case_b)
 
     def setTitle(self, title):
         self.title = title
