@@ -11,6 +11,7 @@ class WindDesign:
         self.wind_defaults = app_data.getWindDesignDefaults()
         self.app_data = app_data
         self.wind_load = wind_load
+        self.internal_pressure_zone_ps = {}
         self.roof_angle = props[WindDesignConsts.ROOF_ANGLE]
         self.parapet_load = props[WindDesignConsts.PARAPET_LOAD]
         self.enclosed = props[Constants.ROOF_ENCLOSURE] == 'closed'

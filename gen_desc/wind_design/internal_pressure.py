@@ -7,8 +7,10 @@ class InternalPressure:
         self.runs = []
         self.calc = calc
         self.value = self.getValue(value)
+        self.zone_ps = {}
         self.positivePressure()
         self.negativePressure()
+    
         pass
 
     def getValue(self, value):
@@ -43,6 +45,7 @@ class InternalPressure:
         text = "]"
         self.runs.append(RunProperties(text, {"end_of_line": "true"}))
         self.runs.append(RunProperties("", {"end_of_line": "true"}))
+        self.setZonePValues()
         self.wind_design.zone += 1
         pass
 
@@ -70,5 +73,16 @@ class InternalPressure:
         text = "]"
         self.runs.append(RunProperties(text, {"end_of_line": "true"}))
         self.runs.append(RunProperties("", {"end_of_line": "true"}))
+        self.setZonePValues(-1)
         self.wind_design.zone += 1
         pass
+
+    def setZonePValues(self, sign_convention = 1):
+        '''
+        Store zone: p value dictionary.
+        This will be used to create list of zones used when making 
+        loadings dxf
+        '''
+        if self.calc:
+            self.zone_ps[self.wind_design.zone] = sign_convention* float(self.value)
+        

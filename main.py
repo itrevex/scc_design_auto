@@ -17,7 +17,7 @@ if __name__ == "__main__":
     gen_desc.saveNewDocument()
     
     #draw windmap jpg
-    # Windmap(gen_desc.wind_design).plotWindMap(app_data)
+    Windmap(gen_desc.wind_design).plotWindMap(app_data)
 
     #write windmap txts into file
     PlotLoads(gen_desc.wind_design).plotLoads(app_data)

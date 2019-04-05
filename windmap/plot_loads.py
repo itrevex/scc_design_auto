@@ -1,5 +1,6 @@
 class PlotLoads:
     def __init__(self, wind_design):
+        self.wind_design = wind_design
         self.wind_calc_x = wind_design.wind_calc_x
         self.wind_calc_y = wind_design.wind_calc_y
         pass
@@ -8,7 +9,9 @@ class PlotLoads:
         print("Writing loads to a file . . .")
         values_x = self.getZonePValues(self.wind_calc_x)
         values_y = self.getZonePValues(self.wind_calc_y)
-        zone_p_values = { **values_x, **values_y }
+        internal_pressure = self.wind_design.internal_pressure_zone_ps
+        
+        zone_p_values = { **values_x, **values_y, **internal_pressure}
         p_values = sorted(set(zone_p_values.values()), key=float)
         
         # print(zone_p_values)
