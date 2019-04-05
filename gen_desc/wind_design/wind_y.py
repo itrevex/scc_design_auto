@@ -24,11 +24,6 @@ class WindDesignPartsY:
                 self.pn_windward, self.pn_leeward) 
             self.runs.extend(runs_parapets.runs)
 
-    def addInternalPressures(self):
-        if (self.wind_design.enclosed == True):
-            runs_parapets = InternalPressure(self.wind_design, 0.18)
-            self.runs.extend(runs_parapets.runs)
-
     def getRunParts(self):
         run_parts = {}
         for part_name, parts in self.template_data.items():
@@ -75,7 +70,6 @@ class WindDesignPartsY:
         self.direction = 'neg'
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         self.runsInDirection()
-        self.addInternalPressures()
 
     def runsInDirection(self):
         '''

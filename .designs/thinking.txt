@@ -1,0 +1,10 @@
+Steps:
+1. Read in file,
+2. Change title,
+3. Change loads
+	+x wind values
+	-x wind values
+	+y wind values
+	-y wind values
+4. write output file
+* Lines to be found using regex

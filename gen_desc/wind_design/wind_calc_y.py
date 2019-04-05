@@ -19,11 +19,6 @@ class WindCalculationsY(WindDesignPartsY):
                 self.pn_windward, self.pn_leeward, True, self.windmap_values)
             self.runs.extend(runs_parapets.runs) 
 
-    def addInternalPressures(self):
-        if (self.wind_design.enclosed == True):
-            runs_parapets = InternalPressure(self.wind_design, 0.1813, True)
-            self.runs.extend(runs_parapets.runs)
-
     def windCases(self, cnw = 1, cnl = 1, title=None):
 
         p_case_a = self.wind_design.windLoad(cnw)

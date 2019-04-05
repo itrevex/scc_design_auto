@@ -1,5 +1,5 @@
-from .constants import WindDesignConsts
 from libs.constants import Constants
+from .constants import WindDesignConsts
 from .wind_x import WindDesignPartsX
 from .wind_y import WindDesignPartsY
 from .wind_calc_x import WindCalculationsX

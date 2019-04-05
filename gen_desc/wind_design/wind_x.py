@@ -30,9 +30,6 @@ class WindDesignPartsX:
         else:
             self.loadCoeffiecients()
 
-        
-        
-        
         #create doc runs
         self.directionalRuns()
         
