@@ -53,4 +53,9 @@ class Constants:
     #Design Codes
     ASCE_710_ASD = "710_asd"
     ASCE_710_LRFD = "710_lrfd"
+
+    #INPUT PARAMETERS
+    ROOF_DEAD_LOAD = "roof_dead_load"
+    SERVICES_LOAD = "services_load"
+    ROOF_LIVE_LOAD = "roof_live_load"
     

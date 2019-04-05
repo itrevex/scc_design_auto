@@ -7,6 +7,7 @@ from libs.load_data import LoadData
 from libs.messages import Messages
 from windmap.windmap import Windmap
 from windmap.plot_loads import PlotLoads
+from form_grs.form_grs import FormGrs
 
 app_data = LoadData()
 
@@ -22,8 +23,12 @@ if __name__ == "__main__":
     #write windmap txts into file
     PlotLoads(gen_desc.wind_design).plotLoads(app_data)
 
+    #write form grs file
+    form_grs = FormGrs(app_data, gen_desc)
+
+    #print prompt message
     Messages.continuePrompt("Press any key to continue . . .")
-    # gen_desc.trialMethod()
+    
     pass
 
 

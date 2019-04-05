@@ -50,11 +50,11 @@ class LoadData:
 
     def getFormGrsFile(self, design_code, enclosure='open'):
         if design_code == Constants.ASCE_710_LRFD:
-            return Document(self.getFile("assests/FORM_GRS_LRFD.DAT"))
+            return self.getFile("assests/FORM_GRS_LRFD.DAT")
         elif design_code == Constants.ASCE_710_ASD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/FORM_GRS_ASD_CLOSED.DAT"))
-            return Document(self.getFile("assests/FORM_GRS_ASD.DAT"))
+                return self.getFile("assests/FORM_GRS_ASD_CLOSED.DAT")
+            return self.getFile("assests/FORM_GRS_ASD.DAT")
 
     def getTable27_3_1(self):
         return json.load(open(self.getFile("assests/asce/table_27_3_1.json"), encoding='utf8'), 

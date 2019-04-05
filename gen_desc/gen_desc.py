@@ -9,9 +9,9 @@ class GenDesc:
     def __init__(self, app_data):
         self.app_data = app_data
         self.new_input_values = self.app_data.getInputValues()
-        design_code = self.new_input_values[GenDesc.DESIGN_CODE]
-        enclosure = self.new_input_values[GenDesc.ENCLOSURE_SPEC]
-        self.document = self.app_data.getDocxDocument(design_code,enclosure)
+        self.design_code = self.new_input_values[GenDesc.DESIGN_CODE]
+        self.enclosure = self.new_input_values[GenDesc.ENCLOSURE_SPEC]
+        self.document = self.app_data.getDocxDocument(self.design_code, self.enclosure)
         self.project_name = self.new_input_values[GenDesc.PROJECT_NAME]
 
         #update doc values, these are values not appearing within tables
