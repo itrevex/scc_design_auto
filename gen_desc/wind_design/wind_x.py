@@ -2,14 +2,19 @@ from gen_desc.run_properties import RunProperties
 from .wind_parapets import WindParapets
 from .constants import WindDesignConsts
 from .internal_pressure import InternalPressure
+from .load_combinations import LoadCombinations
 
-class WindDesignPartsX:
+class WindDesignPartsX(LoadCombinations):
     def __init__(self, wind_design, y_values = False):
+        super().__init__(wind_design)
         self.wind_design = wind_design
         self.template_data = wind_design.data_x
         self.wind_factors = wind_design.wind_factors_x
         self.y_values = y_values
 
+        self.setUpCombinations()
+        self.negative_direction = False
+        
         self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
             * WindDesignConsts.ONE_M_IN_MM
         self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
@@ -32,7 +37,6 @@ class WindDesignPartsX:
 
         #create doc runs
         self.directionalRuns()
-        
         
     def addParapetRuns(self):
         if (self.wind_design.parapet_load == "true"):
@@ -67,6 +71,8 @@ class WindDesignPartsX:
         self.runs.append(self.run_parts[WindDesignConsts.ZONE])
         self.runs.append(RunProperties(self.wind_design.zone, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
+
+        #case B data
         self.runs.append(self.run_parts[WindDesignConsts.CASE_B])
         self.runs.append(self.run_parts[WindDesignConsts.N])
         self.runs.append(self.run_parts[WindDesignConsts.EQUALS])
@@ -74,6 +80,12 @@ class WindDesignPartsX:
         self.runs.append(self.run_parts[WindDesignConsts.ZONE])
         self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
+
+        if self.negative_direction:
+            self.storeCombinationsNeg()
+        else:
+            self.storeCombinations()
+
         self.wind_design.zone += 2
 
     def windCasesClosed(self, cp = 1, title=None):
@@ -93,17 +105,22 @@ class WindDesignPartsX:
         if self.wind_design.enclosed:
             self.runInDirectionClosed()
         else:
+            self.negative_direction = False
             self.runsInDirection()
-        
+            
+
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         if self.wind_design.enclosed:
             self.runInDirectionClosed()
         else:
+            self.negative_direction = True
             self.runsInDirection()
+            
+
         if self.y_values:
             self.addInternalPressures()
-        
+    
     def runInDirectionClosed(self):
         '''
         Runs in particular direction are similar.

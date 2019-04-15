@@ -21,7 +21,6 @@ class FormGrs:
 
         return lines 
 
-
     def changeTitle(self):
         #step 2: change title
         self.lines[0] = self.gen_desc.project_name
@@ -40,13 +39,14 @@ class FormGrs:
     def changeLoads(self):
         #step 3: change loads
 
-        #update dead load
+        #update dead, service and live loads
         self.updateDeadLoad()
         self.updateServicesLoad()
         self.updateLiveLoad()
+        self.updateWindLoads()
 
-        for line in self.lines:
-            print(line)
+        # for line in self.lines:
+        #     print(line)
 
         pass
 
@@ -73,6 +73,13 @@ class FormGrs:
             "LC04  : Live Load = %s kN/m2                      803"%live_load_factor
 
         self.lines[live_load_line] = live_load_new_line
+
+    def updateWindLoads(self):
+        # get wind in +x direction A
+        # get wind in +x direction B
+        print()
+        print(self.gen_desc.wind_design.combinations)
+        pass
 
     def printOutPutFile(self):
         #step 4: write new form grs file

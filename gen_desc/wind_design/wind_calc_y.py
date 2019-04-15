@@ -12,6 +12,10 @@ class WindCalculationsY(WindDesignPartsY):
         super().__init__(wind_design)
         pass
     
+    def setUpCombinations(self):
+        #overide function and do nothing in it
+        pass
+        
     def addParapetRuns(self):
         if (self.wind_design.parapet_load == "true"):
             # self.runsParapet()

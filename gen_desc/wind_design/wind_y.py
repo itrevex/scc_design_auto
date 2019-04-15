@@ -2,9 +2,12 @@ from gen_desc.run_properties import RunProperties
 from .wind_parapets import WindParapets
 from .internal_pressure import InternalPressure
 from .constants import WindDesignConsts
+from .load_combinations import LoadCombinations
 
-class WindDesignPartsY:
+class WindDesignPartsY(LoadCombinations):
     def __init__(self, wind_design):
+        super().__init__(wind_design)
+        self.setUpCombinations()
         self.wind_design = wind_design
         self.template_data = wind_design.data_y
         self.wind_factors = wind_design.wind_factors_y
@@ -58,6 +61,12 @@ class WindDesignPartsY:
         self.runs.append(self.run_parts[WindDesignConsts.ZONE])
         self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
+
+        if (self.direction == 'neg'):
+            self.storeCombinationsNeg()
+        else:
+            self.storeCombinations()
+
         self.wind_design.zone += 2
 
     def directionalRuns(self):

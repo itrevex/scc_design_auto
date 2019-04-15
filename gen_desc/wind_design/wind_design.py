@@ -28,6 +28,8 @@ class WindDesign:
         self.wind_factors_y = app_data.getWindCoeffiecients()[WindDesignConsts.ALONG_Y]
         self.windmap_defaults = app_data.getWindMapDefaults()[WindDesignConsts.ASCE_7_10]
         self.zone = 804
+        self.current_combination = 5
+        self.combinations = {}
         
         self.getWindDesignValues()
         pass
