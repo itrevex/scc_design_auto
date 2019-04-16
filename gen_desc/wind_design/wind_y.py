@@ -1,6 +1,5 @@
 from gen_desc.run_properties import RunProperties
 from .wind_parapets import WindParapets
-from .internal_pressure import InternalPressure
 from .constants import WindDesignConsts
 from .load_combinations import LoadCombinations
 
