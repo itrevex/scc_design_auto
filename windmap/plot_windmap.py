@@ -71,7 +71,7 @@ class PlotWindMap(ChoordChange):
             plt.gca().add_patch(rect)
             self.addTexts(start_point, text)
             start_point[1] += height/3
-            if i%4 == 3:
+            if i%5 == 4:
                 #for third value, reset x and y and change x
                 start_point[1] = self.start_point[1]
                 start_point[0]+= length + self.paper_space.x_limit[1]/56

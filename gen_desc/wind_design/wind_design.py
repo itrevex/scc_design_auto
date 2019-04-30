@@ -30,7 +30,7 @@ class WindDesign:
         self.zone = 804
         self.current_combination = 5
         self.combinations = {}
-        
+        self.pressure_combinations = {}
         self.getWindDesignValues()
         pass
     

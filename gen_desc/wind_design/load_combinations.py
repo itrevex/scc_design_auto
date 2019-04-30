@@ -25,11 +25,15 @@ class LoadCombinations:
     def storeCombinations(self):
         self.wind_design.combinations[self.combination_a] \
             .append(self.wind_design.zone)
-        self.wind_design.combinations[self.combination_b] \
-            .append(self.wind_design.zone + 1)
+        
+        if self.wind_design.enclosed == False:
+            self.wind_design.combinations[self.combination_b] \
+                .append(self.wind_design.zone + 1)
 
     def storeCombinationsNeg(self):
         self.wind_design.combinations[self.combination_a_neg] \
             .append(self.wind_design.zone)
-        self.wind_design.combinations[self.combination_b_neg] \
-            .append(self.wind_design.zone + 1)
+            
+        if self.wind_design.enclosed == False:
+            self.wind_design.combinations[self.combination_b_neg] \
+                .append(self.wind_design.zone + 1)

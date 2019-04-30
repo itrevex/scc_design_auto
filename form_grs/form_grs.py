@@ -43,11 +43,25 @@ class FormGrs:
         self.updateDeadLoad()
         self.updateServicesLoad()
         self.updateLiveLoad()
-        self.updateWindLoads()
 
-        # for line in self.lines:
-        #     print(line)
+        if self.gen_desc.wind_design.enclosed:
+            self.updateWindLoadsClosed()
+            #update internal pressure combinations
+            for key, value in self.gen_desc.wind_design.pressure_combinations.items():
+                self.writePressureCombinations(key, value)
+                pass
+            pass
+        else:
+            self.updateWindLoads()
 
+        #write lines to form-grs file and close it after
+        form_grs_file = self.app_data.getFormGrmsFile()
+        for line in self.lines:
+            line.strip()
+            if line != "":
+                form_grs_file.write(line+"\n")
+
+        form_grs_file.close()
         pass
 
     def updateDeadLoad(self):
@@ -75,10 +89,49 @@ class FormGrs:
         self.lines[live_load_line] = live_load_new_line
 
     def updateWindLoads(self):
+        #update windloads for open structures
         # get wind in +x direction A
         # get wind in +x direction B
-        print()
-        print(self.gen_desc.wind_design.combinations)
+        cases = ["A", "B"]
+        directions = ["+X", "+X","-X", "-X","+Y", "+Y","-Y", "-Y"]
+        counter = 0
+
+        for key, value in self.gen_desc.wind_design.combinations.items():
+            self.writeLoadCombinationLine(key, value, directions[counter%8], cases[counter%2])
+            counter += 1
+
+    def updateWindLoadsClosed(self):
+        #update windloads for open structures
+        # get wind in +x direction A
+        # get wind in +x direction B
+        directions = ["+X", "-X", "+Y", "-Y"]
+        counter = 0
+
+        for key, value in self.gen_desc.wind_design.combinations.items():
+            self.writeLoadCombinationLineClosed(key, value, directions[counter%4])
+            counter += 1
+
+    def writeLoadCombinationLine(self, key, value, direction, case):
+        line = self.getStringIndex("^%s"%key)
+        cases = "  ".join(str(i) for i in value)
+        new_line = "%s  : Wind Along %s Direction(%s)                  %s "% \
+            (key, direction, case, cases)
+        self.lines[line] = new_line
+        pass
+
+    def writePressureCombinations(self, key, value):
+        line = self.getStringIndex("^%s"%key)
+        new_line = "%s  : Positive Internal Pressure                  %s"% \
+            (key, value)
+        self.lines[line] = new_line
+        pass
+
+    def writeLoadCombinationLineClosed(self, key, value, direction):
+        line = self.getStringIndex("^%s"%key)
+        cases = "  ".join(str(i) for i in value)
+        new_line = "%s  : Wind Along %s Direction                     %s "% \
+            (key, direction, cases)
+        self.lines[line] = new_line
         pass
 
     def printOutPutFile(self):

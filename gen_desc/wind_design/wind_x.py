@@ -81,12 +81,15 @@ class WindDesignPartsX(LoadCombinations):
         self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
 
+        self.storeAllCombinatios()
+
+        self.wind_design.zone += 2
+
+    def storeAllCombinatios(self):
         if self.negative_direction:
             self.storeCombinationsNeg()
         else:
             self.storeCombinations()
-
-        self.wind_design.zone += 2
 
     def windCasesClosed(self, cp = 1, title=None):
         self.runs.append(self.run_parts[WindDesignConsts.CASE_A])
@@ -97,24 +100,26 @@ class WindDesignPartsX(LoadCombinations):
         self.runs.append(RunProperties(self.wind_design.zone, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
         
+        self.storeAllCombinatios()
+        
         self.wind_design.zone += 1
 
     def directionalRuns(self):
         #Runs in positive direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE])
+        self.negative_direction = False
         if self.wind_design.enclosed:
             self.runInDirectionClosed()
         else:
-            self.negative_direction = False
             self.runsInDirection()
             
 
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
+        self.negative_direction = True
         if self.wind_design.enclosed:
             self.runInDirectionClosed()
         else:
-            self.negative_direction = True
             self.runsInDirection()
             
 

@@ -8,9 +8,15 @@ class InternalPressure:
         self.calc = calc
         self.value = self.getValue(value)
         self.zone_ps = {}
+        
+        #call these methods before calling methods that change the wind zone values
+        if (self.calc == False):
+            self.storeCombinationsPressure(self.wind_design.zone)
+            self.storeCombinationsPressure(self.wind_design.zone  + 1)
+
         self.positivePressure()
         self.negativePressure()
-    
+        
         pass
 
     def getValue(self, value):
@@ -85,4 +91,9 @@ class InternalPressure:
         '''
         if self.calc:
             self.zone_ps[self.wind_design.zone] = sign_convention* float(self.value)
+
+    def storeCombinationsPressure(self, zone):
+        combination = "LC" + "{:02d}".format(self.wind_design.current_combination)
+        self.wind_design.pressure_combinations[combination] = zone
+        self.wind_design.current_combination += 1
         
