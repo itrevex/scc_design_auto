@@ -9,6 +9,8 @@ class FormGrs:
         self.lines = self.readInFile()
         self.changeTitle()
         self.changeLoads()
+
+        print(gen_desc.wind_design.combinations)
         pass
 
     def readInFile(self):

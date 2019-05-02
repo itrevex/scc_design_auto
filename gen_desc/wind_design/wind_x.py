@@ -3,7 +3,7 @@ from .wind_parapets import WindParapets
 from .constants import WindDesignConsts
 from .internal_pressure import InternalPressure
 from .load_combinations import LoadCombinations
-
+ 
 class WindDesignPartsX(LoadCombinations):
     def __init__(self, wind_design, y_values = False):
         super().__init__(wind_design)
@@ -42,7 +42,8 @@ class WindDesignPartsX(LoadCombinations):
         if (self.wind_design.parapet_load == "true"):
             # self.runsParapet()
             runs_parapets = WindParapets(self.wind_design, self.run_parts, 
-                self.pn_windward, self.pn_leeward)
+                self.pn_windward, self.pn_leeward, wind_xy=self, 
+                neg_direction=self.negative_direction)
             self.runs.extend(runs_parapets.runs)
 
     def addInternalPressures(self):
@@ -62,7 +63,7 @@ class WindDesignPartsX(LoadCombinations):
                 run_parts[part_name] = RunProperties(text, props)
                 pass
         return run_parts
-
+ 
     def windCases(self, case_a = 1, case_b = 1, title=None):
         self.runs.append(self.run_parts[WindDesignConsts.CASE_A])
         self.runs.append(self.run_parts[WindDesignConsts.N])

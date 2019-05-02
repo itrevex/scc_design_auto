@@ -23,7 +23,9 @@ class WindDesignPartsY(LoadCombinations):
         if (self.wind_design.parapet_load == "true"):
             # self.runsParapet()
             runs_parapets = WindParapets(self.wind_design, self.run_parts, 
-                self.pn_windward, self.pn_leeward) 
+                self.pn_windward, self.pn_leeward, wind_xy=self, 
+                neg_direction=self.negative_direction) 
+                
             self.runs.extend(runs_parapets.runs)
 
     def getRunParts(self):
@@ -61,7 +63,7 @@ class WindDesignPartsY(LoadCombinations):
         self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
 
-        if (self.direction == 'neg'):
+        if (self.negative_direction):
             self.storeCombinationsNeg()
         else:
             self.storeCombinations()
@@ -70,12 +72,12 @@ class WindDesignPartsY(LoadCombinations):
 
     def directionalRuns(self):
         #Runs in positive direction
-        self.direction = 'pos' #communicates direction being updated
+        self.negative_direction = False #communicates direction being updated
         self.runs.append(self.run_parts[WindDesignConsts.TITLE])
         self.runsInDirection()
 
         #Runs in negative direction
-        self.direction = 'neg'
+        self.negative_direction = True
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         self.runsInDirection()
 

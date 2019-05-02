@@ -5,7 +5,7 @@ from .constants import WindDesignConsts
 class WindParapets: 
 
     def __init__(self, wind_design, run_parts, 
-        pn_windward, pn_leeward, calcs = False, windmap_values=[]):
+        pn_windward, pn_leeward, calcs = False, windmap_values=[], wind_xy = None, neg_direction = False):
         self.wind_design = wind_design
         self.run_parts = run_parts
         self.pn_windward = pn_windward
@@ -13,6 +13,8 @@ class WindParapets:
         self.calcs = calcs
         self.windmap_values = windmap_values
         self.runs = [] 
+        self.wind_xy = wind_xy
+        self.neg_direction = neg_direction
         self.runsParapet()
         #add space at the end of the parapet load
         self.runs.append(RunProperties("", { "end_of_line": "true"}))
@@ -33,6 +35,12 @@ class WindParapets:
         self.runs.append(RunProperties(self.wind_design.zone, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
 
+        if (self.wind_xy != None):
+            if self.neg_direction:
+                self.wind_xy.storeCombinationsParapetNeg(self.wind_design.zone)
+            else:
+                self.wind_xy.storeCombinationsParapet(self.wind_design.zone)
+
         if calcs:
             self.runs.append(self.run_parts[WindDesignConsts.LEEWARD_PARAPET_CALC])
             self.runs.append(self.run_parts[WindDesignConsts.P])
@@ -45,8 +53,14 @@ class WindParapets:
         self.runs.append(RunProperties(self.wind_design.zone + 1, {}))
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
 
-        self.wind_design.zone += 2
+        if (self.wind_xy != None):
+            if self.neg_direction:
+                self.wind_xy.storeCombinationsParapetNeg(self.wind_design.zone + 1)
+            else:
+                self.wind_xy.storeCombinationsParapet(self.wind_design.zone + 1)
 
+        self.wind_design.zone += 2
+ 
     def runsParapet(self):
         self.runs.append(self.run_parts[WindDesignConsts.PARAPET_TITLE])
 
@@ -69,5 +83,6 @@ class WindParapets:
             self.parapetCases(coeff_pos, coeff_neg, True)
         else:
             self.parapetCases(self.pn_windward, self.pn_leeward)
+            #call form grs parameters storage here
 
 

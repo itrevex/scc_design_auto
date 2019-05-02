@@ -31,7 +31,7 @@ class WindCalculationsY(WindDesignPartsY):
 
         prefix = WindCalculationsY.NL
 
-        if self.direction == 'pos':
+        if self.negative_direction == False:
             prefix = WindCalculationsY.NW
 
         windmap_value = WindMapValue(title, cnw, cnl, p_case_a, 
