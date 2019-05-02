@@ -7,7 +7,7 @@
 #define MyAppSetUpName "ssc_design_setup-"
 #define MyAppExeName "trsc.exe"
 #define MyAppIcoName "icon_red.ico"
-#define MyAppVersion "1.0.5"
+#define MyAppVersion "1.0.6"
 #define SourcePath "E:\Projects/ESAI/PROGRAMMING/PYTHON/SSC/design_auto/dist"
 ;
 [Setup]
