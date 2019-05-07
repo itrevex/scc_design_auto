@@ -42,7 +42,9 @@ class LoadData:
 
     def getDocxDocument(self, design_code, enclosure='open'):
         if design_code == Constants.ASCE_710_LRFD:
-            return Document(self.getFile("assests/Gen-Desc.docx"))
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return Document(self.getFile("assests/Gen-Desc_710_lrfd_closed.docx"))
+            return Document(self.getFile("assests/Gen-Desc_710_lrfd.docx"))
         elif design_code == Constants.ASCE_710_ASD:
             if enclosure == Constants.ENCLOSED_ROOF:
                 return Document(self.getFile("assests/Gen-Desc_710_asd_closed.docx"))
@@ -50,6 +52,8 @@ class LoadData:
 
     def getFormGrsFile(self, design_code, enclosure='open'):
         if design_code == Constants.ASCE_710_LRFD:
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return self.getFile("assests/FORM_GRS_LRFD_CLOSED.DAT")
             return self.getFile("assests/FORM_GRS_LRFD.DAT")
         elif design_code == Constants.ASCE_710_ASD:
             if enclosure == Constants.ENCLOSED_ROOF:
@@ -92,6 +96,7 @@ class LoadData:
         except AttributeError:
             # Messages.showError("There is no data to use to generate output file")
             print("An error occured in getOutPutFile method")
+    
     def getLoadsFile(self):
         '''
         opens file, remmember to close file after file has
