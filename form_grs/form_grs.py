@@ -7,10 +7,11 @@ class FormGrs:
         self.app_data = app_data
 
         self.lines = self.readInFile()
+        print("Creating 'FORM_GRS.DAT' file . . .")
         self.changeTitle()
         self.changeLoads()
 
-        print(gen_desc.wind_design.combinations)
+        # print(gen_desc.wind_design.combinations)
         pass
 
     def readInFile(self):

@@ -6,7 +6,7 @@ class PlotLoads:
         pass
 
     def plotLoads(self, app_data):
-        print("Writing loads to a file . . .")
+        print("Creating loads summary file . . .")
         values_x = self.getZonePValues(self.wind_calc_x)
         values_y = self.getZonePValues(self.wind_calc_y)
         internal_pressure = self.wind_design.internal_pressure_zone_ps
