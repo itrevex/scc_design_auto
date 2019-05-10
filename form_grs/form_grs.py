@@ -20,9 +20,14 @@ class FormGrs:
             self.gen_desc.design_code, self.gen_desc.enclosure)
         
         with open(form_grs_file) as f:
-            lines = [line.strip() for line in f.readlines()]
+            lines = [line.rstrip() for line in f.readlines()]
 
-        return lines 
+        return lines
+
+    def getLine(self, line):
+        if line.strip() != '':
+            return line
+        return None
 
     def changeTitle(self):
         #step 2: change title
@@ -60,8 +65,8 @@ class FormGrs:
         #write lines to form-grs file and close it after
         form_grs_file = self.app_data.getFormGrmsFile()
         for line in self.lines:
-            line.strip()
-            if line != "":
+            
+            if line.strip() != '':
                 form_grs_file.write(line+"\n")
 
         form_grs_file.close()
