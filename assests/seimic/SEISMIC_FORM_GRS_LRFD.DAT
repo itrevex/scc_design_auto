@@ -1,0 +1,65 @@
+National Guard, Gas Station Shade at Jeddah, Job Id 18 065 1A
+00:GIRIS1.     :Specify 01 to generate only loading given the configuration giris. Save giris into giris1.
+GIRIS001.DXF  2    0.15000 :Space Frame Proper
+GIRIS002.DXF  1    0.10000 :Knee Bracing Members   
+GIRIS003.DXF  1    0.10000 :Support Shafts Top 
+GIRIS004.DXF  1    0.10000 :Support Shafts Bottom
+--------------9------------:Exit Card
+SUPPORTS.DXF               :Configuration indicating the Supports
+-----------------------------------------------------------------
+LOADINGS.DXF               :Configuration containing the loading layers
+LC02  : Roof Dead Loads = 0.15 kN/m2                801
+LC03  : Services Loads  = 0.05 kN/m2                802                                             
+LC04  : Live Load = 1.00 kN/m2                      803
+LC05  : Wind Along +X Direction(A)                  804  806  808  
+LC06  : Wind Along +X Direction(B)                  805  807  809 
+LC07  : Wind Along -X Direction(A)                  810  812  814   
+LC08  : Wind Along -X Direction(B)                  811  813  815  
+LC09  : Wind Along +Y Direction(A)                  816  818              
+LC10  : Wind Along +Y Direction(B)                  817  819             
+LC11  : Wind Along -Y Direction(A)                  820  822               
+LC12  : Wind Along -Y Direction(B)                  821  823                                                                                                                                      
+--99--:Exits the load cases--------------------------------------
+   30    6
+ 1.40*LC01  1.40*LC02  1.40*LC03                                  Combn  1 (101) 1.40D    
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04                       Combn  2 (102) 1.20D+0.50Lr    
+ 1.40*LC01  1.40*LC02  1.40*LC03  1.00*LC13                       Combn  3 (103) 1.40D+T    
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC13            Combn  4 (104) 1.20D+0.50Lr+T    
+ 1.40*LC01  1.40*LC02  1.40*LC03 -1.00*LC13                       Combn  5 (105) 1.40D-T    
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04 -1.00*LC13            Combn  6 (106) 1.20D+0.50Lr-T    
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC05            Combn  7 (201) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC06            Combn  8 (202) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC07            Combn  9 (203) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC08            Combn 10 (204) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC09            Combn 11 (205) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC10            Combn 12 (206) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC11            Combn 13 (207) 1.2D+1.6Lr+0.5W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC12            Combn 14 (208) 1.2D+1.6Lr+0.5W 
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC05            Combn 15 (209) 1.2D+0.5Lr+1.0W      
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC06            Combn 16 (210) 1.2D+0.5Lr+1.0W  
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC07            Combn 17 (211) 1.2D+0.5Lr+1.0W  
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC08            Combn 18 (212) 1.2D+0.5Lr+1.0W  
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC09            Combn 19 (213) 1.2D+0.5Lr+1.0W  
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC10            Combn 20 (214) 1.2D+0.5Lr+1.0W  
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC11            Combn 21 (215) 1.2D+0.5Lr+1.0W  
+ 1.20*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC12            Combn 22 (216) 1.2D+0.5Lr+1.0W  
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC05                       Combn 23 (217) 0.90D+1.00W      
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC06                       Combn 24 (218) 0.90D+1.00W      
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC07                       Combn 25 (219) 0.90D+1.00W     
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC08                       Combn 26 (220) 0.90D+1.00W      
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC09                       Combn 27 (221) 0.90D+1.00W      
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC10                       Combn 28 (222) 0.90D+1.00W      
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC11                       Combn 29 (223) 0.90D+1.00W      
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC12                       Combn 30 (224) 0.90D+1.00W      
+9--------------------------:Exits the load combination cards-----------------
+
+------------------NOTES------------------------
+Project name	
+========================================================================
+   GIRIS.001  2    0.35000 :Space Frame Proper
+----confgn-- option  dxdy  :cdescr-
+-->confgn: the configuration in giris format, whose nodes and members are to be numbered
+-->option: numbering sequence option 1 or 2 or 3 or 4. 5 is for polar numbering. 9 is the exit card
+-->dxdy: search grid size in meters
+-->cdescr: descriptive title of the configuration
+========================================================================
