@@ -1,3 +1,9 @@
+'''
+    class is called by gen_desc class
+    the class is entered through updateTableValues() method 
+    after the constructor call
+'''
+
 from docx.shared import Pt
 from docx.enum.text import WD_BREAK
 
@@ -45,6 +51,28 @@ class TableValue:
         return None
 
     def updateTableValues(self):
+        '''
+        iterate through all items in document_table_template
+        for each item find the key
+
+            "table_dead_load":{ //key
+                //value
+                "identifier": "Roof Dead Loads = 0.10 kN/m2", //Constants.TEMPLATE_IDENTIFIER
+                "value_parts": { //Constants.VALUE_PARTS
+                    //key is the text in document to change, 
+                    //the value give the properties that should apply to that text
+                    for example underline, bold, text size
+                    "Roof Dead Loads = ":{}, 
+                    "roof_dead_load":{
+                        "input_from": "input"
+                    },
+                    " kN/m":{},
+                    "2":{
+                        "superscript": "true"
+                    }
+                }
+            }
+        '''
         for key, value in self.template_table_values.items():
             #key descriptive key of what to change
             identifier_text = value[Constants.TEMPLATE_IDENTIFIER]
@@ -162,7 +190,7 @@ class TableValue:
     @staticmethod    
     def add_paragraph_run(paragraph, run_props):
         run = paragraph.add_run(run_props.text)
-        run = run_props.applyRunProps(run)
+        run_props.applyRunProps(run)
 
     def trials(self):
         self.wind_design.trials()

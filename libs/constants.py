@@ -29,6 +29,7 @@ class Constants:
     END_OF_LINE = "end_of_line"
     INPUT_FROM_INPUT = "input"
     INPUT_FROM_CALCULATION = "calculation"
+    FONT_SIZE = "font_size"
 
     #Calculation value constants
     WIND_SPEED = "wind_speed"

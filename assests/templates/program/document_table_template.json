@@ -271,50 +271,73 @@
     "table_services_load":{
         "identifier": "Services = 0.05 kN/m2",
         "value_parts": {
-            "Services = ":{},
-            "services_load":{
-                "input_from": "input"
+            "Services = ":{
+                "font_size": 11
             },
-            " kN/m":{},
+            "services_load":{
+                "input_from": "input",
+                "font_size": 11
+            },
+            " kN/m":{
+                "font_size": 11
+            },
             "2":{
-                "superscript": "true"
+                "superscript": "true",
+                "font_size": 11
             }
         }
     },
     "table_live_load":{
         "identifier": "Roof Live Load = 0.60 kN/m2",
         "value_parts": {
-            "Roof Live Load = ":{},
-            "roof_live_load":{
-                "input_from": "input"
+            "Roof Live Load = ":{
+                "font_size": 11
             },
-            " kN/m":{},
+            "roof_live_load":{
+                "input_from": "input",
+                "font_size": 11
+            },
+            " kN/m":{
+                "font_size": 11
+            },
             "2":{
-                "superscript": "true"
+                "superscript": "true",
+                "font_size": 11
             }
         }
     },
     "table_dead_load":{
         "identifier": "Roof Dead Loads = 0.10 kN/m2",
         "value_parts": {
-            "Roof Dead Loads = ":{},
-            "roof_dead_load":{
-                "input_from": "input"
+            "Roof Dead Loads = ":{
+                "font_size": 11
             },
-            " kN/m":{},
+            "roof_dead_load":{
+                "input_from": "input",
+                "font_size": 11
+            },
+            " kN/m":{
+                "font_size": 11
+            },
             "2":{
-                "superscript": "true"
+                "superscript": "true",
+                "font_size": 11
             }
         }
     },
     "table_temperature_load":{
         "identifier": "Temperature Loading ±24 ˚C",
         "value_parts": {
-            "Temperature Loading ±":{},
-            "temprature_load":{
-                "input_from": "input"
+            "Temperature Loading ±":{
+                "font_size": 11
             },
-            " ˚C":{}
+            "temprature_load":{
+                "input_from": "input",
+                "font_size": 11
+            },
+            " ˚C":{
+                "font_size": 11
+            }
         }
     },
     "wind_design_x":{
