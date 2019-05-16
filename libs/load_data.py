@@ -28,11 +28,11 @@ class LoadData:
         return self.getFile(self.getOutPutFile(name))
     
     def getTemplateDocumentValues(self):
-        return json.load(open(self.getFile("assests/document_value_template.json"), encoding='utf8'), 
+        return json.load(open(self.getFile("assests/templates/program/document_value_template.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
     def getTemplateTableValues(self):
-        return json.load(open(self.getFile("assests/document_table_template.json"), encoding='utf8'), 
+        return json.load(open(self.getFile("assests/templates/program/document_table_template.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
     
     def getInputValues(self):
@@ -51,48 +51,48 @@ class LoadData:
     def getFormGrsFile(self, design_code, enclosure='open'):
         if design_code == Constants.ASCE_710_LRFD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return self.getFile("assests/FORM_GRS_LRFD_CLOSED.DAT")
-            return self.getFile("assests/FORM_GRS_LRFD.DAT")
+                return self.getFile("assests/templates/design/FORM_GRS_LRFD_CLOSED.DAT")
+            return self.getFile("assests/templates/design/FORM_GRS_LRFD.DAT")
         elif design_code == Constants.ASCE_710_ASD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return self.getFile("assests/FORM_GRS_ASD_CLOSED.DAT")
-            return self.getFile("assests/FORM_GRS_ASD.DAT")
+                return self.getFile("assests/templates/design/FORM_GRS_ASD_CLOSED.DAT")
+            return self.getFile("assests/templates/design/FORM_GRS_ASD.DAT")
 
     def loadNonSeismicFiles(self, design_code, enclosure):
         print(design_code, enclosure)
         if design_code == Constants.ASCE_710_LRFD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/Gen-Desc_710_lrfd_closed.docx"))
-            return Document(self.getFile("assests/Gen-Desc_710_lrfd.docx"))
+                return Document(self.getFile("assests/templates/design/Gen-Desc_710_lrfd_closed.docx"))
+            return Document(self.getFile("assests/templates/design/Gen-Desc_710_lrfd.docx"))
         elif design_code == Constants.ASCE_710_ASD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/Gen-Desc_710_asd_closed.docx"))
-            return Document(self.getFile("assests/Gen-Desc_710_asd.docx"))
+                return Document(self.getFile("assests/templates/design/Gen-Desc_710_asd_closed.docx"))
+            return Document(self.getFile("assests/templates/design/Gen-Desc_710_asd.docx"))
 
     def loadSeismicFiles(self, design_code, enclosure):
         if design_code == Constants.ASCE_710_LRFD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_lrfd_closed.docx"))
-            return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_lrfd.docx"))
+                return Document(self.getFile("assests/templates/seismic/Seismic_Gen-Desc_710_lrfd_closed.docx"))
+            return Document(self.getFile("assests/templates/seismic/Seismic_Gen-Desc_710_lrfd.docx"))
         elif design_code == Constants.ASCE_710_ASD:
             if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_asd_closed.docx"))
-            return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_asd.docx"))
+                return Document(self.getFile("assests/templates/seismic/Seismic_Gen-Desc_710_asd_closed.docx"))
+            return Document(self.getFile("assests/templates/seismic/Seismic_Gen-Desc_710_asd.docx"))
 
     def getTable27_3_1(self):
         return json.load(open(self.getFile("assests/asce/table_27_3_1.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
     def getWindDesignDefaults(self):
-        return json.load(open(self.getFile("assests/wind_design_defaults.json"), encoding='utf8'), 
+        return json.load(open(self.getFile("assests/templates/program/wind_design_defaults.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
     def getWindCoeffiecients(self):
-        return json.load(open(self.getFile("assests/wind_coeffiecients.json"), encoding='utf8'), 
+        return json.load(open(self.getFile("assests/templates/program/wind_coeffiecients.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
     def getWindMapDefaults(self):
-        return json.load(open(self.getFile("assests/windmap_defaults.json"), encoding='utf8'), 
+        return json.load(open(self.getFile("assests/templates/program/windmap_defaults.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
     def getInputFilePath(self):
