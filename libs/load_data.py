@@ -40,16 +40,14 @@ class LoadData:
         return json.load(open(self.getFile(self.path), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
-    def getDocxDocument(self, design_code, enclosure='open'):
-        if design_code == Constants.ASCE_710_LRFD:
-            if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/Gen-Desc_710_lrfd_closed.docx"))
-            return Document(self.getFile("assests/Gen-Desc_710_lrfd.docx"))
-        elif design_code == Constants.ASCE_710_ASD:
-            if enclosure == Constants.ENCLOSED_ROOF:
-                return Document(self.getFile("assests/Gen-Desc_710_asd_closed.docx"))
-            return Document(self.getFile("assests/Gen-Desc_710_asd.docx"))
+    def getDocxDocument(self, design_code, enclosure='open', seismic=False):
+        print("Seismic, ", seismic)
+        if seismic == True:
+            return self.loadSeismicFiles(design_code, enclosure)
+        else:
+            return self.loadNonSeismicFiles(design_code, enclosure)
 
+        
     def getFormGrsFile(self, design_code, enclosure='open'):
         if design_code == Constants.ASCE_710_LRFD:
             if enclosure == Constants.ENCLOSED_ROOF:
@@ -59,6 +57,27 @@ class LoadData:
             if enclosure == Constants.ENCLOSED_ROOF:
                 return self.getFile("assests/FORM_GRS_ASD_CLOSED.DAT")
             return self.getFile("assests/FORM_GRS_ASD.DAT")
+
+    def loadNonSeismicFiles(self, design_code, enclosure):
+        print(design_code, enclosure)
+        if design_code == Constants.ASCE_710_LRFD:
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return Document(self.getFile("assests/Gen-Desc_710_lrfd_closed.docx"))
+            return Document(self.getFile("assests/Gen-Desc_710_lrfd.docx"))
+        elif design_code == Constants.ASCE_710_ASD:
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return Document(self.getFile("assests/Gen-Desc_710_asd_closed.docx"))
+            return Document(self.getFile("assests/Gen-Desc_710_asd.docx"))
+
+    def loadSeismicFiles(self, design_code, enclosure):
+        if design_code == Constants.ASCE_710_LRFD:
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_lrfd_closed.docx"))
+            return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_lrfd.docx"))
+        elif design_code == Constants.ASCE_710_ASD:
+            if enclosure == Constants.ENCLOSED_ROOF:
+                return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_asd_closed.docx"))
+            return Document(self.getFile("assests/seismic/Seismic_Gen-Desc_710_asd.docx"))
 
     def getTable27_3_1(self):
         return json.load(open(self.getFile("assests/asce/table_27_3_1.json"), encoding='utf8'), 
