@@ -1,11 +1,11 @@
 from .doc_value import DocValue
 from .table_value import TableValue
+from libs.constants import Constants
 
 class GenDesc:
     PROJECT_NAME = "project_name"
     DESIGN_CODE = "design_code"
     ENCLOSURE_SPEC = "enclosure_specification"
-    SEISMIC_DESIGN = "design_for_seismic"
 
     def __init__(self, app_data):
         self.app_data = app_data
@@ -32,7 +32,8 @@ class GenDesc:
 
     def designSeismic(self):
         try:
-            return self.new_input_values[GenDesc.SEISMIC_DESIGN].lower() == "true"
+            return self.new_input_values[Constants.SEISMIC] \
+                [Constants.SEISMIC_DESIGN].lower() == "true"
         except KeyError:
             return False
 
