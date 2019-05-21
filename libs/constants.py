@@ -62,5 +62,6 @@ class Constants:
 
     #SEISMIC DESIGN
     SEISMIC = "design_for_seismic"
-    SEISMIC_DESIGN = "design"
+    SEISMIC_DESIGN = "include_seismic_design"
+    SEISMIC_REPLACE_VALUE = "replace_value"
     

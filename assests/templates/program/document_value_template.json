@@ -6,5 +6,23 @@
     "project_description": {
         "identifier":"The Space frame represents a semicircular double layer structure",
         "replace_entire_paragraph": "true"
+    },
+    "design_for_seismic": {
+        "short_period_acceleration": {
+            "identifier":"acceleration (Ss) in %g: 8.2",
+            "replace_value": "8.2"
+        }, 
+        "1_second_period_acceleration":{
+            "identifier":"1-second period acceleration (S1) in %g: 2.8",
+            "replace_value":  "2.8"
+        },
+        "site_class": {
+            "identifier":"Site class: D",
+            "replace_value": "D"
+        },
+        "importance_factor": {
+            "identifier":"Importance factor: 1.25",
+            "replace_value": "1.25"
+        }
     }
 }

@@ -37,25 +37,49 @@ class DocValue:
         return paragraph.text.replace(original_text, new_text)
 
     def updateDocumentValues(self):
-        
         for key, value in self.template_doc_values.items():
-            self.updateDocValue(key, value)
+            if key == Constants.SEISMIC:
+                self.updateSeismicData(key, value)
+            else:
+                new_text = self.new_input_values[key]
+                self.updateDocValue(key, value, new_text)
             
-    def updateDocValue(self, key, value):
+    def updateDocValue(self, key, value, new_text):
         identifier_text = value[Constants.TEMPLATE_IDENTIFIER]
-        replace_entire_paragraph = value[Constants.REPLACE_ENTIRE_PARAGRAPH]
+        
+        #loop through paragraph to get identifier to save memory
+        for paragraph in self.document.paragraphs:
+            if identifier_text in paragraph.text:
+                # paragraph = self.getIdenfierParagraph(identifier_text)
+            
+                if (self.replaceWholeParagraph(value) == Constants.TRUE):
+                    paragraph_text  = new_text
+                
+                #add else if to allow change of paragraph in parts with
+                #Runproperties too, don't break the old code
+                else:
+                    replace_text = self.getReplacementText(value)
+                    paragraph_text  = paragraph.text.replace(replace_text, new_text)
 
-        paragraph = self.getIdenfierParagraph(identifier_text)
-        new_text = self.new_input_values[key]
-
-        if (replace_entire_paragraph == Constants.TRUE):
-            paragraph_text  = new_text
-        else:
-            paragraph_text  = paragraph.text.replace(identifier_text, new_text)
-
-        paragraph.text = ""
-        paragraph_text_run = paragraph.add_run(paragraph_text)
-        paragraph_text_run.font.size = Pt(12)
-
+                paragraph.text = ""
+                paragraph_text_run = paragraph.add_run(paragraph_text)
+                paragraph_text_run.font.size = Pt(12)
+                Common.giveFeedBack(key)
         # self.giveFeedBack(key)
-        Common.giveFeedBack(key)
+        
+    def updateSeismicData(self, key, value):
+        for seismic_key, seismic_value in value.items():
+            new_text = self.new_input_values[key][seismic_key]
+            self.updateDocValue(key, seismic_value, new_text)
+
+    def replaceWholeParagraph(self, value):
+        try:
+            return value[Constants.REPLACE_ENTIRE_PARAGRAPH]
+        except KeyError:
+            return ""
+
+    def getReplacementText(self, value):
+        try:
+            return value[Constants.SEISMIC_REPLACE_VALUE]
+        except KeyError:
+            return value[Constants.TEMPLATE_IDENTIFIER]
