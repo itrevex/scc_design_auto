@@ -59,4 +59,8 @@ class Constants:
     ROOF_DEAD_LOAD = "roof_dead_load"
     SERVICES_LOAD = "services_load"
     ROOF_LIVE_LOAD = "roof_live_load"
+
+    #SEISMIC DESIGN
+    SEISMIC = "design_for_seismic"
+    SEISMIC_DESIGN = "design"
     
