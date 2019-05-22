@@ -64,4 +64,6 @@ class Constants:
     SEISMIC = "design_for_seismic"
     SEISMIC_DESIGN = "include_seismic_design"
     SEISMIC_REPLACE_VALUE = "replace_value"
+    SEISMIC_TABLE_PROPERTY = "property"
+    SEISMIC_SS = "short_period_acceleration"
     

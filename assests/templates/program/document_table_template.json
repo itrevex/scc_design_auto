@@ -371,6 +371,44 @@
                 "input_from": "calculation"
             }
         }
+    },
+    "seismic_fa_value":{
+        "identifier": "FA = 1.60,",
+        "value_parts": {
+            "F":{},
+            "A":{
+                "subscript": "true"
+            },
+            " = ":{},
+            "design_for_seismic":{
+                "property": "fa",
+                "input_from": "calculation"
+            } 
+        }
+    },
+    "seismic_ss_value":{
+        "identifier": "Ss = 0.082",
+        "value_parts": {
+            "Ss = ":{},
+            "design_for_seismic":{
+                "property": "short_period_acceleration",
+                "input_from": "calculation"
+            } 
+        }
+    },
+    "seismic_sms_calculation":{
+        "identifier": "SMS = 1.60x0.082",
+        "value_parts": {
+            "SMS = ":{},
+            "fa":{
+                "input_from": "calculation"
+            },
+            " x ":{},
+            "short_period_acceleration":{
+                "input_from": "calculation"
+            }
+
+        }
     }
 
 }

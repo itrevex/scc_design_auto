@@ -153,6 +153,14 @@ class TableValue:
             else:
                 return '0.18'
             pass  
+        
+        if (value == Constants.SEISMIC):
+            prop = part[Constants.SEISMIC_TABLE_PROPERTY]
+            if prop == Constants.SEISMIC_SS:
+                return "{:.3f}".format(float(self.new_input_values[value][prop])/100)
+            return self.new_input_values[value][prop]
+
+        # todo implement sms values if (value == ) 
         return ""
 
     def calcKzValue(self):
