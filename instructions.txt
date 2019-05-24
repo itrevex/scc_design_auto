@@ -1,0 +1,4 @@
+*update structure geometry drawing
+*update header and footer
+*update windmap image
+*incase of seismic, update W (Seismic Weight), and V; values can only be got after analysis

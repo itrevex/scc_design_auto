@@ -399,7 +399,11 @@
     "seismic_sms_calculation":{
         "identifier": "SMS = 1.60x0.082",
         "value_parts": {
-            "SMS = ":{},
+            "S":{},
+            "MS":{
+                "subscript": "true"
+            },
+            " = ":{},
             "fa":{
                 "input_from": "calculation"
             },
@@ -409,6 +413,106 @@
             }
 
         }
+    }, 
+    "seismic_sms_value":{
+        "identifier": "SMS = 0.1312",
+        "value_parts": {
+            "S":{},
+            "MS":{
+                "subscript": "true"
+            },
+            " = ":{},
+            "sms_value":{
+                "input_from": "calculation"
+            }
+        }
+    }, 
+    "seismic_sds_calculation":{
+        "identifier": "SDS = 2/3(0.1312)",
+        "value_parts": {
+            "S":{},
+            "DS":{
+                "subscript": "true"
+            },
+            " = 2/3(":{},
+            "sms_value":{
+                "input_from": "calculation"
+            },
+            ")":{}
+        }
+    }, 
+    "seismic_sds_value":{
+        "identifier": "SDS = 0.0875",
+        "value_parts": {
+            "S":{},
+            "DS":{
+                "subscript": "true"
+            },
+            " = ":{},
+            "sds_value":{
+                "input_from": "calculation"
+            }
+        }
+    },
+    "seismic_cs_calculation":{
+        "identifier": "[Cs = 0.09387 / {(6/1.25}]",
+        "value_parts": {
+            "[C":{},
+            "S":{
+                "subscript": "true"
+            },
+            " = ":{},
+            "sds_value":{
+                "input_from": "calculation"
+            },
+            "/{(6/":{},
+            "importance_factor": {
+                "input_from": "calculation"
+            },
+            ")}]":{}
+        }
+    },
+    "seismic_cs_value":{
+        "identifier": "Cs = 0.0182",
+        "value_parts": {
+            "C":{},
+            "S":{
+                "subscript": "true"
+            },
+            " = ":{},
+            "cs_value":{
+                "input_from": "calculation"
+            }
+        }
+    },
+    "seismic_cs_min_calculation":{
+        "identifier": "Cs min = 0.044x0.0875x1.25",
+        "value_parts": {
+            "C":{},
+            "s min":{
+                "subscript": "true"
+            },
+            " = 0.044x":{},
+            "sds_value":{
+                "input_from": "calculation"
+            },
+            "x":{},
+            "importance_factor": {
+                "input_from": "calculation"
+            }
+        }
+    },
+    "seismic_cs_min_value":{
+        "identifier": "Cs min = 0.0048",
+        "value_parts": {
+            "C":{},
+            "s min":{
+                "subscript": "true"
+            },
+            " = ":{},
+            "cs_min_value":{
+                "input_from": "calculation"
+            }
+        }
     }
-
 }

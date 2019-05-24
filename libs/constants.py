@@ -66,4 +66,10 @@ class Constants:
     SEISMIC_REPLACE_VALUE = "replace_value"
     SEISMIC_TABLE_PROPERTY = "property"
     SEISMIC_SS = "short_period_acceleration"
+    SEISMIC_FA = "fa"
+    SEISMIC_SMS_VALUE = "sms_value" 
+    SEISMIC_SDS_VALUE = "sds_value"
+    SEISMIC_IMPORTANCE_FACTOR = "importance_factor"
+    SEISMIC_CS_VALUE = "cs_value"
+    SEISMIC_CS_MIN_VALUE = "cs_min_value"
     

@@ -161,6 +161,37 @@ class TableValue:
             return self.new_input_values[value][prop]
 
         # todo implement sms values if (value == ) 
+        if (value == Constants.SEISMIC_SS):
+            prop = Constants.SEISMIC
+            self.ss = float(self.new_input_values[prop][value])/100
+            return "{:.3f}".format(self.ss) 
+
+        if (value == Constants.SEISMIC_FA):
+            prop = Constants.SEISMIC
+            self.fa = float(self.new_input_values[prop][value])
+            return "{:.2f}".format(self.fa)
+        
+        if (value == Constants.SEISMIC_SMS_VALUE):
+            self.sms = self.fa * self.ss
+            return "{:.4f}".format(self.sms)
+
+        if (value == Constants.SEISMIC_SDS_VALUE):
+            self.sds = (2/3) * self.sms
+            return "{:.4f}".format(self.sds)
+
+        if (value == Constants.SEISMIC_IMPORTANCE_FACTOR):
+            prop = Constants.SEISMIC
+            self.seismic_importance = float(self.new_input_values[prop][value])
+            return "{:.2f}".format(self.seismic_importance)
+            
+        if (value == Constants.SEISMIC_CS_VALUE):
+            self.cs = self.sds / (6/self.seismic_importance)
+            return "{:.4f}".format(self.cs)
+
+        if (value == Constants.SEISMIC_CS_MIN_VALUE):
+            self.cs_min = 0.044 * self.sds * self.seismic_importance
+            return "{:.4f}".format(self.cs_min)
+
         return ""
 
     def calcKzValue(self):
