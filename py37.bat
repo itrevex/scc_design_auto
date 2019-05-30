@@ -1,3 +1,4 @@
+@echo off
 REM py -3.7-64 -m pip install pandas
 REM py -3.7-64 -m pip install Pillow
 REM py -3.7-64 -m pip install -U matplotlib
@@ -15,4 +16,4 @@ REM "setup/setups/ssc_design_setup-1.0.7"
 REM "dist/main/trsc"
 REM py -3.7-64 -m pip freeze rem show all packages installed
 REM git rm --cached *.exe 
-py -3.7-64 main.py "project/project.json"
+py -3.7-64 src/main.py "../project/project.json"
