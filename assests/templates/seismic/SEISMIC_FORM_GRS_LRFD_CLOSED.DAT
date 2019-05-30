@@ -14,15 +14,19 @@ LC06  : Wind Along -X Direction                     807  808  809
 LC07  : Wind Along +Y Direction                     810  811  812     
 LC08  : Wind Along -Y Direction                     813  814  815                          
 LC09  : Positive Internal Pressure                  816                                             
-LC10  : Negative Internal Pressure                  817                                                                                                                                                                                                                                            
+LC10  : Negative Internal Pressure                  817
+LC11  : Seimsic Loading +X Direction                                                                
+LC12  : Seimsic Loading -X Direction                                                                 
+LC13  : Seimsic Loading +Y Direction                                                                 
+LC14  : Seimsic Loading -Y Direction                                                                                                                                                                                                                                                
 --99--:Exits the load cases--------------------------------------
-   30    7
+   34    7
  1.00*LC01  1.40*LC02  1.40*LC03                                  Combn  1 (101) 1.40D 
- 1.00*LC01  1.40*LC02  1.40*LC03  1.00*LC11                       Combn  2 (102) 1.40D+T        
- 1.00*LC01  1.40*LC02  1.40*LC03 -1.00*LC11                       Combn  3 (103) 1.40D-T        
+ 1.00*LC01  1.40*LC02  1.40*LC03  1.00*LC15                       Combn  2 (102) 1.40D+T        
+ 1.00*LC01  1.40*LC02  1.40*LC03 -1.00*LC15                       Combn  3 (103) 1.40D-T        
  1.00*LC01  1.20*LC02  1.20*LC03  0.50*LC04                       Combn  4 (104) 1.20D+0.50Lr      
- 1.00*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC11            Combn  5 (105) 1.20D+0.50Lr+1.00T    
- 1.00*LC01  1.20*LC02  1.20*LC03  0.50*LC04 -1.00*LC11            Combn  6 (106) 1.20D+0.50Lr-1.00T    
+ 1.00*LC01  1.20*LC02  1.20*LC03  0.50*LC04  1.00*LC15            Combn  5 (105) 1.20D+0.50Lr+1.00T    
+ 1.00*LC01  1.20*LC02  1.20*LC03  0.50*LC04 -1.00*LC15            Combn  6 (106) 1.20D+0.50Lr-1.00T    
  1.00*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC05  0.50*LC09 Combn  7 (201) 1.2D+1.6Lr+0.5W+pi      
  1.00*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC06  0.50*LC09 Combn  8 (202) 1.2D+1.6Lr+0.5W+pi      
  1.00*LC01  1.20*LC02  1.20*LC03  1.60*LC04  0.50*LC07  0.50*LC09 Combn  9 (203) 1.2D+1.6Lr+0.5W+pi     
@@ -47,6 +51,10 @@ LC10  : Negative Internal Pressure                  817
  1.00*LC01  0.90*LC02  0.90*LC03  1.00*LC06  1.00*LC10            Combn 28 (222) 0.90D+1.00W-pi      
  1.00*LC01  0.90*LC02  0.90*LC03  1.00*LC07  1.00*LC10            Combn 29 (223) 0.90D+1.00W-pi      
  1.00*LC01  0.90*LC02  0.90*LC03  1.00*LC08  1.00*LC10            Combn 30 (224) 0.90D+1.00W-pi  
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC11                       Combn 31 (225) 0.9D+1.00E+x 
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC12                       Combn 32 (226) 0.9D+1.00E-x 
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC13                       Combn 33 (227) 0.9D+1.00E+y 
+ 0.90*LC01  0.90*LC02  0.90*LC03  1.00*LC14                       Combn 34 (228) 0.9D+1.00E-y 
 9--------------------------:Exits the load combination cards-----------------
 ------------------NOTES------------------------
 Project name	
