@@ -4,7 +4,7 @@ import os
 import sys
 from collections import OrderedDict
 
-from libs.constants import Constants
+from .constants import Constants
 
 class LoadData:
     '''
@@ -16,7 +16,7 @@ class LoadData:
         self.head, self.tail = os.path.split(self.file_dir)
         if(self.tail != 'Gen-Desc.docx'): 
           self.file_dir = self.head
-        pass
+        self.path = self.getInputFilePath()
 
     def getFile(self, file_path):
         return os.path.join(self.file_dir, file_path)
@@ -25,7 +25,7 @@ class LoadData:
         return self.getFile("assests/Gen-Desc.docx")
 
     def getOutputFile(self, name = ""):
-        return self.getFile(self.getOutPutFile(name))
+        return self.getFile(self.getOutPutFilePath(name))
     
     def getTemplateDocumentValues(self):
         return json.load(open(self.getFile("assests/templates/program/document_value_template.json"), encoding='utf8'), 
@@ -36,7 +36,6 @@ class LoadData:
             object_pairs_hook=OrderedDict)
     
     def getInputValues(self):
-        self.path = self.getInputFilePath()
         return json.load(open(self.getFile(self.path), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
@@ -106,7 +105,7 @@ class LoadData:
         
         return path
 
-    def getOutPutFile(self, name):
+    def getOutPutFilePath(self, name):
         try: 
             head = os.path.split(self.path)[0]
             file_name = "Gen-Desc-%s.DOC" %name
@@ -116,6 +115,18 @@ class LoadData:
             # Messages.showError("There is no data to use to generate output file")
             print("An error occured in getOutPutFile method")
     
+    def getGeomFile(self):
+        try: 
+            head = os.path.split(self.path)[0]
+            file_name = "GEOM1.DXF"
+            return os.path.join(head, file_name)
+
+        except AttributeError:
+            # Messages.showError("There is no data to use to generate output file")
+            print("Error: Cannot create geom1.dxf path")
+            # print(error)
+
+
     def getLoadsFile(self):
         '''
         opens file, remmember to close file after file has
