@@ -1,4 +1,4 @@
-import ezdxf, sys
+import ezdxf, sys, copy
 import numpy as np
 
 class DxfInput():
@@ -10,7 +10,6 @@ class DxfInput():
     
     def getGeomFile(self):
         geom_file = self.app_data.getGeomFile()
-        print(geom_file)
         try:
             dwg = ezdxf.readfile(geom_file)
             modelspace = dwg.modelspace()
@@ -19,30 +18,50 @@ class DxfInput():
             nodes_array = self.getTopChordNodesArray(modelspace, layer_61_lines,layer_71_lines)
 
             #get top chord connectivities
-            layer_61_conns = self.getNodalConnectivites(layer_61_lines, nodes_array)
+            conns = self.getNodalConnectivites(layer_61_lines, nodes_array)
             layer_71_conns = self.getNodalConnectivites(layer_71_lines, nodes_array)
+            conns.extend(layer_71_conns)
+            conns = np.array(self.removeDuplicates(conns))
+            print(conns.shape)
 
-            print(layer_61_conns)
+            #remove repeats and put in a single array
 
         except FileNotFoundError:
             print("Please add GEOM1.DXF file to working folder")
             sys.exit()
 
-    def inList(self, list1, list2):
-        return list1 == list2
+    def removeDuplicates(self, conns):
+        new_conns = []
+        for conn in conns:
+            for new_con in new_conns:
+                if self.equalLine(conn, new_con):
+                    break
+            else:
+                new_conns.append(conn)
+        return new_conns
+
+
+    def equalLine(self, conn1, conn2):
+        conn = copy.deepcopy(conn2)
+        for e in conn1:
+            if e not in conn:
+                return False
+            else:
+                conn.remove(e)
+        return True
 
     def getNodeIndex(self, end_node, nodes):
         index = 0
         for node in nodes:
-            if self.equalLine(node, end_node):
+            if self.equalNode(node, end_node):
                 return index
             index +=1
         return None
 
-    def equalLine(self, line1, line2):
-        return self.pointEqual(line1[0], line2[0]) \
-            and self.pointEqual(line1[1], line2[1]) \
-            and self.pointEqual(line1[2], line2[2])
+    def equalNode(self, node1, node2):
+        return self.pointEqual(node1[0], node2[0]) \
+            and self.pointEqual(node1[1], node2[1]) \
+            and self.pointEqual(node1[2], node2[2])
 
     def pointEqual(self, pt1, pt2):
         return abs(pt1-pt2) <= DxfInput.TOR
