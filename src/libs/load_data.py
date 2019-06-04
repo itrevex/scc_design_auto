@@ -38,7 +38,6 @@ class LoadData:
             object_pairs_hook=OrderedDict)
 
     def getDocxDocument(self, design_code, enclosure='open', seismic=False):
-        print("Seismic, ", seismic)
         if seismic == True:
             return self.loadSeismicFiles(design_code, enclosure)
         else:
@@ -95,8 +94,6 @@ class LoadData:
     def getInputFilePath(self):
         # if called with no arguments, call app data pick file from there
         path = None
-        print()
-        print("sys.arg = ", sys.argv)
         if (len(sys.argv) > 1):
             path = self.getFile(sys.argv[1])
             
