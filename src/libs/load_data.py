@@ -1,7 +1,5 @@
 from docx import Document
-import json
-import os
-import sys
+import json, os, sys
 from collections import OrderedDict
 
 from .constants import Constants
@@ -97,6 +95,8 @@ class LoadData:
     def getInputFilePath(self):
         # if called with no arguments, call app data pick file from there
         path = None
+        print()
+        print("sys.arg = ", sys.argv)
         if (len(sys.argv) > 1):
             path = self.getFile(sys.argv[1])
             

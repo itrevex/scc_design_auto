@@ -10,6 +10,7 @@ class DxfInput():
     
     def getGeomFile(self):
         geom_file = self.app_data.getGeomFile()
+        print(geom_file)
         try:
             dwg = ezdxf.readfile(geom_file)
             modelspace = dwg.modelspace()
