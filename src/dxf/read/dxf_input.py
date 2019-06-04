@@ -15,14 +15,13 @@ class DxfInput():
             modelspace = dwg.modelspace()
             layer_61_lines = modelspace.query('LINE[layer=="61"]')
             layer_71_lines = modelspace.query('LINE[layer=="71"]')
-            nodes_array = self.getTopChordNodesArray(modelspace, layer_61_lines,layer_71_lines)
+            self.nodes_array = self.getTopChordNodesArray(modelspace, layer_61_lines,layer_71_lines)
 
             #get top chord connectivities
-            conns = self.getNodalConnectivites(layer_61_lines, nodes_array)
-            layer_71_conns = self.getNodalConnectivites(layer_71_lines, nodes_array)
+            conns = self.getNodalConnectivites(layer_61_lines, self.nodes_array)
+            layer_71_conns = self.getNodalConnectivites(layer_71_lines, self.nodes_array)
             conns.extend(layer_71_conns)
-            conns = np.array(self.removeDuplicates(conns))
-            print(conns.shape)
+            self.conns = np.array(self.removeDuplicates(conns))
 
             #remove repeats and put in a single array
 
@@ -39,7 +38,6 @@ class DxfInput():
             else:
                 new_conns.append(conn)
         return new_conns
-
 
     def equalLine(self, conn1, conn2):
         conn = copy.deepcopy(conn2)
