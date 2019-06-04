@@ -3,6 +3,7 @@ import numpy as np
 
 class DxfInput():
     TOR = 0.001
+
     def __init__(self, app_data):
         self.app_data = app_data
         self.getGeomFile()
@@ -94,5 +95,3 @@ class DxfInput():
         return connectivities
 
     
-    #open dxf file
-    #read in all entities
