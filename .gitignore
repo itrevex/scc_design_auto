@@ -8,3 +8,4 @@ generated/~$n-Desc.docx
 test.png
 *.DOC
 *.exe
+/htmlcov
