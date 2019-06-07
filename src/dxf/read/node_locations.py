@@ -147,6 +147,10 @@ class NodeLocations():
         return set(left_edge_nodes)
 
     def getBottomEdgeLines(self):
+        '''
+        Return value: set()
+        Gets all bottom edge lines
+        '''
         bottom_edge_nodes = self.getBottomEdgeNodes()
         bottom_edge_lines = []
         for index in range(self.conns_array.shape[0]):
@@ -304,5 +308,38 @@ class NodeLocations():
             if node not in node_pool:
                 return False
         return True
+
+    def getRegionBottomEndNode(self, region_lines):
+        '''
+        return node number in the bottom right corner of the 
+        nodes in the passed in region lines
+        '''
+        #1. find nodes base nodes of region
+        all_bottom_lines = self.getBottomEdgeLines()
+        region_bottom_lines = set()
+        for line in region_lines:
+            if line in all_bottom_lines:
+                region_bottom_lines.add(line)
+
+        extreme_line = self.extremeBottomLine(region_bottom_lines)
+
+        return self.getLineEndNode(extreme_line)
+
+    def getLineEndNode(self, line):
+        '''
+        Finds return node number for line node with maximum
+        value of x.
+        Assumption is node are number from left to right
+        '''
+        line_nodes = self.conns_array[line].tolist()
+        start_node = line_nodes[0]
+        end_node = line_nodes[1]
+
+        if self.nodes_array[start_node, 0] > self.nodes_array[end_node, 0]:
+            return start_node
+
+        return end_node
+
+
 
     
