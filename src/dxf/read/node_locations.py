@@ -170,6 +170,34 @@ class NodeLocations():
             end_node_x = self.nodes_array[end_node, 0]
             if self.isPointWithinPoints(total_length, [start_node_x, end_node_x]):
                 return line
+        #find line that does not cut any point, right line equal to none
+        return self.extremeBottomLine(lines)
+        
+    def extremeBottomLine(self, lines):
+        extreme_line = list(lines)[0]
+        for line in lines:
+            start_node = self.conns_array[line,0]
+            end_node = self.conns_array[line, 1]
+            start_node_x = self.nodes_array[start_node, 0]
+            end_node_x = self.nodes_array[end_node, 0]
+
+            end_node = end_node_x
+            if start_node_x > end_node:
+                end_node = start_node_x
+
+            ext_start_node = self.conns_array[extreme_line,0]
+            ext_end_node = self.conns_array[extreme_line, 1]
+            ext_start_node_x = self.nodes_array[ext_start_node, 0]
+            ext_end_node_x = self.nodes_array[ext_end_node, 0]
+
+            ext_end_node = ext_end_node_x
+            if ext_start_node_x > ext_end_node:
+                ext_end_node = ext_start_node_x
+
+            if end_node > ext_end_node:
+                extreme_line = line
+            
+        return extreme_line
 
     def isPointWithinPoints(self, point, points):
         start_point = points[0]
@@ -268,7 +296,6 @@ class NodeLocations():
             for line in node_lines:
                 if self.isLineInNodePool(line, nodes_in_portion):
                     lines.add(line)
-        print(lines)
         return lines
 
     def isLineInNodePool(self, line, node_pool):
@@ -276,5 +303,6 @@ class NodeLocations():
         for node in line_nodes:
             if node not in node_pool:
                 return False
-
         return True
+
+    

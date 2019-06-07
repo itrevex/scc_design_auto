@@ -16,11 +16,11 @@ class DxfInput():
             modelspace = dwg.modelspace()
             layer_61_lines = modelspace.query('LINE[layer=="61"]')
             layer_71_lines = modelspace.query('LINE[layer=="71"]')
-            self.nodes_array = self.getTopChordNodesArray(modelspace, layer_61_lines,layer_71_lines)
+            self.nodes = self.getTopChordNodesArray(modelspace, layer_61_lines,layer_71_lines)
 
             #get top chord connectivities
-            conns = self.getNodalConnectivites(layer_61_lines, self.nodes_array)
-            layer_71_conns = self.getNodalConnectivites(layer_71_lines, self.nodes_array)
+            conns = self.getNodalConnectivites(layer_61_lines, self.nodes)
+            layer_71_conns = self.getNodalConnectivites(layer_71_lines, self.nodes)
             conns.extend(layer_71_conns)
             self.conns = np.array(self.removeDuplicates(conns))
 

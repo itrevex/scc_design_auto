@@ -209,4 +209,8 @@ class TestNodeLocations:
         node_pool = {0,4,1,5,8,7}
         line = 8
         assert locations.isLineInNodePool(line, node_pool)
+
+    def test_line_has_no_right_end_line(self, locations):
+        lines = locations.getBottomEdgeLines()
+        assert locations.extremeBottomLine(lines) == 5
     

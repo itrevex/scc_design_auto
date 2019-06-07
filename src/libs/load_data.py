@@ -111,7 +111,16 @@ class LoadData:
         except AttributeError:
             # Messages.showError("There is no data to use to generate output file")
             print("An error occured in getOutPutFile method")
-    
+
+    def getRootOutPutPath(self, file_name):
+        try: 
+            head = os.path.split(self.path)[0]
+            return os.path.join(head, file_name)
+
+        except AttributeError:
+            # Messages.showError("There is no data to use to generate output file")
+            print("An error occured in getOutPutFile method")
+
     def getGeomFile(self):
         try: 
             head = os.path.split(self.path)[0]
