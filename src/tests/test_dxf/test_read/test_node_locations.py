@@ -213,4 +213,20 @@ class TestNodeLocations:
     def test_line_has_no_right_end_line(self, locations):
         lines = locations.getBottomEdgeLines()
         assert locations.extremeBottomLine(lines) == 5
+
+    def test_find_end_node_within_region_lines(self, locations):
+        region_lines = {7,0,1,11,10,6,8}
+        assert locations.getRegionBottomEndNode(region_lines) == 7
+
+    def test_find_end_node_within_region_lines1(self, locations):
+        region_lines = {7,0,1,11,10,6,8,5}
+        assert locations.getRegionBottomEndNode(region_lines) == 3
+
+    def test_find_end_node_line(self, locations):
+        line = 5
+        assert locations.getLineEndNode(line) == 3
+    
+    def test_find_end_node_line1(self, locations):
+        line = 1
+        assert locations.getLineEndNode(line) == 5
     
