@@ -176,29 +176,33 @@ class TestNodeLocations:
         nodes_in_portion = {0,4,1,7,8,5}
         start_node = 0
         length = 0.55
-        calculated_nodes = locations.getNodesWithinPortition(start_node, length)
+        end_node, calculated_nodes = locations.getNodesWithinPortition(start_node, length)
         assert nodes_in_portion.issubset(calculated_nodes)
+        assert end_node == 7
     
     def test_nodes_for_selection_portition1(self, locations):
         nodes_in_portion = {0,4,1,7,8,5}
         start_node = 0
         length = 0.25
-        calculated_nodes = locations.getNodesWithinPortition(start_node, length)
+        end_node, calculated_nodes = locations.getNodesWithinPortition(start_node, length)
         assert nodes_in_portion.issubset(calculated_nodes)
+        assert end_node == 7
 
     def test_nodes_for_selection_portition2(self, locations):
         nodes_in_portion = {2,6,3,7,8,5}
         start_node = 0
         length = 1.6
-        calculated_nodes = locations.getNodesWithinPortition(start_node, length)
+        end_node, calculated_nodes = locations.getNodesWithinPortition(start_node, length)
         assert nodes_in_portion.issubset(calculated_nodes)
+        assert end_node == 3
 
     def test_lines_for_selection_portion(self, locations):
         lines_in_portion = {7,0,1,11,10,6,8}
         start_node = 0
         length = 0.6
-        calculated_lines = locations.getLinesWithinPortition(start_node, length)
+        end_node, calculated_lines = locations.getLinesWithinPortition(start_node, length)
         assert calculated_lines.issubset(lines_in_portion)
+        assert end_node == 7
 
     def test_line_is_within_node_pool(self, locations):
         node_pool = {0,4,1,5,8,7}
@@ -240,17 +244,41 @@ class TestNodeLocations:
     def test_returns_right_cutline_for_negative_total_length(self, locations):
         assert locations.getIntersectedLine(-0.45) == 5
 
-    def test_get_right_near_node_end_node(self, locations):
-        point = -0.5
-        line = 5
-        assert locations.selectNearerNode(point, line, 3) == 7
-
-    def test_get_right_near_node_end_node2(self, locations):
-        point = -0.5
-        line = 5
-        assert locations.selectNearerNode(point, line, 3) == 7
-
     def test_get_length_from_start_point(self, locations):
         total_length = -0.45
-        locations.getLengthFromStartNode(total_length)
+        # locations.getLengthFromStartNode(total_length)
         assert locations.getLengthFromStartNode(total_length) == 1.55
+
+    def test_get_nearer_node_for_end_node(self, locations):
+        point = -0.5
+        line = 5
+        assert locations.selectNearerNodeEndNode(point, line, 3) == 7
+
+    def test_get_nearer_node_for_end_node1(self, locations):
+        point = -0.45
+        line = 5
+        assert locations.selectNearerNodeEndNode(point, line, 3) == 7
+
+    def test_get_nearer_node_for_end_node2(self, locations):
+        point = -1.45
+        line = 6
+        assert locations.selectNearerNodeEndNode(point, line, 3) == 7
+
+    def test_get_nearer_node_for_end_node3(self, locations):
+        point = -1.8
+        line = 6
+        assert locations.selectNearerNodeEndNode(point, line, 3) == 0
+
+    def test_get_nearer_node_for_end_node4(self, locations):
+        point = -1.8
+        line = 6
+        assert locations.selectNearerNode(point, line, 3) == 0
+
+    def test_returns_none_for_extreme_nodes(self, locations):
+        assert locations.getExtremeEndNode(0, 1.1) == None
+
+    def test_returns_none_for_extreme_nodes1(self, locations):
+        assert locations.getExtremeEndNode(3, -0.45) == None
+
+    def test_returns_none_for_extreme_nodes2(self, locations):
+        assert locations.getExtremeEndNode(7, 0.4) == 7

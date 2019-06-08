@@ -210,9 +210,8 @@ class NodeLocations():
         if total_length < 0:
             extreme_node = self.getEndNode()
             extreme_node_x = self.nodes_array[extreme_node, 0]
-            print(extreme_node, extreme_node_x)
             #extreme_node_x is L, the length of drawing
-            length = extreme_node_x - total_length
+            length = extreme_node_x - abs(total_length)
         return length
         
     def extremeBottomLine(self, lines):
@@ -261,6 +260,9 @@ class NodeLocations():
         return False
 
     def selectNearerNode(self, total_length, line, in_start_node):
+        if total_length < 0:
+            return self.selectNearerNodeEndNode(total_length, line, in_start_node)
+
         end_node_1 = self.conns_array[line,0]
         end_node_2 = self.conns_array[line, 1]
         end_node_1_x = self.nodes_array[end_node_1, 0]
@@ -298,7 +300,8 @@ class NodeLocations():
 
         start_node = end_node_1
         end_node = end_node_2
-        if end_node_1_x > total_length:
+        length = self.getLengthFromStartNode(total_length)
+        if end_node_1_x > length:
             start_node = end_node_2
             end_node = end_node_1
 
@@ -308,14 +311,14 @@ class NodeLocations():
         module = abs(end_node_1_x - end_node_2_x)
         #find portion towards the start node. If this portion is greater than or equal
         #0.5 use end line node and end node other use start node as line node
-        percentage_portion = (total_length - start_node_x) / module
+        percentage_portion = (length - start_node_x) / module
 
         #if portion greater than or equal 50% or the start node is the same as what
         #is passed
-        if percentage_portion >= 0.5 or start_node == in_end_node:
-            return end_node
+        if percentage_portion < 0.5 or end_node == in_end_node: 
+            return start_node
 
-        return start_node
+        return end_node
 
     def getNodesAlongNodeInY(self, node, nodes_along=set()):
         '''
@@ -351,6 +354,8 @@ class NodeLocations():
         cut_line = self.getIntersectedLine(total_length)
         #b) get neaer node of line which is end node of portion
         end_node =  self.selectNearerNode(total_length, cut_line, start_node)
+        portion_end_node = self.getExtremeEndNode(end_node, total_length)
+        
         #2. get nodes along bottom edge
         portion_bottom_nodes = \
             self.getBottomNodesWithinSelectedPortion(start_node, end_node)
@@ -360,17 +365,17 @@ class NodeLocations():
             node_top_nodes = self.getNodesAlongNodeInY(node, set())
             portion_nodes.update(node_top_nodes)
         #return these nodes as nodes within portion
-        return portion_nodes
+        return portion_end_node, portion_nodes
     
     def getLinesWithinPortition(self, start_node, total_length):
-        nodes_in_portion = self.getNodesWithinPortition(start_node, total_length)
+        end_node, nodes_in_portion = self.getNodesWithinPortition(start_node, total_length)
         lines = set()
         for node in nodes_in_portion:
             node_lines = self.getNodeLines(node)
             for line in node_lines:
                 if self.isLineInNodePool(line, nodes_in_portion):
                     lines.add(line)
-        return lines
+        return end_node, lines
 
     def isLineInNodePool(self, line, node_pool):
         line_nodes = self.conns_array[line].tolist()
@@ -410,6 +415,15 @@ class NodeLocations():
 
         return end_node
 
+    def getExtremeEndNode(self, node, total_length):
+        if total_length < 0:
+            if node == self.getEndNode():
+                return None
+        else:
+            if node == self.getStartNode():
+                return None
+
+        return node
 
 
     

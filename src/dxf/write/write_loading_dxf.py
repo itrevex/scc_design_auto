@@ -28,13 +28,17 @@ class LoadingsDxf():
         #todo - get extreme corner node for region lines
 
     def getLoadingRegionLines(self, total_length, start_node=None):
+        
+        # for i in range(260):
+        #     print(i, self.locations.nodes_array[i])
         if start_node == None:
             start_node = self.locations.getStartNode()
             if total_length < 0: #total length is in the negative direction
                 start_node = self.locations.getEndNode()
-        region_lines = self.locations.getLinesWithinPortition(start_node, total_length)
 
-        return region_lines
+        next_start_node, region_lines = self.locations.getLinesWithinPortition(start_node, total_length)
+
+        return next_start_node, region_lines
         
     
     def getLoadingRegions(self):
