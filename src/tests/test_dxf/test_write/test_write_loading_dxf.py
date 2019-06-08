@@ -12,6 +12,7 @@ def app_data():
 def mock_dwg():
     with patch('dxf.write.write_loading_dxf.ezdxf.new') as mock:
         return mock
+
 class TestLoadingDxf():
 
     def test_saveas_loading_dxf_file_called(self, app_data, mock_dwg):
@@ -35,3 +36,15 @@ class TestLoadingDxf():
         loading_dxf = LoadingsDxf(app_data)
         lines = loading_dxf.getLoadingRegionLines(1000.)
         assert len(lines) == 58
+
+    def test_adds_lines_to_modelspace(self, app_data):
+        with patch('dxf.write.write_loading_dxf.ezdxf.new') as mock_dwg:
+            mock_msp = Mock()
+            type(mock_dwg.return_value).modelspace = mock_msp 
+            mock_add_line = Mock()
+            type(mock_msp.return_value).add_line = mock_add_line
+            loading_dxf = LoadingsDxf(app_data)
+            region_lines = loading_dxf.getLoadingRegionLines(6354.)
+            loading_dxf.createLines(region_lines)
+            mock_msp.assert_called()
+            assert mock_add_line.call_count == 136
