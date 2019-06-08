@@ -8,7 +8,7 @@ REM py -3.7-64 -m pytest  src/tests/test_dxf -v
 REM py -3.7-64 -m pytest -s -v 
 py -3.7-64 -m pytest -v
 REM py -3.7-64 -m pytest --cov=src/dxf  src/tests/ --cov-report html
-REM py -3.7-64 -m pytest -s -vv -k"test_loading_region_lines_for_negative_direction"
+REM py -3.7-64 -m pytest -s -vv -k"test_nodes_for_selection_portition"
 REM py -3.7-64 -m pytest -s -v -k "Nodes" 
 REM py -3.7-64 -m coverage html 
 

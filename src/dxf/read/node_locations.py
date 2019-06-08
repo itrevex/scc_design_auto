@@ -417,10 +417,10 @@ class NodeLocations():
 
     def getExtremeEndNode(self, node, total_length):
         if total_length < 0:
-            if node == self.getEndNode():
+            if node == self.getStartNode():
                 return None
         else:
-            if node == self.getStartNode():
+            if node == self.getEndNode():
                 return None
 
         return node

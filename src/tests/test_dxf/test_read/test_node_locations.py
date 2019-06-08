@@ -194,7 +194,7 @@ class TestNodeLocations:
         length = 1.6
         end_node, calculated_nodes = locations.getNodesWithinPortition(start_node, length)
         assert nodes_in_portion.issubset(calculated_nodes)
-        assert end_node == 3
+        assert end_node == None
 
     def test_lines_for_selection_portion(self, locations):
         lines_in_portion = {7,0,1,11,10,6,8}
@@ -275,10 +275,10 @@ class TestNodeLocations:
         assert locations.selectNearerNode(point, line, 3) == 0
 
     def test_returns_none_for_extreme_nodes(self, locations):
-        assert locations.getExtremeEndNode(0, 1.1) == None
+        assert locations.getExtremeEndNode(7, 1.1) == 7
 
     def test_returns_none_for_extreme_nodes1(self, locations):
-        assert locations.getExtremeEndNode(3, -0.45) == None
+        assert locations.getExtremeEndNode(0, -1.55) == None
 
     def test_returns_none_for_extreme_nodes2(self, locations):
-        assert locations.getExtremeEndNode(7, 0.4) == 7
+        assert locations.getExtremeEndNode(3, 1.5) == None

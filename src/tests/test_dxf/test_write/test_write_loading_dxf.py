@@ -122,3 +122,9 @@ class TestLoadingDxf():
         assert len(lines) == 136
         assert end_node == 140
 
+    def test_loading_region_lines_for_negative_direction4(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        end_node, lines = loading_dxf.getLoadingRegionLines(28800.)
+        assert len(lines) == 487
+        assert end_node == None
+
