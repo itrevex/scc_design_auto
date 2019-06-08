@@ -60,7 +60,7 @@ class WindMapValue:
         '''
         Sets plot lines for the windmap_value
         '''
-        titles = self.title.split(" ")
+        # titles = self.title.split(" ")
         self.plot_lines.append("$%s$"%self.title)
         self.plot_lines.append("$θ = %s˚$"%self.roof_angle)
         if self.closed:
