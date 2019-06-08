@@ -20,6 +20,8 @@ class LoadingsDxf():
             end_node =self.dxfInput. nodes[line_nodes[1]].tolist()
             self.msp.add_line(start_node, end_node)
 
+        #todo - get extreme corner node for region lines
+
     def getLoadingRegionLines(self, total_length, start_node=None):
         if start_node == None:
             start_node = self.locations.getStartNode()
