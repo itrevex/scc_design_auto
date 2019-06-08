@@ -240,5 +240,17 @@ class TestNodeLocations:
     def test_returns_right_cutline_for_negative_total_length(self, locations):
         assert locations.getIntersectedLine(-0.45) == 5
 
-    
-    
+    def test_get_right_near_node_end_node(self, locations):
+        point = -0.5
+        line = 5
+        assert locations.selectNearerNode(point, line, 3) == 7
+
+    def test_get_right_near_node_end_node2(self, locations):
+        point = -0.5
+        line = 5
+        assert locations.selectNearerNode(point, line, 3) == 7
+
+    def test_get_length_from_start_point(self, locations):
+        total_length = -0.45
+        locations.getLengthFromStartNode(total_length)
+        assert locations.getLengthFromStartNode(total_length) == 1.55

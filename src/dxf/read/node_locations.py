@@ -193,13 +193,7 @@ class NodeLocations():
         Total length is distance from bottom edge node along the x axis
         to the point that when the loads portition stops
         '''
-        length = total_length
-        if total_length < 0:
-            extreme_node = self.getEndNode()
-            extreme_node_x = self.nodes_array[extreme_node, 0]
-            #extreme_node_x is L, the length of drawing
-            length = extreme_node_x - total_length
-            
+        length = self.getLengthFromStartNode(total_length)
         lines = self.getBottomEdgeLines()
         for line in lines:
             start_node = self.conns_array[line,0]
@@ -210,6 +204,16 @@ class NodeLocations():
                 return line
         #find line that does not cut any point, right line equal to none
         return self.extremeBottomLine(lines)
+
+    def getLengthFromStartNode(self, total_length):
+        length = total_length
+        if total_length < 0:
+            extreme_node = self.getEndNode()
+            extreme_node_x = self.nodes_array[extreme_node, 0]
+            print(extreme_node, extreme_node_x)
+            #extreme_node_x is L, the length of drawing
+            length = extreme_node_x - total_length
+        return length
         
     def extremeBottomLine(self, lines):
         extreme_line = list(lines)[0]
@@ -279,6 +283,36 @@ class NodeLocations():
         #if portion greater than or equal 50% or the start node is the same as what
         #is passed
         if percentage_portion >= 0.5 or start_node == in_start_node:
+            return end_node
+
+        return start_node
+
+    def selectNearerNodeEndNode(self, total_length, line, in_end_node):
+        '''
+        This is for getting nearer node for end nodes in the negative direction
+        '''
+        end_node_1 = self.conns_array[line,0]
+        end_node_2 = self.conns_array[line, 1]
+        end_node_1_x = self.nodes_array[end_node_1, 0]
+        end_node_2_x = self.nodes_array[end_node_2, 0]
+
+        start_node = end_node_1
+        end_node = end_node_2
+        if end_node_1_x > total_length:
+            start_node = end_node_2
+            end_node = end_node_1
+
+        start_node_x = self.nodes_array[start_node, 0]
+
+        #module is the distance between nodes
+        module = abs(end_node_1_x - end_node_2_x)
+        #find portion towards the start node. If this portion is greater than or equal
+        #0.5 use end line node and end node other use start node as line node
+        percentage_portion = (total_length - start_node_x) / module
+
+        #if portion greater than or equal 50% or the start node is the same as what
+        #is passed
+        if percentage_portion >= 0.5 or start_node == in_end_node:
             return end_node
 
         return start_node
