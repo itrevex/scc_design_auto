@@ -1,9 +1,11 @@
 class WindMapValue:
     def __init__(self, title, c_case_a, c_case_b, p_case_a, 
-            p_case_b, zone_case_a, roof_angle, coeff_prefix="N", closed=False):
+            p_case_b, zone_case_a, roof_angle, coeff_prefix="N", 
+            closed=False, length=0.):
         
         self.closed = closed
         self.title = title
+        self.length=length
         self.roof_angle = roof_angle
 
         self.c_case_a = c_case_a
@@ -81,6 +83,7 @@ class WindMapValue:
     def toString(self):
         text = " "
         text += "\n title: " + self.title 
+        text += "\n closed: " + str(self.closed)
         text += "\n roof angle: " + str(self.roof_angle) 
         text += "\n c case a: " + str(self.c_case_a) 
         text += "\n c case b: " + str(self.c_case_b)
@@ -88,6 +91,7 @@ class WindMapValue:
         text += "\n p case b: " + str(self.p_case_b)
         text += "\n zone case a: " + str(self.zone_case_a)
         text += "\n zone case b: " + str(self.zone_case_b) 
+        text += "\n total length: " + str(self.length) 
         text +="\n Lines: "
         for x in self.plot_lines:
             text += "\n"+x  

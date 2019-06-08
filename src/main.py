@@ -13,13 +13,13 @@ from dxf.read.dxf_input import DxfInput
 app_data = LoadData()
 
 if __name__ == "__main__":
-#!    gen_desc = GenDesc(app_data)
+    gen_desc = GenDesc(app_data)
     
     #write gen_desc document
 #!    gen_desc.saveNewDocument()
     
     #draw windmap jpg
-#!    Windmap(gen_desc.wind_design).plotWindMap(app_data)
+    Windmap(gen_desc.wind_design).plotWindMap(app_data)
 
     #write windmap txts into file
 #!    PlotLoads(gen_desc.wind_design).plotLoads(app_data)

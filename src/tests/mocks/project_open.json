@@ -1,0 +1,25 @@
+{
+    "project_name": "Royal Commission Project, Contract 097 C76R-Auditorium Shade 2, Job Id 19 010-REZAYAT-2A",
+    "project_description": "The Space frame represents a rectangular double layer structure, supported by fifteen short vertical steel supports. The Geometric line sketch illustrates the over-all geometry of the structure. Covering is to consist of sandwich panels supported over purlins connected to purlin stools at each top chord joint.",
+    "project_location": "Jubail",
+    "design_code": "710_lrfd",
+    "roof_dead_load":"0.10",
+    "roof_live_load":"0.45",
+    "services_load":"1.30",
+    "wind_speed": "155",
+    "height_above_ground_level_in_m": "7.2",
+    "roof_angle": "0",
+    "temprature_load": "35",
+	"enclosure_specification": "open", 
+    "parapet_load": "false",
+    "roof_x_length": "28800",
+    "roof_y_length": "28800",
+    "design_for_seismic": {
+        "include_seismic_design": "true",
+        "short_period_acceleration": "6.2",
+        "1_second_period_acceleration": "4.8",
+        "fa": "1.70",
+        "site_class": "E",
+        "importance_factor": "1.30"
+    }
+}

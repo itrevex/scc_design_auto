@@ -6,8 +6,9 @@ REM py -3.7-64 -m pytest --cov-report html
 REM py -3.7-64 -m coverage run --source=/src/common/*.py
 REM py -3.7-64 -m pytest  src/tests/test_dxf -v
 REM py -3.7-64 -m pytest -s -v 
+REM py -3.7-64 -m pytest -v
 REM py -3.7-64 -m pytest --cov=src/dxf  src/tests/ --cov-report html
-py -3.7-64 -m pytest -s -v -k"test_gets_right_number_of_loading_region_lines"
+REM py -3.7-64 -m pytest -s -vv -k"test_returns_right_cutline_for_negative_total_length"
 REM py -3.7-64 -m pytest -s -v -k "Nodes" 
 REM py -3.7-64 -m coverage html 
 

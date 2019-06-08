@@ -2,11 +2,22 @@ import sys, pytest
 from unittest.mock import patch, Mock
 from dxf.write.write_loading_dxf import LoadingsDxf
 from libs.load_data import LoadData
+from gen_desc.gen_desc import GenDesc
 
 @pytest.fixture(scope="module")
 def app_data():
     with patch.object(sys, 'argv', ["input", "./tests/mocks/project.json"]):
         return LoadData()
+
+@pytest.fixture(scope="module")
+def gen_desc():
+    with patch.object(sys, 'argv', ["input", "./tests/mocks/project.json"]):
+        return GenDesc(LoadData())
+
+@pytest.fixture(scope="module")
+def gen_desc_open():
+    with patch.object(sys, 'argv', ["input", "./tests/mocks/project_open.json"]):
+        return GenDesc(LoadData())
 
 @pytest.fixture(scope="module")    
 def mock_dwg():
@@ -48,3 +59,43 @@ class TestLoadingDxf():
             loading_dxf.createLines(region_lines)
             mock_msp.assert_called()
             assert mock_add_line.call_count == 136
+
+    def test_get_x_regions_for_drawing_closed_structure(self, app_data, gen_desc):
+        loadings_dxf = LoadingsDxf(app_data, gen_desc)
+        regions = {
+            804: 3600,
+            805: 7200,
+            806: 14400,
+            807: 28800,
+            808: -3600,
+            809: -7200,
+            810: -14400,
+            811: -28800
+        }
+        assert loadings_dxf.getLoadingRegions() == regions
+
+    def test_get_x_regions_for_drawing_open_structure(self, app_data, gen_desc_open):
+        
+        loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
+        regions = {
+            804: 7200.,
+            805: 7200.,
+            806: 14400.,
+            807: 14400.,
+            808: 28800.,
+            809: 28800.,
+            810: -7200.,
+            811: -7200.,
+            812: -14400.,
+            813: -14400.,
+            814: -28800.,
+            815: -28800.
+        }
+    
+        assert loadings_dxf.getLoadingRegions() == regions
+
+    def test_loading_region_lines_for_negative_direction(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        lines = loading_dxf.getLoadingRegionLines(-7200.)
+        assert len(lines) == 175
+        pass

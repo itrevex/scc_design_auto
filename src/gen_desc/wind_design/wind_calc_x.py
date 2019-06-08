@@ -31,13 +31,18 @@ class WindCalculationsX(WindDesignPartsX):
             self.wind_design.internal_pressure_zone_ps.update(runs_parapets.zone_ps) 
             self.runs.extend(runs_parapets.runs)
 
-    def windCases(self, c_case_a = 1, c_case_b = 1, title=None):
+    def windCases(self, c_case_a = 1, c_case_b = 1, title=None, length=0.):
         p_case_a = self.wind_design.windLoad(c_case_a)
         p_case_b = self.wind_design.windLoad(c_case_b)
         zone_case_a = self.wind_design.zone
 
+        #for runs in opposite direction, show length as a negative
+        factored_length = 1 * length
+        if self.negative_direction:
+            factored_length = -1 * length
+
         windmap_value = WindMapValue(title, c_case_a, c_case_b, p_case_a, 
-        p_case_b, zone_case_a, self.wind_design.roof_angle)
+        p_case_b, zone_case_a, self.wind_design.roof_angle, length=factored_length)
 
         self.windmap_values.append(windmap_value)
 
@@ -57,13 +62,18 @@ class WindCalculationsX(WindDesignPartsX):
         self.runs.append(self.run_parts[WindDesignConsts.BRACKET])
         self.wind_design.zone += 2
 
-    def windCasesClosed(self, cp = 1, title=None):
+    def windCasesClosed(self, cp = 1, title=None, length=0.):
 
         p_case_a = self.wind_design.windLoad(cp)
         zone_case_a = self.wind_design.zone
+        #for runs in opposite direction, show length as a negative
+        factored_length = 1 * length
+        if self.negative_direction:
+            factored_length = -1 * length
 
         windmap_value = WindMapValue(title, cp, "0", p_case_a, 
-        "0", zone_case_a, self.wind_design.roof_angle, coeff_prefix="p", closed=True)
+        "0", zone_case_a, self.wind_design.roof_angle, coeff_prefix="p", closed=True,
+         length=factored_length)
 
         self.windmap_values.append(windmap_value)
 

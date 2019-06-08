@@ -229,4 +229,16 @@ class TestNodeLocations:
     def test_find_end_node_line1(self, locations):
         line = 1
         assert locations.getLineEndNode(line) == 5
+
+    def test_gets_right_end_node(self, locations):
+        assert locations.getEndNode() == 3
+
+    def test_get_extreme_right_corner_node(self, locations):
+        corneer_nodes = [0,7,3]
+        assert locations.getExtremeRightNode(corneer_nodes) == 3
+
+    def test_returns_right_cutline_for_negative_total_length(self, locations):
+        assert locations.getIntersectedLine(-0.45) == 5
+
+    
     

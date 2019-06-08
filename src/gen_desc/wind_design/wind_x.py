@@ -17,6 +17,7 @@ class WindDesignPartsX(LoadCombinations):
         
         self.height = float(wind_design.props[WindDesignConsts.HEIGHT]) \
             * WindDesignConsts.ONE_M_IN_MM
+        #length_x is the structural length in x
         self.length_x = float(wind_design.props[WindDesignConsts.LENGTH_X])
         self.length_y = float(wind_design.props[WindDesignConsts.LENGTH_Y])
         self.length = self.length_x
@@ -64,7 +65,7 @@ class WindDesignPartsX(LoadCombinations):
                 pass
         return run_parts
  
-    def windCases(self, case_a = 1, case_b = 1, title=None):
+    def windCases(self, case_a = 1, case_b = 1, title=None, **kw):
         self.runs.append(self.run_parts[WindDesignConsts.CASE_A])
         self.runs.append(self.run_parts[WindDesignConsts.N])
         self.runs.append(self.run_parts[WindDesignConsts.EQUALS])
@@ -92,7 +93,11 @@ class WindDesignPartsX(LoadCombinations):
         else:
             self.storeCombinations()
 
-    def windCasesClosed(self, cp = 1, title=None):
+    def windCasesClosed(self, cp = 1, **kw):
+        '''
+        Height and title are used for calculated cases but since method
+        is overriden in child class, these have to be passed: now passed as **kw
+        '''
         self.runs.append(self.run_parts[WindDesignConsts.CASE_A])
         self.runs.append(self.run_parts[WindDesignConsts.P_SUB])
         self.runs.append(self.run_parts[WindDesignConsts.EQUALS])
@@ -113,8 +118,6 @@ class WindDesignPartsX(LoadCombinations):
             self.runInDirectionClosed()
         else:
             self.runsInDirection()
-            
-
         #Runs in negative direction
         self.runs.append(self.run_parts[WindDesignConsts.TITLE_MINUS])
         self.negative_direction = True
@@ -132,14 +135,17 @@ class WindDesignPartsX(LoadCombinations):
         Runs in particular direction are similar.
         Thse are similar for both negative and positive direction
 
+        The if statements are like switch statements without a break,
+        you do everything and the one below it
         '''
-        #wind load leeward <h/2
+        
+        #wind load leeward <= h/2
         title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_1]
         self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_1])
-        self.windCasesClosed(self.cp_1, title)
+        self.windCasesClosed(self.cp_1, title=title, length=self.height/2)
         length = self.length
         
-        #wind load leeward h/2 to h
+        #wind load leeward h/2 to h #this means show the one top and this one too
         if length > self.height/2:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_2]
             run_title = self.run_parts[WindDesignConsts.WINDMAP_CLOSED_2]
@@ -148,20 +154,20 @@ class WindDesignPartsX(LoadCombinations):
                 run_title = self.run_parts[WindDesignConsts.WINDMAP_CLOSED_5]
                 
             self.runs.append(run_title)
-            self.windCasesClosed(self.cp_2, title)
+            self.windCasesClosed(self.cp_2, title=title, length=self.height)
             
 
         #wind load leeward h to 2h
         if length > self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_3]
             self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_3])
-            self.windCasesClosed(self.cp_3, title)
+            self.windCasesClosed(self.cp_3, title=title, length=self.height*2)
 
         #wind load leeward >2h
         if length > 2 * self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.TITLE_CLOSED_4]
             self.runs.append(self.run_parts[WindDesignConsts.WINDMAP_CLOSED_4])
-            self.windCasesClosed(self.cp_4, title)
+            self.windCasesClosed(self.cp_4, title=title, length=length)
             
 
         self.addParapetRuns()
@@ -170,27 +176,27 @@ class WindDesignPartsX(LoadCombinations):
     def runsInDirection(self):
         '''
         Runs in particular direction are similar.
-        Thse are similar for both negative and positive direction
+        These are similar for both negative and positive direction
 
         '''
         #wind load leeward_h
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_H]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H])
-        self.windCases(self.h_case_a, self.h_case_b, title)
+        self.windCases(self.h_case_a, self.h_case_b, title, length=self.height)
 
         #wind load leeward_h_2h
         #show if 2*h => x_length
         if self.length > self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_H_2H]
             self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_H_2H])
-            self.windCases(self.h_2h_case_a, self.h_2h_case_b, title)
+            self.windCases(self.h_2h_case_a, self.h_2h_case_b, title, length=self.height * 2)
 
         #wind load leeward_2h
         #show if 2*h > x_length
         if self.length > 2 * self.height:
             title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_X_2H]
             self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_2H])
-            self.windCases(self._2h_case_a, self._2h_case_b, title)
+            self.windCases(self._2h_case_a, self._2h_case_b, title, length=self.length)
 
         self.addParapetRuns()
         

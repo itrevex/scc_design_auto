@@ -40,11 +40,38 @@ class NodeLocations():
         for node in corner_nodes:
             bottom_node = self.getNodeBottomNode(node)
             left_node = self.getNodeLeftNode(node)
-
+            #if no has no bottom node and node left node, then it is most likely
+            #to be in a bottom left corner
             if left_node == None and bottom_node == None:
                 left_bottom_corner_nodes.append(node)
 
         return self.getExtremeLeftNode(left_bottom_corner_nodes)
+
+    def getEndNode(self):
+        '''
+        This is the node located at the bottom left corner of the geometery
+        '''
+        corner_nodes = self.getCornerNodes().tolist()
+        right_bottom_corner_nodes = []
+
+        for node in corner_nodes:
+            bottom_node = self.getNodeBottomNode(node)
+            right_node = self.getNodeRightNode(node)
+            #if no has no bottom node and node right node, then it is most likely
+            #to be in a bottom right corner
+            if right_node == None and bottom_node == None:
+                right_bottom_corner_nodes.append(node)
+
+        return self.getExtremeRightNode(right_bottom_corner_nodes)
+    
+    def getExtremeRightNode(self, nodes):
+        max_x = self.nodes_array[nodes[0], 0]
+        extreme_node = nodes[0]
+        for node in nodes:
+            node_x = self.nodes_array[node, 0]
+            if node_x > max_x:
+                extreme_node = node
+        return extreme_node
 
     def getExtremeLeftNode(self, nodes):
         min_x = self.nodes_array[nodes[0], 0]
@@ -166,13 +193,20 @@ class NodeLocations():
         Total length is distance from bottom edge node along the x axis
         to the point that when the loads portition stops
         '''
+        length = total_length
+        if total_length < 0:
+            extreme_node = self.getEndNode()
+            extreme_node_x = self.nodes_array[extreme_node, 0]
+            #extreme_node_x is L, the length of drawing
+            length = extreme_node_x - total_length
+            
         lines = self.getBottomEdgeLines()
         for line in lines:
             start_node = self.conns_array[line,0]
             end_node = self.conns_array[line, 1]
             start_node_x = self.nodes_array[start_node, 0]
             end_node_x = self.nodes_array[end_node, 0]
-            if self.isPointWithinPoints(total_length, [start_node_x, end_node_x]):
+            if self.isPointWithinPoints(length, [start_node_x, end_node_x]):
                 return line
         #find line that does not cut any point, right line equal to none
         return self.extremeBottomLine(lines)
@@ -203,13 +237,13 @@ class NodeLocations():
             
         return extreme_line
 
-    def isPointWithinPoints(self, point, points):
+    def isPointWithinPoints(self, total_length, points):
         start_point = points[0]
         end_point = points[1]
-        if start_point < point and end_point > point:
+        if start_point < total_length and end_point > total_length:
             return True
         #this is done in case points have been interchanged
-        if end_point < point and start_point > point:
+        if end_point < total_length and start_point > total_length:
             return True
         return False
 
@@ -242,6 +276,8 @@ class NodeLocations():
         #0.5 use end line node and end node other use start node as line node
         percentage_portion = (total_length - start_node_x) / module
 
+        #if portion greater than or equal 50% or the start node is the same as what
+        #is passed
         if percentage_portion >= 0.5 or start_node == in_start_node:
             return end_node
 
