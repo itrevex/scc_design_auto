@@ -9,3 +9,4 @@ test.png
 *.DOC
 *.exe
 /htmlcov
+/src/tests/mocks/*.DXF
