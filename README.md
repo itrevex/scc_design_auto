@@ -27,3 +27,4 @@
     "design_for_seismic": "true | false: tells program to look out for seimic data"
 }
 ```
+# scc_design_auto
