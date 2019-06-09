@@ -1,5 +1,5 @@
 import sys, pytest
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, PropertyMock
 from dxf.write.write_loading_dxf import LoadingsDxf
 from libs.load_data import LoadData
 from gen_desc.gen_desc import GenDesc
@@ -65,36 +65,36 @@ class TestLoadingDxf():
 
     def test_get_x_regions_for_drawing_closed_structure(self, app_data, gen_desc):
         loadings_dxf = LoadingsDxf(app_data, gen_desc)
-        regions = {
-            804: 3600,
-            805: 7200,
-            806: 14400,
-            807: 28800,
-            808: -3600,
-            809: -7200,
-            810: -14400,
-            811: -28800
-        }
+        regions = [
+            [804, 3600],
+            [805, 7200],
+            [806, 14400],
+            [807, 28800],
+            [808, -3600],
+            [809, -7200],
+            [810, -14400],
+            [811, -28800]
+        ]
         assert loadings_dxf.getLoadingRegions() == regions
 
     def test_get_x_regions_for_drawing_open_structure(self, app_data, gen_desc_open):
         
         loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
-        regions = {
-            804: 7200.,
-            805: 7200.,
-            806: 14400.,
-            807: 14400.,
-            808: 28800.,
-            809: 28800.,
-            810: -7200.,
-            811: -7200.,
-            812: -14400.,
-            813: -14400.,
-            814: -28800.,
-            815: -28800.
-        }
-    
+        regions = [
+            [804, 7200.],
+            [805, 7200.],
+            [806, 14400.],
+            [807, 14400.],
+            [808, 28800.],
+            [809, 28800.],
+            [810, -7200.],
+            [811, -7200.],
+            [812, -14400.],
+            [813, -14400.],
+            [814, -28800.],
+            [815, -28800.]
+        ]
+        print("new loading regions", loadings_dxf.getLoadingRegions())
         assert loadings_dxf.getLoadingRegions() == regions
 
     def test_loading_region_lines_for_negative_direction(self, app_data):
@@ -137,18 +137,40 @@ class TestLoadingDxf():
     def test_create_line_called_for_all_loaded_regions(self, app_data, gen_desc):
         with patch.object(LoadingsDxf, 'createLines') as mock_create_lines:
             loadings_dxf = LoadingsDxf(app_data, gen_desc)
-            loadings_dxf.writeLoadingLines()
+            loadings_dxf.createLoadingRegionLines()
             assert mock_create_lines.call_count == 8
+
+    def test_create_proper_loading_regions(self, app_data, gen_desc_open):
+        loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
+        start_nodes = [None,None,80,80,140,140,None,None, 160, 160, 100, 100]
+        loading_regions = loadings_dxf.getLoadingRegionContent()
+        calc_loadings_start_nodes = [x[1] for x in loading_regions]
+        assert start_nodes == calc_loadings_start_nodes
+
+    def test_create_proper_loading_regions_closed(self, app_data, gen_desc):
+        loadings_dxf = LoadingsDxf(app_data, gen_desc)
+        start_nodes = [None, 40, 80, 140, None, 200, 160, 100]
+        loading_regions = loadings_dxf.getLoadingRegionContent()
+        calc_loadings_start_nodes = [x[1] for x in loading_regions]
+        assert start_nodes == calc_loadings_start_nodes
 
     def test_calls_create_layers(self, app_data, gen_desc):
         with patch('dxf.write.write_loading_dxf.ezdxf.new') as mock_dwg:
-            mock_layers = Mock()
+            mock_layers = PropertyMock()
             type(mock_dwg.return_value).layers = mock_layers
             mock_new = Mock()
             type(mock_layers.return_value).new = mock_new
             LoadingsDxf(app_data, gen_desc).createLayers()
             mock_new.assert_called()
-    
-    def test_position_of_last_portion_in_negative_direction(self, app_data, gen_desc):
-        LoadingsDxf(app_data, gen_desc).writeLoadingLines()
+
+    def test_gets_right_start_node_for_zone(self, app_data, gen_desc_open):
+        loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
+        assert loadings_dxf.getNextNode(7200., 7200., None, 80) == None
+
+    def test_gets_right_start_node_for_zone1(self, app_data, gen_desc_open):
+        loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
+        assert loadings_dxf.getNextNode(14400., 7200., None, 80) == 80
+
+        
+
 
