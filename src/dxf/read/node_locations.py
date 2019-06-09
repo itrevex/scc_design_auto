@@ -203,7 +203,9 @@ class NodeLocations():
             if self.isPointWithinPoints(length, [start_node_x, end_node_x]):
                 return line
         #find line that does not cut any point, right line equal to none
-        return self.extremeBottomLine(lines)
+        if total_length < 0:
+            return self.extremeLeftBottomLine(lines)
+        return self.extremeRightBottomLine(lines)
 
     def getLengthFromStartNode(self, total_length):
         length = total_length
@@ -212,9 +214,11 @@ class NodeLocations():
             extreme_node_x = self.nodes_array[extreme_node, 0]
             #extreme_node_x is L, the length of drawing
             length = extreme_node_x - abs(total_length)
+        if length < 0:
+            return 0
         return length
         
-    def extremeBottomLine(self, lines):
+    def extremeRightBottomLine(self, lines):
         extreme_line = list(lines)[0]
         for line in lines:
             start_node = self.conns_array[line,0]
@@ -236,6 +240,34 @@ class NodeLocations():
                 ext_end_node = ext_start_node_x
 
             if end_node > ext_end_node:
+                extreme_line = line
+            
+        return extreme_line
+
+    def extremeLeftBottomLine(self, lines):
+        extreme_line = list(lines)[0]
+        for line in lines:
+            start_node = self.conns_array[line,0]
+            end_node = self.conns_array[line, 1]
+            start_node_x = self.nodes_array[start_node, 0]
+            end_node_x = self.nodes_array[end_node, 0]
+
+            start_node = start_node_x
+            if end_node_x < start_node:
+                start_node = end_node_x
+
+            #find extreme line for comparisons
+            ext_start_node = self.conns_array[extreme_line,0]
+            ext_end_node = self.conns_array[extreme_line, 1]
+            ext_start_node_x = self.nodes_array[ext_start_node, 0]
+            ext_end_node_x = self.nodes_array[ext_end_node, 0]
+
+            #find actual end_node in this mix
+            ext_start_node = end_node_x
+            if ext_end_node_x < ext_start_node:
+                ext_start_node = ext_end_node_x
+
+            if start_node < ext_start_node:
                 extreme_line = line
             
         return extreme_line
@@ -396,7 +428,7 @@ class NodeLocations():
             if line in all_bottom_lines:
                 region_bottom_lines.add(line)
 
-        extreme_line = self.extremeBottomLine(region_bottom_lines)
+        extreme_line = self.extremeRightBottomLine(region_bottom_lines)
 
         return self.getLineEndNode(extreme_line)
 
