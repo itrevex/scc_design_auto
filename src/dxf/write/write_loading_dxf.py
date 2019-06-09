@@ -18,13 +18,32 @@ class LoadingsDxf():
             nodes_array=self.dxfInput.nodes)
         self.createLayers()
 
-    def writeLoadingLines(self):
+    def getLoadingRegionContent(self):
         regions = self.getLoadingRegions()
         start_node = None
-        for zone, length in regions.items():
-            start_node, region_lines = self.getLoadingRegionLines(length, start_node=start_node)
-            self.createLines(region_lines, zone)
-            
+        counter = 1
+        loading_regions = []
+        for region in regions:
+            zone = region[0]
+            length = region[1]
+            next_start_node, region_lines = self.getLoadingRegionLines(length, start_node=start_node)
+            loading_region = [zone, start_node, region_lines]
+            loading_regions.append(loading_region)
+            if counter < len(regions):
+                next_length = regions[counter][1]
+            else:
+                #there is no next length
+                next_length = None
+            start_node = self.getNextNode(next_length, length, start_node, next_start_node)
+            counter += 1
+        return loading_regions
+
+    def createLoadingRegionLines(self):
+        regions_contents = self.getLoadingRegionContent()
+        for region_content in regions_contents:
+            zone = region_content[0]
+            regions_lines = region_content[2]
+            self.createLines(regions_lines, zone)
 
     def createLines(self, region_lines, layer):
         for line in region_lines:
@@ -47,18 +66,20 @@ class LoadingsDxf():
         
     
     def getLoadingRegions(self):
-        regions = {}
+        regions = []
         windmap_values_x = self.gen_desc.wind_design.wind_calc_x.windmap_values
         for value in windmap_values_x:
-            regions[value.zone_case_a] = value.length
+            load_case = [value.zone_case_a,value.length]
+            regions.append(load_case)
             if value.closed == False:
                 #if structure is not closed
-                regions[value.zone_case_b] = value.length
+                load_case = [value.zone_case_b,value.length]
+                regions.append(load_case)
                 
         return regions
 
     def saveDxf(self):
-        self.writeLoadingLines()
+        self.createLoadingRegionLines()
         path = self.app_data.getRootOutPutPath('LOADINGS.DXF')
         self.dwg.saveas(path)
 
@@ -67,4 +88,15 @@ class LoadingsDxf():
         for layer, color in layers.items():
             self.dwg.layers.new(name=layer, dxfattribs={'color': color })
 
+    def getPortionStartNode(self, next_start_node):
+        return next_start_node
+
+    def getNextNode(self, next_length, length, node, next_node):
+        if next_length == None:
+            return next_node
+        if next_length < 0 and length > 0:
+            return None
+        if abs(next_length) <= abs(length):
+            return node
+        return next_node
     
