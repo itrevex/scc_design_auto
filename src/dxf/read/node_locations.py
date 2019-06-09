@@ -259,7 +259,6 @@ class NodeLocations():
             #find extreme line for comparisons
             ext_start_node = self.conns_array[extreme_line,0]
             ext_end_node = self.conns_array[extreme_line, 1]
-            ext_start_node_x = self.nodes_array[ext_start_node, 0]
             ext_end_node_x = self.nodes_array[ext_end_node, 0]
 
             #find actual end_node in this mix
