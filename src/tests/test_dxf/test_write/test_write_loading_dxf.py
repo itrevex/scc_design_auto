@@ -128,6 +128,12 @@ class TestLoadingDxf():
         assert len(lines) == 487
         assert end_node == None
 
+    def test_loading_region_lines_for_negative_direction5(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        end_node, lines = loading_dxf.getLoadingRegionLines(-28800., 100)
+        assert len(lines) == 214
+        assert end_node == None
+
     def test_create_line_called_for_all_loaded_regions(self, app_data, gen_desc):
         with patch.object(LoadingsDxf, 'createLines') as mock_create_lines:
             loadings_dxf = LoadingsDxf(app_data, gen_desc)
@@ -142,5 +148,7 @@ class TestLoadingDxf():
             type(mock_layers.return_value).new = mock_new
             LoadingsDxf(app_data, gen_desc).createLayers()
             mock_new.assert_called()
-            pass
+    
+    def test_position_of_last_portion_in_negative_direction(self, app_data, gen_desc):
+        LoadingsDxf(app_data, gen_desc).writeLoadingLines()
 

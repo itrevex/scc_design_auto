@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 from dxf.read.dxf_input import DxfInput
 from dxf.read.node_locations import NodeLocations
 from libs.load_data import LoadData
+from gen_desc.gen_desc import GenDesc
 
 @pytest.fixture(scope="module")
 def locations():
@@ -22,6 +23,14 @@ def locations():
     conns_array = np.array(conns)
     nodes_array = np.array(nodes)
     return NodeLocations(conns_array, nodes_array=nodes_array)
+
+@pytest.fixture(scope="module")
+def locations_dxf():
+    with patch.object(sys, 'argv', ["input", "./tests/mocks/project.json"]):
+        app_data = LoadData()
+        dxfInput = DxfInput(app_data)
+        return NodeLocations(dxfInput.conns, nodes_array=dxfInput.nodes)
+
 
 @patch.object(sys, 'argv', ["input", "./tests/mocks/project.json"])
 class TestNodeLocations:
@@ -89,6 +98,9 @@ class TestNodeLocations:
 
     def test_getIntersectedLine(self, locations):
         assert locations.getIntersectedLine(0.45) == 6
+
+    def test_getIntersectedLine1(self, locations_dxf):
+        assert locations_dxf.getIntersectedLine(-28800.) == 12
     
     def test_getIntersectedLine_2(self, locations):
         assert locations.getIntersectedLine(1.45) == 5
@@ -216,7 +228,7 @@ class TestNodeLocations:
 
     def test_line_has_no_right_end_line(self, locations):
         lines = locations.getBottomEdgeLines()
-        assert locations.extremeBottomLine(lines) == 5
+        assert locations.extremeRightBottomLine(lines) == 5
 
     def test_find_end_node_within_region_lines(self, locations):
         region_lines = {7,0,1,11,10,6,8}
@@ -246,8 +258,11 @@ class TestNodeLocations:
 
     def test_get_length_from_start_point(self, locations):
         total_length = -0.45
-        # locations.getLengthFromStartNode(total_length)
         assert locations.getLengthFromStartNode(total_length) == 1.55
+
+    def test_get_length_from_start_point1(self, locations_dxf):
+        total_length = -28800.
+        assert locations_dxf.getLengthFromStartNode(total_length) <= 0
 
     def test_get_nearer_node_for_end_node(self, locations):
         point = -0.5
@@ -282,3 +297,15 @@ class TestNodeLocations:
 
     def test_returns_none_for_extreme_nodes2(self, locations):
         assert locations.getExtremeEndNode(3, 1.5) == None
+
+    def test_nodes_for_selection_portition3(self, locations_dxf):
+        nodes_in_portion = {0,20,40,60,80,100}
+        start_node = 100
+        length = -28800.
+        end_node, calculated_nodes = locations_dxf.getNodesWithinPortition(start_node, length)
+        assert nodes_in_portion.issubset(calculated_nodes)
+        assert end_node == None
+
+    def test_returns_extreme_left_bottom_lines(self, locations_dxf):
+        lines = locations_dxf.getBottomEdgeLines()
+        assert locations_dxf.extremeLeftBottomLine(lines) == 12
