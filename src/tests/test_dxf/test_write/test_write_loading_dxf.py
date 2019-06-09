@@ -26,12 +26,12 @@ def mock_dwg():
 
 class TestLoadingDxf():
 
-    def test_saveas_loading_dxf_file_called(self, app_data, mock_dwg):
-        mock_saveas = Mock()
-        type(mock_dwg.return_value).saveas = mock_saveas
-        LoadingsDxf(app_data)
-        mock_saveas.assert_called_once()
-        assert mock_saveas.call_count == 1
+    def test_saveas_loading_dxf_file_called(self, app_data, gen_desc):
+        with patch('dxf.write.write_loading_dxf.ezdxf.new') as mock_dwg:
+            mock_saveas = Mock()
+            type(mock_dwg.return_value).saveas = mock_saveas
+            LoadingsDxf(app_data, gen_desc).saveDxf()
+            mock_saveas.assert_called_once()
 
     def test_gets_right_number_of_loading_region_lines(self, app_data):
         loading_dxf = LoadingsDxf(app_data)
@@ -59,7 +59,7 @@ class TestLoadingDxf():
             type(mock_msp.return_value).add_line = mock_add_line
             loading_dxf = LoadingsDxf(app_data)
             region_lines = loading_dxf.getLoadingRegionLines(6354.)[1]
-            loading_dxf.createLines(region_lines)
+            loading_dxf.createLines(region_lines, 804)
             mock_msp.assert_called()
             assert mock_add_line.call_count == 136
 
@@ -127,4 +127,20 @@ class TestLoadingDxf():
         end_node, lines = loading_dxf.getLoadingRegionLines(28800.)
         assert len(lines) == 487
         assert end_node == None
+
+    def test_create_line_called_for_all_loaded_regions(self, app_data, gen_desc):
+        with patch.object(LoadingsDxf, 'createLines') as mock_create_lines:
+            loadings_dxf = LoadingsDxf(app_data, gen_desc)
+            loadings_dxf.writeLoadingLines()
+            assert mock_create_lines.call_count == 8
+
+    def test_calls_create_layers(self, app_data, gen_desc):
+        with patch('dxf.write.write_loading_dxf.ezdxf.new') as mock_dwg:
+            mock_layers = Mock()
+            type(mock_dwg.return_value).layers = mock_layers
+            mock_new = Mock()
+            type(mock_layers.return_value).new = mock_new
+            LoadingsDxf(app_data, gen_desc).createLayers()
+            mock_new.assert_called()
+            pass
 

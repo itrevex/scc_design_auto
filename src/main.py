@@ -8,7 +8,7 @@ from libs.messages import Messages
 from windmap.windmap import Windmap
 from windmap.plot_loads import PlotLoads
 from form_grs.form_grs import FormGrs
-from dxf.read.dxf_input import DxfInput
+from dxf.write.write_loading_dxf import LoadingsDxf
 
 app_data = LoadData()
 
@@ -28,7 +28,8 @@ if __name__ == "__main__":
 #!    form_grs = FormGrs(app_data, gen_desc)
 
     #get geom dxf file
-    dxf_input = DxfInput(app_data)
+    loading_dxf = LoadingsDxf(app_data, gen_desc)
+    loading_dxf.saveDxf()
     
     #print prompt message
     Messages.continuePrompt("Press any key to continue . . .")

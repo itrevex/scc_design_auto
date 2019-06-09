@@ -29,6 +29,10 @@ class LoadData:
         return json.load(open(self.getFile("assests/templates/program/document_value_template.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
 
+    def getLoadingDxfLayers(self):
+        return json.load(open(self.getFile("assests/dxf/loading_layers.json"), encoding='utf8'), 
+            object_pairs_hook=OrderedDict)
+
     def getTemplateTableValues(self):
         return json.load(open(self.getFile("assests/templates/program/document_table_template.json"), encoding='utf8'), 
             object_pairs_hook=OrderedDict)
