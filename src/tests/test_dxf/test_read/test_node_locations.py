@@ -264,6 +264,13 @@ class TestNodeLocations:
         total_length = -28800.
         assert locations_dxf.getLengthFromStartNode(total_length) <= 0
 
+    def test_get_length_from_top_left_node(self, locations):
+        total_length = -0.45
+        assert locations.getHeightFromTopLeftNode(total_length) == 1.55
+
+    def test_get_end_node_in_y_direction(self, locations):
+        assert locations.getLeftTopNode() == 1
+
     def test_get_nearer_node_for_end_node(self, locations):
         point = -0.5
         line = 5
@@ -309,3 +316,52 @@ class TestNodeLocations:
     def test_returns_extreme_left_bottom_lines(self, locations_dxf):
         lines = locations_dxf.getBottomEdgeLines()
         assert locations_dxf.extremeLeftBottomLine(lines) == 12
+
+    def test_get_edge_lines(self, locations):
+        assert locations.getLeftEdgeLines().issubset([0,7])
+
+    def test_get_line_at_the_bottom_of_the_left_lines(self, locations):
+        lines = (0,7)
+        assert locations.extremeBottomLeftLine(lines) == 7
+
+    def test_get_line_at_the_top_of_the_left_lines(self, locations):
+        lines = (0,7)
+        assert locations.extremeTopLeftLine(lines) == 0
+
+    def test_get_right_y_direction_intersected_line(self, locations):
+        assert locations.getIntersectedVerticalLine(-0.45) == 0
+
+    def test_get_right_y_direction_intersected_line1(self, locations):
+        assert locations.getIntersectedVerticalLine(0.45) == 7
+
+    def test_returns_correct_nearer_node_in_y_direction(self, locations):
+        assert locations.selectNearerNodeY(1.2, 0, 0) == 4
+
+    def test_returns_correct_nearer_node_in_y_direction1(self, locations):
+        assert locations.selectNearerNodeY(1.6, 0, 0) == 1
+
+    def test_selects_correct_nearer_end_node_in_y(self, locations):
+        assert locations.selectNearerNodeEndNodeY(-1.2, 0, 0) == 1
+
+    def test_get_extreme_node_in_y_direction(self, locations):
+        assert locations.getExtremeEndNodeY(1, 1.6) == None
+
+    def test_get_extreme_node_in_y_direction1(self, locations):
+        assert locations.getExtremeEndNodeY(4, 1.2) == 4
+
+    def test_get_extreme_node_in_y_direction2(self, locations):
+        assert locations.getExtremeEndNodeY(0, -1.6) == None
+
+    def test_gets_correct_left_nodes_within_selected_portition(self, locations):
+        portion_start_node = 1
+        portion_end_node = 0
+        assert locations.getLeftNodesWithinSelectedPortion(portion_start_node, portion_end_node)\
+            .issubset((0,4,1))
+
+    def test_is_node_between_nodes_in_y_direction(self, locations):
+        node = 4
+        nodes = [0,1]
+        assert locations.isNodeInBetweenNodesY(node, nodes) == True
+
+    def test_gets_correct_right_nodes_of_a_single_left_edge_node(self, locations):
+        assert locations.getNodesAlongNodeInX(4, set()).issubset((4,8,6))
