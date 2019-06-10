@@ -22,8 +22,8 @@
     "temprature_load": "temperature in degrees C",
     "enclosure_specification": "open | closed",
     "parapet_load": "false | true: indicates presence of parapet load",
-    "roof_x_length": "length in mm",
-    "roof_y_length": "length in mm",
+    "roof_x_length": "length(x direction) of loaded layers (61,71) in mm",
+    "roof_y_length": "height(y_direction) of loaded layers (61,71)  in mm",
     "design_for_seismic": "true | false: tells program to look out for seimic data"
 }
 ```

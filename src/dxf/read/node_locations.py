@@ -185,9 +185,9 @@ class NodeLocations():
         all_edge_nodes.extend(self.getCornerNodes())
         for node in all_edge_nodes:
             left_edge_node = self.getNodeLeftNode(node)
-
             if left_edge_node == None:
                 left_edge_nodes.append(node)
+
         return set(left_edge_nodes)
 
     def getBottomEdgeLines(self):
@@ -215,7 +215,8 @@ class NodeLocations():
             line = set(self.conns_array[index].tolist())
             if line.issubset(left_edge_nodes):
                 left_edge_lines.append(index)
-
+        # for line in left_edge_lines:
+        #     print(line, self.conns_array[line])
         return set(left_edge_lines)
 
     def getIntersectedLine(self, total_length):
@@ -255,8 +256,9 @@ class NodeLocations():
                 return line
         #find line that does not cut any point, right line equal to none
         if total_height < 0:
-            return self.extremeTopLeftLine(lines)
-        return self.extremeBottomLeftLine(lines)
+            return self.extremeBottomLeftLine(lines)
+        return self.extremeTopLeftLine(lines)
+        
 
     def getLengthFromStartNode(self, total_length):
         length = total_length
@@ -285,8 +287,8 @@ class NodeLocations():
         for line in lines:
             start_node = self.conns_array[line,0]
             end_node = self.conns_array[line, 1]
-            start_node_y = self.nodes_array[start_node, 0]
-            end_node_y = self.nodes_array[end_node, 0]
+            start_node_y = self.nodes_array[start_node, 1]
+            end_node_y = self.nodes_array[end_node, 1]
 
             end_node = end_node_y
             if start_node_y > end_node:

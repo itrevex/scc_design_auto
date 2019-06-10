@@ -365,3 +365,26 @@ class TestNodeLocations:
 
     def test_gets_correct_right_nodes_of_a_single_left_edge_node(self, locations):
         assert locations.getNodesAlongNodeInX(4, set()).issubset((4,8,6))
+
+    def test_get_right_y_direction_intersected_line2(self, locations_dxf):
+        assert locations_dxf.getIntersectedVerticalLine(38000) == 474
+
+    def test_get_length_from_top_left_node1(self, locations_dxf):
+        total_length = 38000
+        assert locations_dxf.getHeightFromTopLeftNode(total_length) == 38000
+
+    def test_get_length_from_top_left_node2(self, locations_dxf):
+        total_length = -16000
+        assert locations_dxf.getHeightFromTopLeftNode(total_length) == 22000
+
+    def test_is_pointWithinPoints2(self, locations_dxf):
+        points = [0.,2000.]
+        assert locations_dxf.isPointWithinPoints(38000., points) == False
+
+    def test_is_pointWithinPoints3(self, locations_dxf):
+        points = [36000.,38000.]
+        assert locations_dxf.isPointWithinPoints(38000., points) == False
+
+    def test_get_line_at_the_top_of_the_left_lines2(self, locations_dxf):
+        lines = (240,266,279,474)
+        assert locations_dxf.extremeTopLeftLine(lines) == 474

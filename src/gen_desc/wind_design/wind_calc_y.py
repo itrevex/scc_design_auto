@@ -23,7 +23,7 @@ class WindCalculationsY(WindDesignPartsY):
                 self.pn_windward, self.pn_leeward, True, self.windmap_values)
             self.runs.extend(runs_parapets.runs) 
 
-    def windCases(self, cnw = 1, cnl = 1, title=None):
+    def windCases(self, cnw = 1, cnl = 1, title=None, length=0.):
 
         p_case_a = self.wind_design.windLoad(cnw)
         p_case_b = self.wind_design.windLoad(cnl)
@@ -34,8 +34,13 @@ class WindCalculationsY(WindDesignPartsY):
         if self.negative_direction == False:
             prefix = WindCalculationsY.NW
 
+        factored_length = 1 * length
+        if self.negative_direction:
+            factored_length = -1 * length
+            
         windmap_value = WindMapValue(title, cnw, cnl, p_case_a, 
-        p_case_b, zone_case_a, self.wind_design.roof_angle, prefix)
+        p_case_b, zone_case_a, self.wind_design.roof_angle, prefix,
+        length=factored_length)
         
 
         self.windmap_values.append(windmap_value)

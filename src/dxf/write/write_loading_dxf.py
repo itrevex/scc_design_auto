@@ -19,14 +19,18 @@ class LoadingsDxf():
         self.createLayers()
 
     def getLoadingRegionContent(self, y_direction=False):
-        regions = self.getLoadingRegions()
+        regions = self.getLoadingRegions(y_direction)
         start_node = None
         counter = 1
         loading_regions = []
         for region in regions:
             zone = region[0]
             length = region[1]
-            next_start_node, region_lines = self.getLoadingRegionLines(length, start_node=start_node)
+            if y_direction:
+                next_start_node, region_lines = self.getLoadingRegionLinesY(length, start_node=start_node)
+            else:
+                next_start_node, region_lines = self.getLoadingRegionLines(length, start_node=start_node)
+            
             loading_region = [zone, start_node, region_lines]
             loading_regions.append(loading_region)
             if counter < len(regions):
@@ -67,6 +71,18 @@ class LoadingsDxf():
             self.locations.getLinesWithinPortition(start_node, total_length, y_direction=False)
         
         return next_start_node, region_lines
+
+    def getLoadingRegionLinesY(self, total_length, start_node=None):
+        # print(total_length, start_node)
+        if start_node == None:
+            start_node = self.locations.getStartNode()
+            if total_length < 0: #total length is in the negative direction
+                start_node = self.locations.getLeftTopNode()
+
+        next_start_node, region_lines = \
+            self.locations.getLinesWithinPortition(start_node, total_length, y_direction=True)
+        
+        return next_start_node, region_lines
         
     
     def getLoadingRegions(self, y_direction=False):
@@ -96,9 +112,6 @@ class LoadingsDxf():
         layers = self.app_data.getLoadingDxfLayers()
         for layer, color in layers.items():
             self.dwg.layers.new(name=layer, dxfattribs={'color': color })
-
-    def getPortionStartNode(self, next_start_node):
-        return next_start_node
 
     def getNextNode(self, next_length, length, node, next_node):
         if next_length == None:

@@ -12,6 +12,7 @@ class WindDesignPartsY(LoadCombinations):
         self.wind_factors = wind_design.wind_factors_y
         self.runs = []
         self.run_parts = self.getRunParts()
+        self.length_y = float(wind_design.props[WindDesignConsts.LENGTH_Y])
         self.loadCoeffiecients()
         self.windmap_values = []
 
@@ -43,10 +44,11 @@ class WindDesignPartsY(LoadCombinations):
 
         return run_parts
 
-    def windCases(self, cnw = 1, cnl = 1, title=None):
+    def windCases(self, cnw = 1, cnl = 1, title=None, length=0.):
         '''
         Method to calculate wind cases
         Title is used when the wind cases are calculated. See child class
+        Length is required child class
         '''
         self.runs.append(self.run_parts[WindDesignConsts.CASE_A])
         self.runs.append(self.run_parts[WindDesignConsts.NW])
@@ -91,12 +93,12 @@ class WindDesignPartsY(LoadCombinations):
         #wind load windward_05
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_Y_05]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_O5])
-        self.windCases(self.cnw_05, self.cnl_05, title)
+        self.windCases(self.cnw_05, self.cnl_05, title, length=self.length_y*0.5)
 
         #wind load windward_05L
         title = self.wind_design.windmap_defaults[WindDesignConsts.WIND_Y_05L]
         self.runs.append(self.run_parts[WindDesignConsts.WINDWARD_O5])
-        self.windCases(self.cnw_05L, self.cnl_05L, title)
+        self.windCases(self.cnw_05L, self.cnl_05L, title, length=self.length_y)
         self.addParapetRuns()
         
     def loadCoeffiecients(self):

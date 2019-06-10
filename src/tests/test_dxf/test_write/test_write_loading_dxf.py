@@ -124,13 +124,13 @@ class TestLoadingDxf():
 
     def test_loading_region_lines_for_negative_direction4(self, app_data):
         loading_dxf = LoadingsDxf(app_data)
-        end_node, lines = loading_dxf.getLoadingRegionLines(28800.)
+        end_node, lines = loading_dxf.getLoadingRegionLines(24000.)
         assert len(lines) == 487
         assert end_node == None
 
     def test_loading_region_lines_for_negative_direction5(self, app_data):
         loading_dxf = LoadingsDxf(app_data)
-        end_node, lines = loading_dxf.getLoadingRegionLines(-28800., 100)
+        end_node, lines = loading_dxf.getLoadingRegionLines(-24000., 100)
         assert len(lines) == 214
         assert end_node == None
 
@@ -188,21 +188,34 @@ class TestLoadingDxf():
     def test_get_y_direction_loading_regions1(self, app_data, gen_desc_open):
         loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
         regions = [
-            [816, 7200.],
-            [817, 7200.],
-            [818, 14400.],
-            [819, 14400.],
-            [820, 28800.],
-            [821, 28800.],
-            [822, -7200.],
-            [823, -7200.],
-            [824, -14400.],
-            [825, -14400.],
-            [826, -24000.],
-            [827, -24000.]
+            [816, 19000.],
+            [817, 19000.],
+            [818, 38000.],
+            [819, 38000.],
+            [820, -19000.],
+            [821, -19000.],
+            [822, -38000.],
+            [823, -38000.]
         ]
         assert loadings_dxf.getLoadingRegions(True) == regions
+
+    def test_loading_region_lines_for_y_negative_direction(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        end_node, lines = loading_dxf.getLoadingRegionLinesY(19000.)
+        assert len(lines) == 262
+        assert end_node == 10
         
+    def test_loading_region_lines_for_y_negative_direction1(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        end_node, lines = loading_dxf.getLoadingRegionLinesY(38000.)
+        assert len(lines) == 487
+        assert end_node == None
+
+    def test_loading_region_lines_for_y_negative_direction2(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        end_node, lines = loading_dxf.getLoadingRegionLinesY(38000., 10)
+        assert len(lines) == 237
+        assert end_node == None
         
 
 
