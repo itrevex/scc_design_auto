@@ -12,8 +12,8 @@
     "temprature_load": "35",
 	"enclosure_specification": "open", 
     "parapet_load": "false",
-    "roof_x_length": "28800",
-    "roof_y_length": "28800",
+    "roof_x_length": "24000",
+    "roof_y_length": "38000",
     "design_for_seismic": {
         "include_seismic_design": "true",
         "short_period_acceleration": "6.2",
