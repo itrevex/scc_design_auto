@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 class NodeLocations():
     CORNER_NODES = 2
@@ -6,15 +7,23 @@ class NodeLocations():
     EDGE_NODES = 3
 
     def __init__(self, conns_array, **kw):
-        nodes = conns_array.flatten()
+        nodes = conns_array.flatten() #make conns a 1d array
         self.conns_array = conns_array
+        #get how mnay times each node appears in array
         unique, counts = np.unique(nodes, return_counts=True)
+        #create dictionary of nodes with their counts
         self.node_counts = dict(zip(unique, counts))
         self.nodes_array = kw.get('nodes_array', None)
 
 
-    def getCornerNodes(self):
-        corner_nodes = [key for key, value in self.node_counts.items() \
+    def getCornerNodes(self, region_lines=[]):
+        if len(region_lines) == 0:
+            node_counts = self.node_counts
+        else:
+            region_conns_array = self.getRegionConnsArray(region_lines)
+            node_counts = self.getRegionNodeCounts(region_conns_array)
+        
+        corner_nodes = [key for key, value in node_counts.items() \
             if value == NodeLocations.CORNER_NODES ]
 
         return np.array(corner_nodes)
@@ -30,16 +39,16 @@ class NodeLocations():
         return np.array(edge_nodes)
 
 
-    def getStartNode(self):
+    def getStartNode(self, region_lines=[]):
         '''
         This is the node located at the bottom left corner of the geometery
         '''
-        corner_nodes = self.getCornerNodes().tolist()
+        corner_nodes = self.getCornerNodes(region_lines).tolist()
         left_bottom_corner_nodes = []
 
         for node in corner_nodes:
-            bottom_node = self.getNodeBottomNode(node)
-            left_node = self.getNodeLeftNode(node)
+            bottom_node = self.getNodeBottomNode(node, region_lines)
+            left_node = self.getNodeLeftNode(node, region_lines)
             #if no has no bottom node and node left node, then it is most likely
             #to be in a bottom left corner
             if left_node == None and bottom_node == None:
@@ -102,7 +111,15 @@ class NodeLocations():
     def getNodeLines(self, node):
         return np.where(self.conns_array==node)[0]
 
-    def getNodeEndNodes(self, node):
+    def getPortoinNodeLines(self, node, region_lines):
+        lines = self.getNodeLines(node).tolist()
+        for line in lines:
+            if line not in region_lines:
+                lines.remove(line)
+    
+        return lines
+
+    def getNodeEndNodes(self, node, region_lines=[]):
         '''
         node is the node in questions
         lines are the lines connected to node
@@ -110,7 +127,12 @@ class NodeLocations():
         Method return the end nodes of the 'node' in question using the
         lines connected to the node
         '''
-        lines = self.getNodeLines(node)
+
+        if len(region_lines) == 0:
+            lines = self.getNodeLines(node)
+        else:
+            lines = self.getPortoinNodeLines(node, region_lines)
+
         opposite_end_nodes = []
         for line in lines:
             line_nodes = self.conns_array[line].tolist()
@@ -118,8 +140,10 @@ class NodeLocations():
             opposite_end_nodes.append(line_nodes[0])
         return opposite_end_nodes
 
-    def getNodeTopNode(self, node):
-        end_nodes = self.getNodeEndNodes(node)
+    def getNodeTopNode(self, node, region_lines=[]):
+
+        end_nodes = self.getNodeEndNodes(node, region_lines)
+
         base_y = self.nodes_array[node, 1]
         higher_nodes = []
         for end_node in end_nodes:
@@ -130,8 +154,8 @@ class NodeLocations():
             return None
         return max(higher_nodes)
 
-    def getNodeRightNode(self, node):
-        end_nodes = self.getNodeEndNodes(node)
+    def getNodeRightNode(self, node, region_lines=[]):
+        end_nodes = self.getNodeEndNodes(node, region_lines)
         base_x = self.nodes_array[node, 0]
         higher_nodes = []
         for end_node in end_nodes:
@@ -142,8 +166,8 @@ class NodeLocations():
             return None
         return max(higher_nodes)
   
-    def getNodeBottomNode(self, node):
-        end_nodes = self.getNodeEndNodes(node)
+    def getNodeBottomNode(self, node, region_lines=[]):
+        end_nodes = self.getNodeEndNodes(node, region_lines)
         base_y = self.nodes_array[node, 1]
         lower_nodes = []
         for end_node in end_nodes:
@@ -154,8 +178,8 @@ class NodeLocations():
             return None
         return min(lower_nodes)
 
-    def getNodeLeftNode(self, node):
-        end_nodes = self.getNodeEndNodes(node)
+    def getNodeLeftNode(self, node, region_lines=[]):
+        end_nodes = self.getNodeEndNodes(node, region_lines)
         base_x = self.nodes_array[node, 0]
         lower_nodes = []
         for end_node in end_nodes:
@@ -696,8 +720,45 @@ class NodeLocations():
         else:
             if node == self.getLeftTopNode():
                 return None
-
         return node
 
+    
+    def getRegionNodes(self, region_lines):
+        region_nodes = set()
+        for line in region_lines:
+            start_node = self.conns_array[line, 0]
+            end_node = self.conns_array[line, 1]
+            region_nodes.add(start_node)
+            region_nodes.add(end_node)
+        return region_nodes
+
+    def getRandomNode(self, region_nodes):
+        return random.choice(list(region_nodes))
+
+    def getTopRightCornerNode(self, region_lines=[]):
+        '''
+        Returns top right corner node of region nodes
+        '''
+        corner_nodes = self.getCornerNodes(region_lines).tolist()
+        right_edge_corner_nodes = []
+
+        for node in corner_nodes:
+            top_node = self.getNodeTopNode(node, region_lines)
+            right_node = self.getNodeRightNode(node, region_lines)
+            #if no has no top node and node left node, then it is most likely
+            #to be in a top left corner
+            if top_node == None and right_node == None:
+                right_edge_corner_nodes.append(node)
+        return self.getExtremeRightNode(right_edge_corner_nodes)
+
+    def getRegionNodeCounts(self, region_conns):
+        unique, counts = np.unique(region_conns.flatten(), return_counts=True)
+        return dict(zip(unique, counts))
+
+    def getRegionConnsArray(self, region_lines):
+        lines = []
+        for line in region_lines:
+            lines.append(self.conns_array[line].tolist())
+        return np.array(lines)
 
     

@@ -388,3 +388,56 @@ class TestNodeLocations:
     def test_get_line_at_the_top_of_the_left_lines2(self, locations_dxf):
         lines = (240,266,279,474)
         assert locations_dxf.extremeTopLeftLine(lines) == 474
+
+    def test_get_nodes_within_line_group(self, locations):
+        region_lines = (6,5,8)
+        assert locations.getRegionNodes(region_lines).issubset((0,3,7,8,4))
+
+    def test_get_random_node_with_in_nodes(self, locations):
+        region_lines = (6,5,8)
+        region_nodes = locations.getRegionNodes(region_lines)
+        assert locations.getRandomNode(region_nodes) in [0,3,7,8,4]
+
+    def test_gets_top_right_corner_node_of_region(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        assert locations.getTopRightCornerNode(region_lines) == 5
+        assert locations.getTopRightCornerNode() == 2
+
+    def test_get_region_node_counts(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        region_conns = locations.getRegionConnsArray(region_lines)
+        region_corner_nodes = {
+            0:2, 4:3,1:2,5:2,8:3,7:2
+        }
+        assert locations.getRegionNodeCounts(region_conns) == region_corner_nodes
+
+    def test_get_region_corner_nodes(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        assert locations.getCornerNodes(region_lines).tolist() == [0,1,5,7]
+
+    def test_get_correct_portion_conns_array(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        region_conns_array = locations.getRegionConnsArray(region_lines)
+        assert region_conns_array[3].tolist() == [7,8]
+        assert list(region_conns_array.shape)== [7,2]
+
+    def test_return_correct_end_node_of_region_lines(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        assert locations.getNodeEndNodes(8, region_lines) == [4,7,5]
+
+    def test_get_right_portion_node_lines(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        assert locations.getPortoinNodeLines(8, region_lines) == [8,10,11]
+
+    def test_get_region_top_node_for_region_node(self, locations):
+        region_lines = (10,6,7, 8)
+        assert locations.getNodeTopNode(8, region_lines) == None
+        assert locations.getNodeTopNode(8) == 5
+
+    def test_get_region_right_node_for_region_node(self, locations):
+        region_lines = (0,1,11,10,6,7, 8)
+        assert locations.getNodeRightNode(8, region_lines) == None
+
+    def test_get_region_start_node(self, locations):
+        region_lines = (0,1,11,8)
+        assert locations.getStartNode(region_lines) == 4
