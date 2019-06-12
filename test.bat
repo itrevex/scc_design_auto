@@ -9,7 +9,7 @@ REM py -3.7-64 -m pytest -s -v
 REM py -3.7-64 -m pytest 
 py -3.7-64 -m pytest -v
 REM py -3.7-64 -m pytest --cov=src/dxf  src/tests/ --cov-report html
-REM py -3.7-64 -m pytest -s -vv -k"test_get_region_start_node"
+REM py -3.7-64 -m pytest -s -vv -k"test_calculates_correct_coordinate_for_normal_vector_from_node1"
 REM py -3.7-64 -m pytest -s -v -k "Nodes" 
 REM py -3.7-64 -m coverage html 
 

@@ -1,4 +1,5 @@
 import numpy as np
+from sympy import Plane, Point3D
 import random
 
 class NodeLocations():
@@ -113,11 +114,12 @@ class NodeLocations():
 
     def getPortoinNodeLines(self, node, region_lines):
         lines = self.getNodeLines(node).tolist()
+        portion_lines = []
         for line in lines:
-            if line not in region_lines:
-                lines.remove(line)
+            if line in region_lines:
+                portion_lines.append(line)
     
-        return lines
+        return portion_lines
 
     def getNodeEndNodes(self, node, region_lines=[]):
         '''
@@ -133,11 +135,13 @@ class NodeLocations():
         else:
             lines = self.getPortoinNodeLines(node, region_lines)
 
+        
         opposite_end_nodes = []
         for line in lines:
             line_nodes = self.conns_array[line].tolist()
             line_nodes.remove(node)
             opposite_end_nodes.append(line_nodes[0])
+
         return opposite_end_nodes
 
     def getNodeTopNode(self, node, region_lines=[]):
@@ -672,22 +676,6 @@ class NodeLocations():
                 return False
         return True
 
-    def getRegionBottomEndNode(self, region_lines):
-        '''
-        return node number in the bottom right corner of the 
-        nodes in the passed in region lines
-        '''
-        #1. find nodes base nodes of region
-        all_bottom_lines = self.getBottomEdgeLines()
-        region_bottom_lines = set()
-        for line in region_lines:
-            if line in all_bottom_lines:
-                region_bottom_lines.add(line)
-
-        extreme_line = self.extremeRightBottomLine(region_bottom_lines)
-
-        return self.getLineEndNode(extreme_line)
-
     def getLineEndNode(self, line):
         '''
         Finds return node number for line node with maximum
@@ -735,6 +723,23 @@ class NodeLocations():
     def getRandomNode(self, region_nodes):
         return random.choice(list(region_nodes))
 
+    def getRegionBottomEndNode(self, region_lines):
+        '''
+        return node number in the bottom right corner of the 
+        nodes in the passed in region lines
+        '''
+        #1. find nodes base nodes of region
+        corner_nodes = self.getCornerNodes(region_lines).tolist()
+        region_bottom_end_nodes  = []
+
+        for node in corner_nodes:
+            bottom_node = self.getNodeBottomNode(node, region_lines)
+            right_node = self.getNodeRightNode(node, region_lines)
+            if bottom_node == None and right_node == None:
+                region_bottom_end_nodes.append(node)
+        return self.getExtremeLeftNode(region_bottom_end_nodes)
+
+    
     def getTopRightCornerNode(self, region_lines=[]):
         '''
         Returns top right corner node of region nodes
@@ -760,5 +765,45 @@ class NodeLocations():
         for line in region_lines:
             lines.append(self.conns_array[line].tolist())
         return np.array(lines)
+
+    def getNodesNormalVector(self, nodes):
+        points = []
+        for node in nodes:
+            point = Point3D(self.nodes_array[node].tolist())
+            points.append(point)
+        
+        return Plane(points[0], points[1], points[2]).normal_vector
+
+    def getLoadLine(self, region_lines, height=9000, height_factor=1):
+        '''
+        Returns start and end load load node for loading region
+        load line
+        '''
+
+        region_nodes = self.getRegionNodes(region_lines)
+        random_node = self.getRandomNode(region_nodes)
+        corner_nodes = self.getNonCollinearPoints(region_lines)
+        normal_vector = self.getNodesNormalVector(corner_nodes)
+        point = self.nodes_array[random_node]
+        
+        distance = (height * height_factor) / normal_vector[2] 
+
+        x = point[0] + normal_vector[0] * distance
+        y = point[1] + normal_vector[1] * distance
+        z = point[2] + normal_vector[2] * distance
+        
+        start_node = self.nodes_array[random_node].tolist()
+
+        return [start_node, [x,y,z]]
+
+    def getNonCollinearPoints(self, region_lines):
+        start_node = self.getStartNode(region_lines)
+        top_top_right_node = self.getTopRightCornerNode(region_lines)
+        bottom_right_node = self.getRegionBottomEndNode(region_lines)
+
+        return (start_node, top_top_right_node, bottom_right_node)
+
+
+        
 
     

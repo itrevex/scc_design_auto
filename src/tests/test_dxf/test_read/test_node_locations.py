@@ -235,7 +235,7 @@ class TestNodeLocations:
         assert locations.getRegionBottomEndNode(region_lines) == 7
 
     def test_find_end_node_within_region_lines1(self, locations):
-        region_lines = {7,0,1,11,10,6,8,5}
+        region_lines = {7,0,1,11,10,6,8,5,4}
         assert locations.getRegionBottomEndNode(region_lines) == 3
 
     def test_find_end_node_line(self, locations):
@@ -441,3 +441,26 @@ class TestNodeLocations:
     def test_get_region_start_node(self, locations):
         region_lines = (0,1,11,8)
         assert locations.getStartNode(region_lines) == 4
+    
+    def test_returns_correct_normal_vector(self, locations):
+        nodes = [0,7,5]
+        assert locations.getNodesNormalVector(nodes) == (0,0,2)
+
+    def test_calculates_correct_coordinate_for_normal_vector_from_node(self, locations):
+        with patch.object(NodeLocations, 'getRandomNode') as mock_random,\
+            patch.object(NodeLocations, 'getRegionNodes') as mock_nodes:
+            mock_random.side_effect = lambda nodes: 8 
+            mock_nodes.return_value = lambda lines: [0,7,5]
+            assert locations.getLoadLine((0,1,11,8), 3.)[1] == [1.,1.,3.]
+
+    def test_calculates_correct_coordinate_for_normal_vector_from_node1(self, locations_dxf):
+        region_lines = locations_dxf.getLinesWithinPortition(0, 3600.)[1]
+        
+        with patch.object(NodeLocations, 'getRandomNode') as mock_random:
+            mock_random.side_effect = lambda nodes: 14
+            assert locations_dxf.getLoadLine(region_lines)[1][1] == 28000.0
+            assert locations_dxf.getLoadLine(region_lines)[0][2] == 0.0
+
+    def test_gets_right_non_collinear_corner_points(self, locations):
+        region_lines = (0,1,11,8)
+        assert locations.getNonCollinearPoints(region_lines) == (4,5,8)

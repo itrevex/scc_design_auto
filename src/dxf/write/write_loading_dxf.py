@@ -49,6 +49,8 @@ class LoadingsDxf():
         for region_content in region_contents:
             zone = region_content[0]
             regions_lines = region_content[2]
+            load_line = self.locations.getLoadLine(regions_lines)
+            self.createLine(load_line, zone)
             self.createLines(regions_lines, zone)
 
     def createLines(self, region_lines, layer):
@@ -56,8 +58,10 @@ class LoadingsDxf():
             line_nodes = self.dxfInput.conns[line].tolist()
             start_node = self.dxfInput.nodes[line_nodes[0]].tolist()
             end_node =self.dxfInput. nodes[line_nodes[1]].tolist()
-            self.msp.add_line(start_node, end_node, dxfattribs={'layer': str(layer)})
+            self.createLine([start_node, end_node], layer)
 
+    def createLine(self, nodes, layer=0):
+        self.msp.add_line(nodes[0], nodes[1], dxfattribs={'layer': str(layer)})
         #todo - get extreme corner node for region lines
 
     def getLoadingRegionLines(self, total_length, start_node=None):
@@ -100,7 +104,6 @@ class LoadingsDxf():
                 #if structure is not closed
                 load_case = [value.zone_case_b,value.length]
                 regions.append(load_case)
-        print(regions)
         return regions
 
     def saveDxf(self):

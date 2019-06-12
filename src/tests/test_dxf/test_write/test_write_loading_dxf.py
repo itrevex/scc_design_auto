@@ -135,10 +135,12 @@ class TestLoadingDxf():
         assert end_node == None
 
     def test_create_line_method_called_for_all_loaded_regions(self, app_data, gen_desc):
-        with patch.object(LoadingsDxf, 'createLines') as mock_create_lines:
+        with patch.object(LoadingsDxf, 'createLines') as mock_create_lines, \
+            patch.object(LoadingsDxf, 'createLine') as mock_create_line:
             loadings_dxf = LoadingsDxf(app_data, gen_desc)
             loadings_dxf.createLoadingRegionLines()
             assert mock_create_lines.call_count == 16
+            assert mock_create_line.call_count == 16
 
     def test_create_proper_loading_regions(self, app_data, gen_desc_open):
         loadings_dxf = LoadingsDxf(app_data, gen_desc_open)
