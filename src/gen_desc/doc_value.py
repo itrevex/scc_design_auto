@@ -39,7 +39,12 @@ class DocValue:
     def updateDocumentValues(self):
         for key, value in self.template_doc_values.items():
             if key == Constants.SEISMIC:
-                self.updateSeismicData(key, value)
+                try:
+                    self.updateSeismicData(key, value)
+                except KeyError:
+                    print()
+                    print ("Warning: No seismic data provided . . .")
+                    print()
             else:
                 new_text = self.new_input_values[key]
                 self.updateDocValue(key, value, new_text)
@@ -71,6 +76,7 @@ class DocValue:
         for seismic_key, seismic_value in value.items():
             new_text = self.new_input_values[key][seismic_key]
             self.updateDocValue(key, seismic_value, new_text)
+            
 
     def replaceWholeParagraph(self, value):
         try:
