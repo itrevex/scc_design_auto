@@ -4,18 +4,20 @@ from .wind_x import WindDesignPartsX
 from .wind_y import WindDesignPartsY
 from .wind_calc_x import WindCalculationsX
 from .wind_calc_y import WindCalculationsY
+from .wind_loads import WindLoads
 
 class WindDesign:
  
-    def __init__(self, app_data, props, wind_load):
+    def __init__(self, app_data):
+
         self.wind_defaults = app_data.getWindDesignDefaults()
         self.app_data = app_data
-        self.wind_load = wind_load
+        self.props = app_data.getInputValues()
+        self.wind_load = WindLoads(app_data, self).wind_unit_load_kn
         self.internal_pressure_zone_ps = {}
-        self.roof_angle = props[WindDesignConsts.ROOF_ANGLE]
-        self.parapet_load = props[WindDesignConsts.PARAPET_LOAD]
-        self.enclosed = props[Constants.ROOF_ENCLOSURE] == 'closed'
-        self.props = props
+        self.roof_angle = self.props[WindDesignConsts.ROOF_ANGLE]
+        self.parapet_load = self.props[WindDesignConsts.PARAPET_LOAD]
+        self.enclosed = self.props[Constants.ROOF_ENCLOSURE] == 'closed'
         self.data_common = self.wind_defaults[WindDesignConsts.COMMON]
         self.data_x = self.wind_defaults[WindDesignConsts.ALONG_X]
         self.data_y = self.wind_defaults[WindDesignConsts.ALONG_Y]

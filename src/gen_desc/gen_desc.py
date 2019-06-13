@@ -7,7 +7,7 @@ class GenDesc:
     DESIGN_CODE = "design_code"
     ENCLOSURE_SPEC = "enclosure_specification"
 
-    def __init__(self, app_data):
+    def __init__(self, app_data, wind_design):
         self.app_data = app_data
         self.new_input_values = self.app_data.getInputValues()
         self.design_code = self.new_input_values[GenDesc.DESIGN_CODE]
@@ -23,10 +23,8 @@ class GenDesc:
         doc_value.updateDocumentValues()
 
         #update document values appearing within tables
-        table_value = TableValue(self.app_data, self.document, self.new_input_values)
+        table_value = TableValue(self.app_data, self.document, wind_design)
         table_value.updateTableValues()
-
-        self.wind_design = table_value.wind_design
 
         pass
 

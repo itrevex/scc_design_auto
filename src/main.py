@@ -9,26 +9,27 @@ from windmap.windmap import Windmap
 from windmap.plot_loads import PlotLoads
 from form_grs.form_grs import FormGrs
 from dxf.write.write_loading_dxf import LoadingsDxf
+from wind_design.wind_design import WindDesign
 
 app_data = LoadData()
 
 if __name__ == "__main__":
-    gen_desc = GenDesc(app_data)
-    
+    wind_design = WindDesign(app_data) 
     #write gen_desc document
-    #! gen_desc.saveNewDocument()
+    # gen_desc = GenDesc(app_data, wind_design)
+    # gen_desc.saveNewDocument()
     
     #draw windmap jpg
-    #! Windmap(gen_desc.wind_design).plotWindMap(app_data)
+    # Windmap(wind_design).plotWindMap(app_data)
 
     #write windmap txts into file
-    #! PlotLoads(gen_desc.wind_design).plotLoads(app_data)
+    # PlotLoads(wind_design).plotLoads(app_data)
 
     #write form grs file
     #! form_grs = FormGrs(app_data, gen_desc)
 
-    #get geom dxf file
-    loading_dxf = LoadingsDxf(app_data, gen_desc)
+    # get geom dxf file
+    loading_dxf = LoadingsDxf(app_data, wind_design)
     loading_dxf.saveDxf()
     
     #print prompt message

@@ -9,9 +9,9 @@ class LoadingsDxf():
         self.msp = self.dwg.modelspace()
         self.dxfInput = DxfInput(self.app_data)
         try:
-            self.gen_desc = arg[0]
+            self.wind_design = arg[0]
         except(IndexError):
-            self.gen_desc = None
+            self.wind_design = None
         
         print("Creating loadings dxf . . .")
         self.locations = NodeLocations(self.dxfInput.conns, 
@@ -92,9 +92,9 @@ class LoadingsDxf():
     def getLoadingRegions(self, y_direction=False):
         regions = []
         if y_direction:
-            windmap_values = self.gen_desc.wind_design.wind_calc_y.windmap_values
+            windmap_values = self.wind_design.wind_calc_y.windmap_values
         else:
-            windmap_values = self.gen_desc.wind_design.wind_calc_x.windmap_values
+            windmap_values = self.wind_design.wind_calc_x.windmap_values
 
         for value in windmap_values:
             # print(value.toString())
@@ -102,6 +102,8 @@ class LoadingsDxf():
             regions.append(load_case)
             if value.closed == False:
                 #if structure is not closed
+                print(value.toString())
+
                 load_case = [value.zone_case_b,value.length]
                 regions.append(load_case)
         return regions

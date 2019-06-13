@@ -11,10 +11,9 @@ from libs.constants import Constants
 from libs.general_methods import GeneralMethods
 from .common import Common
 from .run_properties import RunProperties
-from gen_desc.wind_design.wind_design import WindDesign
-from gen_desc.wind_design.constants import WindDesignConsts
+from wind_design.wind_loads import WindLoads
 
-class TableValue:
+class TableValue(WindLoads):
     WIND_LOAD = "wind_load"
     PARAPET_LOAD = "parapet_load"
     ROOF_ANGLE = "roof_angle"
@@ -22,13 +21,15 @@ class TableValue:
     LENGTH_Y = "length_y"
     HEIGHT = "height"
 
-    def __init__(self, app_data, document, new_input_values):
+    def __init__(self, app_data, document, wind_design):
+        
+        super().__init__(app_data, wind_design)
         self.app_data = app_data
         self.document = document
-        self.new_input_values = new_input_values
+        self.new_input_values = wind_design.props
         self.template_table_values = app_data.getTemplateTableValues()
         self.calculateParameters()
-        self.wind_design = WindDesign(app_data, new_input_values, self.wind_unit_load_kn)
+        self.wind_design = wind_design #WindDesign(app_data, new_input_values, self.wind_unit_load_kn)
         
         pass
 
@@ -218,6 +219,7 @@ class TableValue:
         self.calcKzValue()
         self.calcWindUnitLoad()
         self.calcWindUnitLoadKn()
+
 
     @staticmethod
     def getParameter(part, key):
