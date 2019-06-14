@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from dxf.read.dxf_input import DxfInput
 from dxf.read.node_locations import NodeLocations
 from libs.load_data import LoadData
-from gen_desc.gen_desc import GenDesc
+
 
 @pytest.fixture(scope="module")
 def locations():

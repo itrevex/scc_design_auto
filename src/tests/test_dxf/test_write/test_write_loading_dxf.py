@@ -2,7 +2,7 @@ import sys, pytest
 from unittest.mock import patch, Mock, PropertyMock
 from dxf.write.write_loading_dxf import LoadingsDxf
 from libs.load_data import LoadData
-from gen_desc.gen_desc import GenDesc
+from wind_design.wind_design import WindDesign
 
 @pytest.fixture(scope="module")
 def app_data():
@@ -12,12 +12,12 @@ def app_data():
 @pytest.fixture(scope="module")
 def gen_desc():
     with patch.object(sys, 'argv', ["input", "./tests/mocks/project.json"]):
-        return GenDesc(LoadData())
+        return WindDesign(LoadData())
 
 @pytest.fixture(scope="module")
 def gen_desc_open():
     with patch.object(sys, 'argv', ["input", "./tests/mocks/project_open.json"]):
-        return GenDesc(LoadData())
+        return WindDesign(LoadData())
 
 @pytest.fixture(scope="module")    
 def mock_dwg():
