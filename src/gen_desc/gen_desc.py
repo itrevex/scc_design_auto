@@ -9,7 +9,7 @@ class GenDesc:
 
     def __init__(self, app_data, wind_design):
         self.app_data = app_data
-        self.new_input_values = self.app_data.getInputValues()
+        self.new_input_values = wind_design.props
         self.design_code = self.new_input_values[GenDesc.DESIGN_CODE]
         self.enclosure = self.new_input_values[GenDesc.ENCLOSURE_SPEC]
         self.seismic_design = self.designSeismic()
