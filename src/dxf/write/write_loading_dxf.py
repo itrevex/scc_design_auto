@@ -98,13 +98,11 @@ class LoadingsDxf():
 
         for value in windmap_values:
             # print(value.toString())
-            load_case = [value.zone_case_a,value.length]
+            load_case = [value.zone_case_a,value.length, value.p_case_a]
             regions.append(load_case)
             if value.closed == False:
                 #if structure is not closed
-                print(value.toString())
-
-                load_case = [value.zone_case_b,value.length]
+                load_case = [value.zone_case_b,value.length, value.p_case_b]
                 regions.append(load_case)
         return regions
 

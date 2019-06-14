@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # gen_desc.saveNewDocument()
     
     #draw windmap jpg
-    # Windmap(wind_design).plotWindMap(app_data)
+    Windmap(wind_design).plotWindMap(app_data)
 
     #write windmap txts into file
     # PlotLoads(wind_design).plotLoads(app_data)
@@ -29,8 +29,8 @@ if __name__ == "__main__":
     #! form_grs = FormGrs(app_data, gen_desc)
 
     # get geom dxf file
-    loading_dxf = LoadingsDxf(app_data, wind_design)
-    loading_dxf.saveDxf()
+    # loading_dxf = LoadingsDxf(app_data, wind_design)
+    # loading_dxf.saveDxf()
     
     #print prompt message
     Messages.continuePrompt("Press any key to continue . . .")
