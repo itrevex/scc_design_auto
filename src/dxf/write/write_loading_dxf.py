@@ -1,6 +1,7 @@
 import ezdxf
 from dxf.read.dxf_input import DxfInput
 from dxf.read.node_locations import NodeLocations
+from libs.constants import Constants
 
 class LoadingsDxf():
     def __init__(self, app_data, *arg):
@@ -18,8 +19,8 @@ class LoadingsDxf():
             nodes_array=self.dxfInput.nodes)
         self.createLayers()
 
-    def getLoadingRegionContent(self, y_direction=False):
-        regions = self.getLoadingRegions(y_direction)
+    def getLoadingRegionContent(self, y_direction=False, gravity_loads=False):
+        regions = self.getLoadingRegions(y_direction, gravity_loads)
         start_node = None
         counter = 1
         loading_regions = []
@@ -43,13 +44,18 @@ class LoadingsDxf():
     def createLoadingRegionLines(self):
         region_contents = self.getLoadingRegionContent()
         y_regions_contents = self.getLoadingRegionContent(y_direction=True)
+        gravity_loads_content = self.getLoadingRegionContent(gravity_loads=True)
+
+        region_contents.extend(gravity_loads_content)
         region_contents.extend(y_regions_contents)
+
         for region_content in region_contents:
             zone = region_content[0]
             regions_lines = region_content[2]
             load = region_content[3]
             height_factor = self.getHeightFactor(load)
-            load_line = self.locations.getLoadLine(regions_lines, height_factor=height_factor)
+            load_line = self.locations.getLoadLine(regions_lines, 
+                height_factor=height_factor)
             self.addLoading(load, load_line[1], zone)
             self.createLine(load_line, zone)
             self.createLines(regions_lines, zone)
@@ -78,6 +84,10 @@ class LoadingsDxf():
 
     def getLoadingRegionLines(self, total_length, start_node=None, y_direction=False):
         # print(total_length, start_node)
+        if total_length == 0:
+            lines =  list(self.locations.conns_array.shape)[0]
+            return None, [x for x in range(lines)]
+
         if start_node == None:
             start_node = self.locations.getStartNode()
             if total_length < 0: #total length is in the negative direction
@@ -92,8 +102,10 @@ class LoadingsDxf():
         
         return next_start_node, region_lines
 
-    def getLoadingRegions(self, y_direction=False):
+    def getLoadingRegions(self, y_direction=False, gravity_load=False):
         regions = []
+        if gravity_load:
+            return self.getGravityLoads()
         if y_direction:
             windmap_values = self.wind_design.wind_calc_y.windmap_values
         else:
@@ -128,3 +140,10 @@ class LoadingsDxf():
             return node
         return next_node
     
+    def getGravityLoads(self):
+        dead_load_factor = self.wind_design.props[Constants.ROOF_DEAD_LOAD]
+        services_load_factor = self.wind_design.props[Constants.SERVICES_LOAD]
+        live_load_factor = self.wind_design.props[Constants.ROOF_LIVE_LOAD]
+
+        return [[801, 0., dead_load_factor],[802, 0., services_load_factor],
+            [803, 0., live_load_factor]]
