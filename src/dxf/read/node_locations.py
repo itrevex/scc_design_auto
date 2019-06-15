@@ -766,7 +766,9 @@ class NodeLocations():
             lines.append(self.conns_array[line].tolist())
         return np.array(lines)
 
-    def getNodesNormalVector(self, nodes):
+    def getNodesNormalVector(self, nodes, gravity_load=False):
+        if gravity_load:
+            return (0., 0., 1.)
         points = []
         for node in nodes:
             point = Point3D(self.nodes_array[node].tolist())
@@ -774,7 +776,7 @@ class NodeLocations():
         
         return Plane(points[0], points[1], points[2]).normal_vector
 
-    def getLoadLine(self, region_lines, height=9000, height_factor=1):
+    def getLoadLine(self, region_lines, height=9000, height_factor=1, gravity_load=False):
         '''
         Returns start and end load load node for loading region
         load line
@@ -783,7 +785,7 @@ class NodeLocations():
         region_nodes = self.getRegionNodes(region_lines)
         random_node = self.getRandomNode(region_nodes)
         corner_nodes = self.getNonCollinearPoints(region_lines)
-        normal_vector = self.getNodesNormalVector(corner_nodes)
+        normal_vector = self.getNodesNormalVector(corner_nodes, gravity_load)
         point = self.nodes_array[random_node]
         
         distance = (height * height_factor) / normal_vector[2] 
