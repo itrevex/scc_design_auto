@@ -250,6 +250,13 @@ class TestLoadingDxf():
         start_node, lines = loadings_dxf.getLoadingRegionLines(0)
         assert len(lines) == 487
         assert start_node == None
+
+    def test_zone_is_for_a_gravity_load(self, app_data):
+        loadings_dxf = LoadingsDxf(app_data)
+        assert loadings_dxf.isGravityLoad(804) == False
+        assert loadings_dxf.isGravityLoad(819) == False
+        assert loadings_dxf.isGravityLoad(801) == True
+        assert loadings_dxf.isGravityLoad(802) == True
         
 
 
