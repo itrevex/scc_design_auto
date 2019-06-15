@@ -138,8 +138,8 @@ class TestLoadingDxf():
             patch.object(LoadingsDxf, 'createLine') as mock_create_line:
             loadings_dxf = LoadingsDxf(app_data, wind_design)
             loadings_dxf.createLoadingRegionLines()
-            assert mock_create_lines.call_count == 16
-            assert mock_create_line.call_count == 16
+            assert mock_create_lines.call_count == 19
+            assert mock_create_line.call_count == 19
 
     def test_create_proper_loading_regions(self, app_data, wind_design_open):
         loadings_dxf = LoadingsDxf(app_data, wind_design_open)
@@ -235,6 +235,21 @@ class TestLoadingDxf():
             loading_dxf.addLoading(load, point, 804)
             mock_msp.assert_called()
             assert mock_add_text.call_count == 1
+
+    def test_get_correct_and_load_for_dead_service_and_live_loads(self, app_data, wind_design):
+        loadings_dxf = LoadingsDxf(app_data, wind_design)
+        gravity_loads = [
+            [801, 0., '0.10'],
+            [802, 0., '1.30'],
+            [803, 0., '0.45']
+        ]
+        assert loadings_dxf.getGravityLoads() == gravity_loads
+
+    def test_gets_right_number_region_nodes_for_gravity_loads(self, app_data, wind_design):
+        loadings_dxf = LoadingsDxf(app_data, wind_design)
+        start_node, lines = loadings_dxf.getLoadingRegionLines(0)
+        assert len(lines) == 487
+        assert start_node == None
         
 
 
