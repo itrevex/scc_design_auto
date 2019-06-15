@@ -54,8 +54,9 @@ class LoadingsDxf():
             regions_lines = region_content[2]
             load = region_content[3]
             height_factor = self.getHeightFactor(load)
+            gravity_load = self.isGravityLoad(zone)
             load_line = self.locations.getLoadLine(regions_lines, 
-                height_factor=height_factor)
+                height_factor=height_factor, gravity_load=gravity_load)
             self.addLoading(load, load_line[1], zone)
             self.createLine(load_line, zone)
             self.createLines(regions_lines, zone)
@@ -147,3 +148,8 @@ class LoadingsDxf():
 
         return [[801, 0., dead_load_factor],[802, 0., services_load_factor],
             [803, 0., live_load_factor]]
+
+    def isGravityLoad(self, zone):
+        if zone == 801 or zone == 802 or zone == 803:
+            return True
+        return False
