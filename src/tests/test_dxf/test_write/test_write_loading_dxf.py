@@ -202,19 +202,19 @@ class TestLoadingDxf():
 
     def test_loading_region_lines_for_y_negative_direction(self, app_data):
         loading_dxf = LoadingsDxf(app_data)
-        end_node, lines = loading_dxf.getLoadingRegionLinesY(19000.)
+        end_node, lines = loading_dxf.getLoadingRegionLines(19000., y_direction=True)
         assert len(lines) == 262
         assert end_node == 10
         
     def test_loading_region_lines_for_y_negative_direction1(self, app_data):
         loading_dxf = LoadingsDxf(app_data)
-        end_node, lines = loading_dxf.getLoadingRegionLinesY(38000.)
+        end_node, lines = loading_dxf.getLoadingRegionLines(38000., y_direction=True)
         assert len(lines) == 487
         assert end_node == None
 
     def test_loading_region_lines_for_y_negative_direction2(self, app_data):
         loading_dxf = LoadingsDxf(app_data)
-        end_node, lines = loading_dxf.getLoadingRegionLinesY(38000., 10)
+        end_node, lines = loading_dxf.getLoadingRegionLines(38000., 10, True)
         assert len(lines) == 237
         assert end_node == None
 

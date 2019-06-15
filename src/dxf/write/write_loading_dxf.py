@@ -27,11 +27,8 @@ class LoadingsDxf():
             zone = region[0]
             length = region[1]
             load = region[2]
-            if y_direction:
-                next_start_node, region_lines = self.getLoadingRegionLinesY(length, start_node=start_node)
-            else:
-                next_start_node, region_lines = self.getLoadingRegionLines(length, start_node=start_node)
-            
+            next_start_node, region_lines = self.getLoadingRegionLines(length, 
+                start_node=start_node, y_direction=y_direction)
             loading_region = [zone, start_node, region_lines, load]
             loading_regions.append(loading_region)
             if counter < len(regions):
@@ -79,31 +76,22 @@ class LoadingsDxf():
         self.msp.add_line(nodes[0], nodes[1], dxfattribs={'layer': str(layer)})
         #todo - get extreme corner node for region lines
 
-    def getLoadingRegionLines(self, total_length, start_node=None):
+    def getLoadingRegionLines(self, total_length, start_node=None, y_direction=False):
         # print(total_length, start_node)
         if start_node == None:
             start_node = self.locations.getStartNode()
             if total_length < 0: #total length is in the negative direction
-                start_node = self.locations.getEndNode()
+                if y_direction:
+                    start_node = self.locations.getLeftTopNode()
+                else:
+                    start_node = self.locations.getEndNode()
 
         next_start_node, region_lines = \
-            self.locations.getLinesWithinPortition(start_node, total_length, y_direction=False)
+            self.locations.getLinesWithinPortition(start_node, 
+            total_length, y_direction=y_direction)
         
         return next_start_node, region_lines
 
-    def getLoadingRegionLinesY(self, total_length, start_node=None):
-        # print(total_length, start_node)
-        if start_node == None:
-            start_node = self.locations.getStartNode()
-            if total_length < 0: #total length is in the negative direction
-                start_node = self.locations.getLeftTopNode()
-
-        next_start_node, region_lines = \
-            self.locations.getLinesWithinPortition(start_node, total_length, y_direction=True)
-        
-        return next_start_node, region_lines
-        
-    
     def getLoadingRegions(self, y_direction=False):
         regions = []
         if y_direction:

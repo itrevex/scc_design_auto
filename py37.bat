@@ -13,12 +13,12 @@ REM py -3.7-64 -m PyInstaller src/main.py
 REM compile code
 REM py -3.7-64 -m PyInstaller main.spec
 REM iscc "setup/design_auto.iss"
-REM "setup/setups/ssc_design_setup-1.0.8"
+REM "setup/setups/ssc_design_setup-1.0.9"
 
 REM "dist/main/trsc"
 REM py -3.7-64 -m pip freeze rem show all packages installed
 REM git rm --cached *.exe 
-py -3.7-64 src/main.py "../project/project.json"
+REM py -3.7-64 src/main.py "../project/project.json"
 REM py -3.7-64 src/main.py "../project/actual.json"
 
 REM py -3.7-64 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
