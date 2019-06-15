@@ -26,12 +26,13 @@ class LoadingsDxf():
         for region in regions:
             zone = region[0]
             length = region[1]
+            load = region[2]
             if y_direction:
                 next_start_node, region_lines = self.getLoadingRegionLinesY(length, start_node=start_node)
             else:
                 next_start_node, region_lines = self.getLoadingRegionLines(length, start_node=start_node)
             
-            loading_region = [zone, start_node, region_lines]
+            loading_region = [zone, start_node, region_lines, load]
             loading_regions.append(loading_region)
             if counter < len(regions):
                 next_length = regions[counter][1]
@@ -49,9 +50,23 @@ class LoadingsDxf():
         for region_content in region_contents:
             zone = region_content[0]
             regions_lines = region_content[2]
-            load_line = self.locations.getLoadLine(regions_lines)
+            load = region_content[3]
+            height_factor = self.getHeightFactor(load)
+            load_line = self.locations.getLoadLine(regions_lines, height_factor=height_factor)
+            self.addLoading(load, load_line[1], zone)
             self.createLine(load_line, zone)
             self.createLines(regions_lines, zone)
+
+    def getHeightFactor(self, load):
+        if float(load) < 0:
+            return 1
+        return -1
+
+    def addLoading(self, load, point, layer, height=1000):
+        load_value = abs(float(load))
+        self.msp.add_text(load_value,  dxfattribs={
+            'layer': str(layer), 
+            'height': height }).set_pos(point, align='TOP_LEFT')
 
     def createLines(self, region_lines, layer):
         for line in region_lines:

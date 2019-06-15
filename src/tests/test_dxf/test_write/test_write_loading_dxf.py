@@ -217,6 +217,24 @@ class TestLoadingDxf():
         end_node, lines = loading_dxf.getLoadingRegionLinesY(38000., 10)
         assert len(lines) == 237
         assert end_node == None
+
+    def test_gets_right_height_factor(self, app_data):
+        loading_dxf = LoadingsDxf(app_data)
+        assert loading_dxf.getHeightFactor(-0.8698) ==  1
+        assert loading_dxf.getHeightFactor(0.8690) ==  -1
+
+    def test_writes_load_case_load_at_end_of_load_line(self, app_data):
+        with patch('dxf.write.write_loading_dxf.ezdxf.new') as mock_dwg:
+            mock_msp = Mock()
+            type(mock_dwg.return_value).modelspace = mock_msp 
+            mock_add_text = Mock()
+            type(mock_msp.return_value).add_text = mock_add_text
+            loading_dxf = LoadingsDxf(app_data)
+            point = (0,3,4)
+            load = -1.0565
+            loading_dxf.addLoading(load, point, 804)
+            mock_msp.assert_called()
+            assert mock_add_text.call_count == 1
         
 
 
