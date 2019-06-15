@@ -446,6 +446,10 @@ class TestNodeLocations:
         nodes = [0,7,5]
         assert locations.getNodesNormalVector(nodes) == (0,0,2)
 
+    def test_returns_correct_normal_vector1(self, locations):
+        nodes = [0,7,5]
+        assert locations.getNodesNormalVector(nodes, True) == (0.,0.,1.)
+
     def test_calculates_correct_coordinate_for_normal_vector_from_node(self, locations):
         with patch.object(NodeLocations, 'getRandomNode') as mock_random,\
             patch.object(NodeLocations, 'getRegionNodes') as mock_nodes:
