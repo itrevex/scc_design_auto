@@ -138,8 +138,8 @@ class TestLoadingDxf():
             patch.object(LoadingsDxf, 'createLine') as mock_create_line:
             loadings_dxf = LoadingsDxf(app_data, wind_design)
             loadings_dxf.createLoadingRegionLines()
-            assert mock_create_lines.call_count == 19
-            assert mock_create_line.call_count == 19
+            assert mock_create_lines.call_count == 21
+            assert mock_create_line.call_count == 21
 
     def test_create_proper_loading_regions(self, app_data, wind_design_open):
         loadings_dxf = LoadingsDxf(app_data, wind_design_open)
@@ -257,6 +257,17 @@ class TestLoadingDxf():
         assert loadings_dxf.isGravityLoad(819) == False
         assert loadings_dxf.isGravityLoad(801) == True
         assert loadings_dxf.isGravityLoad(802) == True
+
+    def test_returns_no_regions_for_open_structures(self, app_data, wind_design_open):
+        loadings_dxf = LoadingsDxf(app_data, wind_design_open)  
+        assert loadings_dxf.getInternalPressureRegions() == []
+
+    def test_returns_regions_for_closed_structures_structures(self, app_data, wind_design):
+        loadings_dxf = LoadingsDxf(app_data, wind_design)
+        case1 = [820, 0., 0.1616]  
+        case2 = [821, 0., -0.1616]  
+        assert loadings_dxf.getInternalPressureRegions() == [case1, case2]
+
         
 
 

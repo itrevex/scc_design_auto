@@ -19,8 +19,9 @@ class LoadingsDxf():
             nodes_array=self.dxfInput.nodes)
         self.createLayers()
 
-    def getLoadingRegionContent(self, y_direction=False, gravity_loads=False):
-        regions = self.getLoadingRegions(y_direction, gravity_loads)
+    def getLoadingRegionContent(self, y_direction=False, 
+        gravity_loads=False, internal_pressure=False):
+        regions = self.getLoadingRegions(y_direction, gravity_loads, internal_pressure)
         start_node = None
         counter = 1
         loading_regions = []
@@ -45,9 +46,11 @@ class LoadingsDxf():
         region_contents = self.getLoadingRegionContent()
         y_regions_contents = self.getLoadingRegionContent(y_direction=True)
         gravity_loads_content = self.getLoadingRegionContent(gravity_loads=True)
+        internal_pressure_content = self.getLoadingRegionContent(internal_pressure=True)
 
-        region_contents.extend(gravity_loads_content)
         region_contents.extend(y_regions_contents)
+        region_contents.extend(gravity_loads_content)
+        region_contents.extend(internal_pressure_content)
 
         for region_content in region_contents:
             zone = region_content[0]
@@ -103,8 +106,11 @@ class LoadingsDxf():
         
         return next_start_node, region_lines
 
-    def getLoadingRegions(self, y_direction=False, gravity_load=False):
+    def getLoadingRegions(self, y_direction=False, gravity_load=False,
+        internal_pressure=False):
         regions = []
+        if internal_pressure:
+            return self.getInternalPressureRegions()
         if gravity_load:
             return self.getGravityLoads()
         if y_direction:
@@ -153,3 +159,12 @@ class LoadingsDxf():
         if zone == 801 or zone == 802 or zone == 803:
             return True
         return False
+
+    def getInternalPressureRegions(self):
+        regions = []
+        windmap_values = self.wind_design.internal_pressure_zone_ps
+        for key, value in windmap_values.items():
+                #if structure is not closed
+                load_case = [key, 0., value]
+                regions.append(load_case)
+        return regions

@@ -19,7 +19,7 @@ REM "dist/main/trsc"
 REM py -3.7-64 -m pip freeze rem show all packages installed
 REM git rm --cached *.exe 
 REM py -3.7-64 src/main.py "../project/project.json"
-REM py -3.7-64 src/main.py "../project/actual.json"
+py -3.7-64 src/main.py "../project/actual.json"
 
 REM py -3.7-64 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
 REM py -3.7-64 -m pip freeze > requirements.txt
